@@ -12,8 +12,11 @@ from fastapi.templating import Jinja2Templates
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
-BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
+# uncomment if you are running the app on local server
+# BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
 
+#Here yo are supposed to set your codespace url
+BASE_URL = os.getenv("BASE_URL")
 @router.get("/payment", response_class=HTMLResponse)
 async def payment_page(
     request: Request,
