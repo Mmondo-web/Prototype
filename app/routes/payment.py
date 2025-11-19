@@ -8,15 +8,17 @@ from app.models import User, Tour, Booking
 from app.utils import get_current_user, send_email
 from app.database import get_db
 from fastapi.templating import Jinja2Templates
-
+from dotenv import load_dotenv
+load_dotenv()
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates", auto_reload = True)
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 # uncomment if you are running the app on local server
-# BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
+#BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
 
 #Here yo are supposed to set your codespace url
 BASE_URL = os.getenv("BASE_URL")
+
 @router.get("/payment", response_class=HTMLResponse)
 async def payment_page(
     request: Request,
@@ -108,6 +110,8 @@ async def payment_success(
 ):
     try:
         session = stripe.checkout.Session.retrieve(session_id)
+         # Get booking data from session
+        booking_data = request.session.get('booking', {})
         
         new_booking = Booking(
             user_id=user.id,
@@ -118,11 +122,16 @@ async def payment_success(
             total_price=session.metadata['total_price'],
             payment_method='stripe',
             payment_id=session.payment_intent,
+            special_requirements= booking_data.get('special_requirements'),  # Save special requirements
             payment_status='completed'
         )
         
         db.add(new_booking)
         db.commit()
+        
+        # Send confirmation email with special requirements
+        special_reqs = booking_data.get('special_requirements')
+        special_reqs_text = f"<p><strong>Special Requirements:</strong> {special_reqs}</p>" if special_reqs else ""
 
         send_email(
             user.email,
@@ -147,6 +156,7 @@ async def payment_success(
                         <li><strong>Children:</strong> {new_booking.kids}</li>
                         <li><strong>Total:</strong> ${new_booking.total_price}</li>
                         <li><strong>Payment ID:</strong> {session.payment_intent}</li>
+                        {special_reqs_text}
                     </ul>
                     <p>We look forward to providing you with a wonderful experience.</p>
                     <p>Best regards,<br>
@@ -192,6 +202,7 @@ async def complete_booking(
             tour_date=datetime.strptime(booking_data["tour_date"], "%Y-%m-%d"),
             total_price=booking_data["total_price"],
             donation=booking_data.get('donation', 0.0),
+            special_requirements=booking_data.get('special_requirements'),  # Save special requirements
             payment_id=payment_data["payment_id"],
             payment_status=payment_data["status"]
         )
@@ -199,6 +210,9 @@ async def complete_booking(
         db.add(new_booking)
         db.commit()
         
+        # Send confirmation email with special requirements
+        special_reqs = booking_data.get('special_requirements')
+        special_reqs_text = f"<p><strong>Special Requirements:</strong> {special_reqs}</p>" if special_reqs else ""
         send_email(
             user.email,
             "Booking Confirmation",
@@ -220,6 +234,7 @@ async def complete_booking(
                         <li><strong>Date:</strong> {new_booking.tour_date}</li>
                         <li><strong>Participants:</strong> {new_booking.adults} adults, {new_booking.kids} kids</li>
                         <li><strong>Total:</strong> ${new_booking.total_price}</li>
+                        {special_reqs_text}
                     </ul>
                     <p>We look forward to providing you with a wonderful experience.</p>
                     <p>Best regards,<br>

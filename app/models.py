@@ -16,6 +16,9 @@ class User(Base):
     is_admin = Column(Boolean, default=False)
     newsletter_subscribed = Column(Boolean, default=False)
     unsubscribe_token=Column(String(36), default=lambda:str(uuid.uuid4()))
+    company_name = Column(String(100), nullable=True)  # New field
+    company_link = Column(String(200), nullable=True)  # New field
+
 
 class Session(Base):
     __tablename__ = "sessions"
@@ -37,6 +40,14 @@ class Tour(Base):
     updated_at= Column(DateTime,default=datetime.utcnow,onupdate=datetime.utcnow)
     is_active= Column(Boolean, default=True)
     images= relationship("TourImage", backref="tour",cascade="all, delete-orphan")
+    
+    tour_type = Column(String(50), default='normal')  # e.g., adventure, cultural
+    risk = Column(String(500), nullable=True)  # Risk assessment
+    country = Column(String(100), nullable=False)  # Country
+    max_participants = Column(Integer, default=20)  # Maximum number of users
+    included = Column(String(1000), nullable=False)  # What's included
+    not_included = Column(String(1000), nullable=False)  # What's not included
+    cancellation_policy = Column(String(500), nullable=False)  # Cancellation policy
     # Define a method to calculate the price based on adults, kids, and private tour status
     def calculate_price(self, adults: int, kids: int, is_private: bool = False) -> float:
         """Calculate total price including private tour premium"""
@@ -69,6 +80,7 @@ class Booking(Base):
     deleted_at = Column(DateTime, nullable=True) 
     cancelled_at = Column(DateTime, nullable=True) 
     donation = Column(Float, default=0.0)  # Store donation amount
+    special_requirements = Column(String(500), nullable=True)  # New field
     @property
     def participant_count(self):
         return self.adults + self.kids

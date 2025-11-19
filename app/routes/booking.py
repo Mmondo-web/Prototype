@@ -41,6 +41,7 @@ async def process_booking(
     donate: Optional[str] = Form(None),
     tour_type: str = Form('normal'),
     db: Session = Depends(get_db),
+    special_requirements: str = Form(None),  # New field
     user: User = Depends(get_current_user)
 ):
     try:
@@ -71,6 +72,8 @@ async def process_booking(
           
         donation_amount = 10.0 if donate else 0.0
         total_price += donation_amount
+        
+        
 
         request.session['booking'] = {
             "tour_id": tour_id,
@@ -78,6 +81,7 @@ async def process_booking(
             "kids": kids,
             "tour_date": tour_date,
             "donation": donation_amount,
+            "special_requirements": special_requirements,  # Store special requirements
             "total_price": float(total_price)
         }
 

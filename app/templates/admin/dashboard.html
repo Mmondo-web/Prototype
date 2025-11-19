@@ -275,6 +275,9 @@
                 <div>
                   <span class="badge bg-success">${{ tour.price }}</span>
                   <span class="badge bg-info ms-2">{{ tour.duration }}</span>
+                  {% if tour.max_participants %}
+                  <span class="badge bg-warning ms-2">Max: {{ tour.max_participants }}</span>
+                  {% endif %}
                 </div>
                 <div>
                   <a
@@ -330,7 +333,7 @@
             </div>
             <div class="modal-body">
               <div class="mb-3">
-                <label class="form-label">Tour Title</label>
+                <label class="form-label">Tour Title *</label>
                 <input
                   type="text"
                   name="title"
@@ -339,8 +342,9 @@
                   placeholder="E.g.: 5-Day Wildlife Safari"
                 />
               </div>
+              
               <div class="mb-3">
-                <label class="form-label">Description</label>
+                <label class="form-label">Description *</label>
                 <textarea
                   name="description"
                   class="form-control"
@@ -349,9 +353,10 @@
                   placeholder="Detailed tour description..."
                 ></textarea>
               </div>
+              
               <div class="row g-3">
                 <div class="col-md-6">
-                  <label class="form-label">Price (USD)</label>
+                  <label class="form-label">Price (USD) *</label>
                   <input
                     type="number"
                     name="price"
@@ -363,7 +368,7 @@
                   />
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label">Duration</label>
+                  <label class="form-label">Duration *</label>
                   <input
                     type="text"
                     name="duration"
@@ -373,18 +378,101 @@
                   />
                 </div>
               </div>
+              
+              <div class="row g-3 mt-2">
+                <div class="col-md-6">
+                  <label class="form-label">Country *</label>
+                  <input
+                    type="text"
+                    name="country"
+                    class="form-control"
+                    value="Uganda"
+                    required
+                    placeholder="E.g.: Uganda"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Max Participants *</label>
+                  <input
+                    type="number"
+                    name="max_participants"
+                    class="form-control"
+                    min="1"
+                    value="20"
+                    required
+                    placeholder="E.g.: 20"
+                  />
+                </div>
+              </div>
+              
               <div class="mb-3 mt-3">
-                <label class="form-label">Locations</label>
+                <label class="form-label">Locations *</label>
                 <input
                   type="text"
                   name="locations"
                   class="form-control"
                   required
-                  placeholder="Comma-separated locations"
+                  placeholder="Comma-separated locations (Kampala, Jinja, Entebbe)"
                 />
               </div>
+              <div class="mb-3 mt-3">
+                <label class="form-label">Tour Type *</label>
+                <input
+                  type="text"
+                  name="tour_type"
+                  class="form-control"
+                  required
+                  placeholder="Type of Tour(Adventure, Cultural, Relaxation...)"
+                />
+              </div>
+
+              
               <div class="mb-3">
-                <label class="form-label">Tour Images</label>
+                <label class="form-label">What's Included</label>
+                <textarea
+                  name="included"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Transport, accommodation, meals, guide..."
+                ></textarea>
+                <small class="text-muted">List what is included in the tour price</small>
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label">What's Not Included</label>
+                <textarea
+                  name="not_included"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Flights, travel insurance, personal expenses..."
+                ></textarea>
+                <small class="text-muted">List what is not included in the tour price</small>
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label">Risk Assessment</label>
+                <textarea
+                  name="risk"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Potential risks and safety measures..."
+                ></textarea>
+                <small class="text-muted">Describe potential risks and safety precautions</small>
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label">Cancellation Policy</label>
+                <textarea
+                  name="cancellation_policy"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Cancellation terms and refund policy..."
+                ></textarea>
+                <small class="text-muted">Describe your cancellation policy</small>
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label">Tour Images *</label>
                 <input
                   type="file"
                   name="images"
@@ -423,7 +511,7 @@
           <div class="col-md-3 mb-4">
             <h4 class="fw-bold">Pearl Tours</h4>
             <p>
-              Discover Uganda’s beauty with our curated tours, cultural trips,
+              Discover Uganda's beauty with our curated tours, cultural trips,
               and wildlife adventures.
             </p>
           </div>

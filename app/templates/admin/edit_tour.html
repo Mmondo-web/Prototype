@@ -204,6 +204,30 @@
             </div>
           </div>
 
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Country</label>
+              <input
+                type="text"
+                name="country"
+                class="form-control"
+                value="{{ tour.country or 'Uganda' }}"
+                required
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Max Participants</label>
+              <input
+                type="number"
+                name="max_participants"
+                class="form-control"
+                value="{{ tour.max_participants or 20 }}"
+                min="1"
+                required
+              />
+            </div>
+          </div>
+
           <div class="mb-3">
             <label class="form-label">Locations</label>
             <input
@@ -213,6 +237,30 @@
               value="{{ tour.locations }}"
               required
             />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">What's Included</label>
+            <textarea name="included" class="form-control" rows="3" placeholder="Transport, accommodation, meals, guide...">{{ tour.included or '' }}</textarea>
+            <small class="text-muted">List what is included in the tour price</small>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">What's Not Included</label>
+            <textarea name="not_included" class="form-control" rows="3" placeholder="Flights, travel insurance, personal expenses...">{{ tour.not_included or '' }}</textarea>
+            <small class="text-muted">List what is not included in the tour price</small>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Risk Assessment</label>
+            <textarea name="risk" class="form-control" rows="3" placeholder="Potential risks and safety measures...">{{ tour.risk or '' }}</textarea>
+            <small class="text-muted">Describe potential risks and safety precautions</small>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Cancellation Policy</label>
+            <textarea name="cancellation_policy" class="form-control" rows="3" placeholder="Cancellation terms and refund policy...">{{ tour.cancellation_policy or '' }}</textarea>
+            <small class="text-muted">Describe your cancellation policy</small>
           </div>
 
           <div class="mb-4">
@@ -266,7 +314,7 @@
           <div class="col-md-3 mb-4">
             <h4 class="fw-bold">Pearl Tours</h4>
             <p>
-              Discover Uganda’s beauty with our curated tours, cultural trips,
+              Discover Uganda's beauty with our curated tours, cultural trips,
               and wildlife adventures.
             </p>
           </div>

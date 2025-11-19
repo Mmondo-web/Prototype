@@ -27,6 +27,13 @@ async def create_tour(
     price: float = Form(...),
     duration: str = Form(...),
     locations: str = Form(...),
+    risk: str = Form(None),
+    country: str = Form(...),
+    tour_type: str = Form('normal'),
+    max_participants: int = Form(20),
+    included: str = Form(None),
+    not_included: str = Form(None),
+    cancellation_policy: str = Form(None),
     images: List[UploadFile] = File(...),
     db: Session = Depends(get_db),
     user: User = Depends(get_current_admin)
@@ -41,7 +48,14 @@ async def create_tour(
             description=description,
             price=price,
             duration=duration,
-            locations=locations
+            locations=locations,
+            risk=risk,
+            tour_type=tour_type,
+            country=country,
+            max_participants=max_participants,
+            included=included,
+            not_included=not_included,
+            cancellation_policy=cancellation_policy
         )
         db.add(new_tour)
         db.flush()
@@ -105,6 +119,16 @@ async def update_tour(request: Request, tour_id: int, db: Session = Depends(get_
     duration = form.get("duration")
     locations = form.get("locations")
     image_url = form.get("image_url")
+    # Missing fields that you must extract:
+    risk = form.get("risk")
+    country = form.get("country")
+    tour_type = form.get("tour_type")
+    max_participants = form.get("max_participants")
+    included = form.get("included")
+    not_included = form.get("not_included")
+    cancellation_policy = form.get("cancellation_policy")
+    
+    
     
     tour = db.query(Tour).filter(Tour.id == tour_id).first()
     
@@ -125,6 +149,22 @@ async def update_tour(request: Request, tour_id: int, db: Session = Depends(get_
         tour.duration = duration
     if locations:
         tour.locations = locations
+     # Update new fields
+    if risk := form.get("risk"):
+        tour.risk = risk
+    if country := form.get("country"):
+        tour.country = country
+    if tour_type := form.get("tour_type"):
+        tour.tour_type = tour_type    
+    if max_participants := form.get("max_participants"):
+        tour.max_participants = int(max_participants)
+    if included := form.get("included"):
+        tour.included = included
+    if not_included := form.get("not_included"):
+        tour.not_included = not_included
+    if cancellation_policy := form.get("cancellation_policy"):
+        tour.cancellation_policy = cancellation_policy
+        
     
     db.commit()
     return RedirectResponse(url="/admin/dashboard", status_code=303)
