@@ -18,6 +18,18 @@ class User(Base):
     unsubscribe_token=Column(String(36), default=lambda:str(uuid.uuid4()))
     company_name = Column(String(100), nullable=True)  # New field
     company_link = Column(String(200), nullable=True)  # New field
+    picture = Column(String, nullable=True)  # Profile picture URL
+    created_at = Column(DateTime, default=datetime.utcnow)  # Account creation date
+
+    # Add OAuth fields by oscar
+    google_id = Column(String, unique=True, index=True, nullable=True)
+    apple_id = Column(String, unique=True, index=True, nullable=True)
+    email_verified = Column(Boolean, default=False)
+    
+    # Track auth method by oscar
+    auth_method = Column(String, default="email")  # 'email', 'google', 'apple'
+
+
 
 
 class Session(Base):

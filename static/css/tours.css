@@ -288,6 +288,43 @@ footer.footer {
   }
 }
 
+/* Enhanced User Avatar Styles */
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: border-color 0.3s ease;
+}
+
+.user-avatar:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Enhanced Dropdown Styles */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #003366;
+    color: white;
+}
+
+/* Enhanced Alert Styles */
+.alert-success {
+    border-left: 4px solid #28a745;
+    border-radius: 8px;
+}
+
 @media (min-width: 769px) and (max-width: 991px) {
   .custom-card {
     height: 440px;

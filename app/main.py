@@ -3,6 +3,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
+import os
+
 
 
 from app.routes import auth, tours, admin, booking, payment, newsletter, culture, tour_details, create_admin
@@ -31,7 +33,9 @@ app.include_router(newsletter.router)
 app.include_router(tour_details.router)
 app.include_router(create_admin.router)
 
-
+# Before creating tables
+Base.metadata.drop_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 # Create database tables
 Base.metadata.create_all(bind=engine)
 

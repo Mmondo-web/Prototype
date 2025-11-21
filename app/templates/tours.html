@@ -41,30 +41,81 @@
           {% endif %}
         </ul>
       </div>
-      <div class="d-flex align-items-center gap-2">
-        {% if user %} {% if user.newsletter_subscribed %}
-        <form action="/user/unsubscribe_newsletter" method="post" class="m-0">
-          <button type="submit" class="btn btn-warning btn-sm">
-            Unsubscribe
-          </button>
-        </form>
+
+           <div class="d-flex align-items-center gap-2">
+        {% if user %}
+          <!-- Enhanced User Dropdown -->
+          <div class="dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" role="button" 
+               data-bs-toggle="dropdown" aria-expanded="false">
+              {% if user.picture %}
+              <img src="{{ user.picture }}" alt="Profile" class="user-avatar me-2">
+              {% else %}
+              <i class="bi bi-person-circle me-2"></i>
+              {% endif %}
+              {{ user.full_name }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="/profile">
+                <i class="bi bi-person me-2"></i>My Profile
+              </a></li>
+              <li><a class="dropdown-item" href="/my-bookings">
+                <i class="bi bi-calendar-check me-2"></i>My Bookings
+              </a></li>
+              <li><hr class="dropdown-divider"></li>
+              {% if user.newsletter_subscribed %}
+              <li>
+                <form action="/user/unsubscribe_newsletter" method="post" class="m-0">
+                  <button type="submit" class="dropdown-item text-warning">
+                    <i class="bi bi-bell-slash me-2"></i>Unsubscribe
+                  </button>
+                </form>
+              </li>
+              {% else %}
+              <li>
+                <form action="/subscribe_newsletter" method="post" class="m-0">
+                  <button type="submit" class="dropdown-item text-info">
+                    <i class="bi bi-bell me-2"></i>Subscribe
+                  </button>
+                </form>
+              </li>
+              {% endif %}
+              <li><a class="dropdown-item text-danger" href="/logout">
+                <i class="bi bi-box-arrow-right me-2"></i>Logout
+              </a></li>
+            </ul>
+          </div>
         {% else %}
-        <form action="/subscribe_newsletter" method="post" class="m-0">
-          <button type="submit" class="btn btn-info btn-sm">Subscribe</button>
-        </form>
-        {% endif %}
-        <a class="btn btn-outline-light btn-sm" href="/logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
-        {% else %}
-        <a class="btn btn-outline-light btn-sm" href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
-        <a class="btn btn-light text-primary btn-sm" href="/signup"><i class="bi bi-person-plus"></i> Signup</a>
+          <a class="btn btn-outline-light btn-sm" href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+          <a class="btn btn-light text-primary btn-sm" href="/signup"><i class="bi bi-person-plus"></i> Signup</a>
         {% endif %}
       </div>
+
     </div>
   </nav>
 
   <main class="pt-2 mt-5">
     <div class="container">
       <h1 class="text-center my-2">Discover Our Tours</h1>
+
+       <!-- Enhanced Welcome Message -->
+      {% if request and request.query_params.get('just_logged_in') and user %}
+      <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+          <div>
+            <strong>Welcome back, {{ user.full_name }}!</strong> You have successfully logged in.
+            {% if user.auth_method == 'google' %}
+            <small class="d-block text-muted mt-1">
+              <i class="bi bi-google me-1"></i>Signed in with Google
+            </small>
+            {% endif %}
+          </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      {% endif %}
+
       <div class="row">
         {% for tour in tours %}
         <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
