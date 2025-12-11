@@ -13,6 +13,7 @@ from app.models import User
 from app.utils import get_current_user, create_session, delete_session, verify_password, hash_password, send_email
 from app.database import get_db
 from fastapi.templating import Jinja2Templates
+from sqlalchemy import func
 
 
 router = APIRouter()

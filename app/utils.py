@@ -6,10 +6,11 @@ from email.message import EmailMessage
 from datetime import datetime, timedelta
 from fastapi import Request, HTTPException, status, Depends
 from sqlalchemy.orm import Session
-from app.models import User, Session, Tour
+from app.models import User, Session, Tour, Booking
+from sqlalchemy import func, or_, and_
 from fastapi import Request
 from app.database import get_db
-from typing import Optional
+from typing import Optional,List
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
  
@@ -171,5 +172,125 @@ def send_tour_notification(to_email: str, tour: Tour, unsubscribe_token: str):
     """
     send_email(to_email, subject, body, is_html=True)
     
-
+def get_dashboard_stats(db: Session):
+    """Get statistics for superadmin dashboard"""
+    # Total bookings
+    total_bookings = db.query(func.count(Booking.id)).filter(
+        Booking.deleted_at.is_(None)
+    ).scalar() or 0
     
+    # Total revenue (sum of all booking prices)
+    total_revenue = db.query(func.coalesce(func.sum(Booking.total_price), 0)).filter(
+        Booking.deleted_at.is_(None),
+        Booking.payment_status == 'completed'  # Only count completed payments
+    ).scalar() or 0
+    
+    # Total tour companies (users with company_name)
+    total_companies = db.query(func.count(User.id)).filter(
+        User.company_name.isnot(None),
+        User.company_name != '',
+        User.is_active == True
+    ).scalar() or 0
+    
+    # Total admins (excluding superadmins)
+    total_admins = db.query(func.count(User.id)).filter(
+        User.is_admin == True,
+        User.is_superadmin == False
+    ).scalar() or 0
+    
+    # Total tours
+    total_tours = db.query(func.count(Tour.id)).filter(
+        Tour.is_active == True
+    ).scalar() or 0
+    
+    # Recent bookings (last 7 days)
+    week_ago = datetime.utcnow() - timedelta(days=7)
+    recent_bookings = db.query(func.count(Booking.id)).filter(
+        Booking.created_at >= week_ago,
+        Booking.deleted_at.is_(None)
+    ).scalar() or 0
+    
+    # Revenue this week
+    week_revenue = db.query(func.coalesce(func.sum(Booking.total_price), 0)).filter(
+        Booking.created_at >= week_ago,
+        Booking.deleted_at.is_(None),
+        Booking.payment_status == 'completed'
+    ).scalar() or 0
+    
+    return {
+        "total_bookings": total_bookings,
+        "total_revenue": total_revenue,
+        "total_companies": total_companies,
+        "total_admins": total_admins,
+        "total_tours": total_tours,
+        "recent_bookings": recent_bookings,
+        "week_revenue": week_revenue
+    }
+
+def get_recent_bookings(db: Session, limit: int = 10):
+    """Get recent bookings with user and tour info"""
+    return db.query(Booking).join(User).join(Tour).filter(
+        Booking.deleted_at.is_(None)
+    ).order_by(Booking.created_at.desc()).limit(limit).all()
+
+def get_top_tours(db: Session, limit: int = 5):
+    """Get most booked tours"""
+    from sqlalchemy import desc
+    
+    return db.query(
+        Tour,
+        func.count(Booking.id).label('booking_count'),
+        func.coalesce(func.sum(Booking.total_price), 0).label('revenue')
+    ).join(Booking, Tour.id == Booking.tour_id).filter(
+        Booking.deleted_at.is_(None),
+        Booking.payment_status == 'completed'
+    ).group_by(Tour.id).order_by(desc('booking_count')).limit(limit).all()
+    
+# Add this function to your utils.py (anywhere after get_current_user):
+
+def get_current_superadmin(request: Request, db: Session = Depends(get_db)) -> User:
+    """
+    Dependency function to get current superadmin user.
+    Raises HTTPException if user is not authenticated or not a superadmin.
+    """
+    # Get current user
+    user = get_current_user(request, db)
+    
+    # Check if user exists
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated"
+        )
+    
+    # Check if user is superadmin
+    if not user.is_superadmin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Superadmin privileges required"
+        )
+    
+    return user
+
+
+# Async version for async endpoints
+async def get_current_superadmin_async(request: Request, db: Session = Depends(get_db)) -> User:
+    """Async version of get_current_superadmin"""
+    return get_current_superadmin(request, db)
+
+
+# Optional: Helper function to check if user is superadmin without raising exception
+def is_superadmin(user: User) -> bool:
+    """Check if a user is a superadmin"""
+    if not user:
+        return False
+    return user.is_superadmin
+
+
+# Optional: Function to get all superadmins
+def get_all_superadmins(db: Session) -> List[User]:
+    """Get all superadmin users"""
+    return db.query(User).filter(
+        User.is_superadmin == True,
+        User.is_active == True
+    ).all()

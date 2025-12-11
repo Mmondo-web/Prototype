@@ -11,6 +11,7 @@ from app.database import get_db
 from app.models import Country, CountryImage, User
 from app.utils import get_current_admin
 from fastapi.templating import Jinja2Templates
+from sqlalchemy import func
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates", auto_reload=True)
