@@ -30,6 +30,7 @@ class User(Base):
     
     # Track auth method by oscar
     auth_method = Column(String, default="email")
+    created_tours = relationship("Tour", back_populates="creator")
 
 
 class Session(Base):
@@ -61,6 +62,9 @@ class Tour(Base):
     included = Column(String(1000), nullable=False)
     not_included = Column(String(1000), nullable=False)
     cancellation_policy = Column(String(500), nullable=False)
+    creator_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+    #creator = relationship("User", backref="created_tours")
+    creator = relationship("User", back_populates="created_tours")
 
     def calculate_price(self, adults: int, kids: int, is_private: bool = False) -> float:
         base_price = (adults + kids) * self.price

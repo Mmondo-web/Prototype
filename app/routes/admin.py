@@ -16,6 +16,10 @@ templates = Jinja2Templates(directory="app/templates", auto_reload=True)
 async def admin_dashboard(request: Request, db: Session = Depends(get_db), user: User = Depends(get_current_admin)):
     if not user.is_admin:
         return RedirectResponse(url="/", status_code=303)
+    if user.is_superadmin:
+        tours = db.query(Tour).options(joinedload(Tour.creator)).all()
+    else:
+        tours = db.query(Tour).options(joinedload(Tour.creator)).filter(Tour.creator_id == user.id).all()
     tours = db.query(Tour).all()
     return templates.TemplateResponse("admin/dashboard.html", {"request": request, "user": user, "tours": tours})
 
@@ -55,7 +59,9 @@ async def create_tour(
             max_participants=max_participants,
             included=included,
             not_included=not_included,
-            cancellation_policy=cancellation_policy
+            cancellation_policy=cancellation_policy,
+            # Set the creator of the tour
+            creator_id=user.id
         )
         db.add(new_tour)
         db.flush()
@@ -96,10 +102,14 @@ async def create_tour(
 async def edit_tour(request: Request, tour_id: int, 
                    db: Session = Depends(get_db), 
                    user: User = Depends(get_current_admin)):
-    tour = db.query(Tour).options(joinedload(Tour.images)).filter(Tour.id == tour_id).first()
+    tour = db.query(Tour).options(joinedload(Tour.images), joinedload(Tour.creator)).filter(Tour.id == tour_id).first()
     
     if not tour:
         raise HTTPException(status_code=404, detail="Tour not found")
+     # Check if user can edit this tour
+    # Superadmins can edit any tour, regular admins can only edit their own
+    if not user.is_superadmin and tour.creator_id != user.id:
+        raise HTTPException(status_code=403, detail="You can only edit tours you created")
     
     return templates.TemplateResponse("admin/edit_tour.html", {
         "request": request,
@@ -130,7 +140,7 @@ async def update_tour(request: Request, tour_id: int, db: Session = Depends(get_
     
     
     
-    tour = db.query(Tour).filter(Tour.id == tour_id).first()
+    tour = db.query(Tour).options(joinedload(Tour.creator)).filter(Tour.id == tour_id).first()
     
     if not tour:
         return templates.TemplateResponse("admin/edit_tour.html", {
@@ -138,6 +148,9 @@ async def update_tour(request: Request, tour_id: int, db: Session = Depends(get_
             "error": "Tour not found",
             "tour_id": tour_id
         })
+    # Check ownership - superadmins can edit any, regular admins only their own
+    if not user.is_superadmin and tour.creator_id != user.id:
+        raise HTTPException(status_code=403, detail="You can only update tours you created")    
     
     if title:
         tour.title = title
@@ -182,6 +195,9 @@ async def delete_tour(
     tour = db.query(Tour).filter(Tour.id == tour_id).first()
     if not tour:
         raise HTTPException(status_code=404, detail="Tour not found")
+     # Check ownership - superadmins can delete any, regular admins only their own
+    if not user.is_superadmin and tour.creator_id != user.id:
+        raise HTTPException(status_code=403, detail="You can only delete tours you created")
     
     images = db.query(TourImage).filter(TourImage.tour_id == tour.id).all()
     for img in images:

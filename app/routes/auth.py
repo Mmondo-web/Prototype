@@ -10,7 +10,7 @@ from fastapi import APIRouter, Request, Depends, HTTPException, status, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 from app.models import User
-from app.utils import get_current_user, create_session, delete_session, verify_password, hash_password, send_email
+from app.utils import get_current_user, create_session, delete_session, verify_password, hash_password, send_email,is_superadmin
 from app.database import get_db
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import func
@@ -352,9 +352,27 @@ async def login(request: Request, db: Session = Depends(get_db)):
         return templates.TemplateResponse("login.html", {"request": request, "error": "Invalid email or password"})
     
     session_id = create_session(db, user.id)
-    response = RedirectResponse(url="/tours", status_code=status.HTTP_302_FOUND)
-    response.set_cookie(key="auth_session_id", value=session_id, httponly=True, max_age=1800, samesite="Lax", path="/")
+    if user.is_superadmin:
+        redirect_url = "/superadmin/dashboard"
+    elif user.is_admin:
+        redirect_url = "/admin/dashboard"  # if you have one
+    else:
+        redirect_url = "/tours"
+
+    response = RedirectResponse(url=redirect_url, status_code=302)
+    response.set_cookie(
+        key="auth_session_id",
+        value=session_id,
+        httponly=True,
+        max_age=1800,
+        samesite="Lax",
+        path="/"
+    )
     return response
+    
+    #response = RedirectResponse(url="/tours", status_code=status.HTTP_302_FOUND)
+    #response.set_cookie(key="auth_session_id", value=session_id, httponly=True, max_age=1800, samesite="Lax", path="/")
+    #return response
 
 @router.get("/logout", response_class=HTMLResponse)
 async def logout(request: Request, db: Session = Depends(get_db)):
@@ -514,7 +532,10 @@ async def profile(request: Request, db: Session = Depends(get_db), current_user:
     return templates.TemplateResponse("profile.html", {
         "request": request,
         "user": current_user
-    })    
+    })   
+     # ✅ Redirect super admin
+    if is_superadmin(current_user):
+         return RedirectResponse(url="/superadmin/dashboard", status_code=HTTP_302_FOUND) 
     
 # Add this debug endpoint to help troubleshoot
 @router.get("/auth/debug/config")
