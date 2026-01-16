@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   db:
     image: mysql:8.0
@@ -18,14 +20,14 @@ services:
       - app-network
 
   app:
-    build: 
+    build:
       context: .
       args:
-        - BASE_URL=${BASE_URL}  # Pass as build argument
+        - BASE_URL=${BASE_URL}
     ports:
       - "8000:8000"
     environment:
-      - BASE_URL=${BASE_URL}  # Pass as runtime environment
+      - BASE_URL=${BASE_URL}
       - DATABASE_URL=${DATABASE_URL}
       - SECRET_KEY=${SECRET_KEY}
       - DEBUG=${DEBUG}
@@ -40,10 +42,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    command: >
-      sh -c "echo 'BASE_URL = $BASE_URL' &&
-             while ! mysqladmin ping -h db --silent; do sleep 1; done &&
-             uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
     networks:
       - app-network
 
