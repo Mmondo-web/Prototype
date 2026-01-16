@@ -24,8 +24,8 @@ class User(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     # Add OAuth fields by oscar
-    google_id = Column(String, unique=True, index=True, nullable=True)
-    apple_id = Column(String, unique=True, index=True, nullable=True)
+    google_id = Column(String(255), unique=True, index=True, nullable=True)
+    apple_id = Column(String(255), unique=True, index=True, nullable=True)
     email_verified = Column(Boolean, default=False)
     
     # Track auth method by oscar
