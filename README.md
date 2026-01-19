@@ -39,10 +39,9 @@
 ## 👨‍💻 Developers
 
 - **Backend:** Rhyan Lubega
-- **Frontend:** George Mutale
-- **Database & Security:** Oscar Kyamuwendo
-- **Business Role:** Bernadette Nakazibwe
-- **Product Manager & Machine Learning:** Boaz Onyango
+- **Frontend:** Boaz Onyango
+- **Database & Product Manager:** Oscar Kyamuwendo
+- **Business Role:** George Mutale
 
 ---
 
@@ -84,7 +83,7 @@ python -m venv venv && source venv/bin/activate && pip install -r requirements.t
 Use the following credentials:
 
 - **Email:** `mutalegeorge367@gmail.com`
-- **Password:** `Tourism01@#`
+- **Password:** `Operator01@#`
 
 Alternatively, create a new admin via terminal:
 
@@ -97,7 +96,7 @@ python -m app.create_admin
 Use the following credentials:
 
 - **Email:** `george.mutale@stud.th-deg.de`
-- **Password:** `Tourism01`
+- **Password:** `Tourist01@#`
 
 ---
 
