@@ -17,7 +17,8 @@ stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 #BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
 
 #Here yo are supposed to set your codespace url
-BASE_URL = os.getenv("BASE_URL")
+BASE_URL = os.getenv("BASE_URL").rstrip("/")
+print(BASE_URL)
 
 @router.get("/payment", response_class=HTMLResponse)
 async def payment_page(
@@ -91,8 +92,8 @@ async def create_stripe_session(
                 'total_price': str(total_price),
                 'tour_date': booking_data['tour_date']
             },
-            success_url=f"{BASE_URL.rstrip('/')}/payment/success?session_id={{CHECKOUT_SESSION_ID}}",
-            cancel_url=f"{BASE_URL.rstrip('/')}/payment"
+            success_url=f"{BASE_URL}/payment/success?session_id={{CHECKOUT_SESSION_ID}}",
+            cancel_url=f"{BASE_URL}/payment"
         )
 
         return JSONResponse({"id": session.id})
