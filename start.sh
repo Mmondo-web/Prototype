@@ -14,7 +14,7 @@ if [ -n "$CODESPACES" ]; then
     if [ -z "$CODESPACE_URL" ]; then
         CODESPACE_URL=$(gp url $PORT 2>/dev/null)
     fi
-    
+    # what does fi mean Rhyan
     if [ -z "$CODESPACE_URL" ]; then
         echo "Error: Could not generate Codespace URL for port $PORT"
         exit 1
