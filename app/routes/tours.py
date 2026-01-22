@@ -13,13 +13,18 @@ templates = Jinja2Templates(directory="app/templates", auto_reload=True)
 @router.get("/", response_class=HTMLResponse)
 async def read_root(
     request: Request,
+    db: Session = Depends(get_db),  # Added database dependency
     user: User = Depends(get_current_user),
 ):
+    # Fetch tours from database
+    tours = db.query(Tour).filter(Tour.is_active == True).all()  # Only active tours
+    
     return templates.TemplateResponse(
         "index.html",
         {
             "request": request,
             "user": user,
+            "tours": tours  # Added tours to template context
         }
     )
 

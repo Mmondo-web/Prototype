@@ -435,6 +435,11 @@
                                 <div class="carousel-item {% if loop.first %}active{% endif %}">
                                     <img src="{{ image.image_url }}" class="d-block w-100">
                                 </div>
+                                {% else %}
+                                <div class="carousel-item active">
+                                    <img src="https://via.placeholder.com/800x450?text=Tour+Image"
+                                        class="d-block w-100">
+                                </div>
                                 {% endfor %}
                             </div>
 
@@ -449,7 +454,7 @@
                             </button>
                             {% endif %}
                         </div>
-                        <div class="tour-label">safari</div>
+                        <div class="tour-label">{{ tour.tour_type }}</div>
                     </div>
 
                     <!-- Tour Card -->
@@ -461,12 +466,23 @@
                                 <p class="text-muted mb-1">
                                     <i class="bi bi-geo-alt"></i> {{ tour.locations }}
                                 </p>
+                                <span class="badge bg-primary mb-2">
+                                    <i class="bi bi-flag me-1"></i>{{ tour.country }}
+                                </span>
                                 <p class="text-warning fw-semibold">
-                                    <i class="bi bi-star-fill"></i> 4.9 (0 reviews)
+                                    <i class="bi bi-star-fill"></i>
+                                    {% if tour.reviews %}
+                                    {% set avg_rating =
+                                    tour.reviews|selectattr('rating')|map(attribute='rating')|list|sum /
+                                    tour.reviews|length %}
+                                    {{ "%.1f"|format(avg_rating) }} ({{ tour.reviews|length }} reviews)
+                                    {% else %}
+                                    0.0 (0 reviews)
+                                    {% endif %}
                                 </p>
                             </div>
                             <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                                <div class="tour-price">${{ tour.price }}</div>
+                                <div class="tour-price">${{ "%.2f"|format(tour.price) }}</div>
                                 <small class="text-muted">per person</small>
                             </div>
                         </div>
@@ -487,7 +503,7 @@
                             </div>
                             <div class="col">
                                 <div class="info-icon mb-2"><i class="bi bi-shield-check"></i></div>
-                                <h5 class="fw-bold">{{ tour.difficulty or 'Easy' }}</h5>
+                                <h5 class="fw-bold">{{ tour.difficulty }}</h5>
                                 <p class="text-muted">Difficulty</p>
                             </div>
                         </div>
@@ -500,22 +516,23 @@
                             <h4 class="fw-bold mb-3">Description</h4>
                             <p class="text-muted">{{ tour.description }}</p>
 
-                            <!-- Tour Highlights -->
+                            <!-- Locations -->
                             <section class="tour-section mt-5">
-                                <h4 class="fw-bold mb-4">Tour Highlights</h4>
+                                <h4 class="fw-bold mb-4">Tour Locations</h4>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <ul class="list-unstyled list-item-spacing">
-                                            <li class="mb-2">✔ Great Migration spectacle</li>
-                                            <li class="mb-2">✔ Ngorongoro Crater</li>
-                                            <li class="mb-2">✔ Luxury lodge stays</li>
+                                            {% set locations_list = tour.locations.split(',') %}
+                                            {% for location in locations_list[:4] %}
+                                            <li class="mb-2">📍 {{ location.strip() }}</li>
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                     <div class="col-md-6">
                                         <ul class="list-unstyled list-item-spacing">
-                                            <li class="mb-2">✔ Big cat encounters</li>
-                                            <li class="mb-2">✔ Scenic game drives</li>
-                                            <li class="mb-2">✔ Professional photography guides</li>
+                                            {% for location in locations_list[4:8] %}
+                                            <li class="mb-2">📍 {{ location.strip() }}</li>
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                 </div>
@@ -527,41 +544,39 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <ul class="list-unstyled list-item-spacing">
-                                            <li class="mb-2">✔ Luxury accommodation</li>
-                                            <li class="mb-2">✔ Park fees</li>
-                                            <li class="mb-2">✔ Professional guide</li>
-                                            <li class="mb-2">✔ All meals</li>
+                                            {% set included_items = tour.included.split(',') %}
+                                            {% for item in included_items[:4] %}
+                                            <li class="mb-2">✔ {{ item.strip() }}</li>
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                     <div class="col-md-6">
                                         <ul class="list-unstyled list-item-spacing">
-                                            <li class="mb-2">✔ Game drives</li>
-                                            <li class="mb-2">✔ Flying doctor insurance</li>
-                                            <li class="mb-2">✔ Airport transfers</li>
-                                            <li class="mb-2">✔ Bottled water</li>
+                                            {% for item in included_items[4:8] %}
+                                            <li class="mb-2">✔ {{ item.strip() }}</li>
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                 </div>
                             </section>
 
-                            <!-- What's Not Included - Separate Row -->
+                            <!-- What's Not Included -->
                             <section class="tour-section mt-5">
                                 <h4 class="fw-bold mb-4">What's Not Included</h4>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <ul class="list-unstyled list-item-spacing">
-                                            <li class="mb-2">✘ International flights</li>
-                                            <li class="mb-2">✘ Travel insurance</li>
-                                            <li class="mb-2">✘ Laundry services</li>
-                                            <li class="mb-2">✘ Visa fees</li>
+                                            {% set not_included_items = tour.not_included.split(',') %}
+                                            {% for item in not_included_items[:4] %}
+                                            <li class="mb-2">✘ {{ item.strip() }}</li>
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                     <div class="col-md-6">
                                         <ul class="list-unstyled list-item-spacing">
-                                            <li class="mb-2">✘ Alcoholic drinks</li>
-                                            <li class="mb-2">✘ Personal shopping</li>
-                                            <li class="mb-2">✘ Tips & gratuities</li>
-                                            <li class="mb-2">✘ Optional activities</li>
+                                            {% for item in not_included_items[4:8] %}
+                                            <li class="mb-2">✘ {{ item.strip() }}</li>
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                 </div>
@@ -570,20 +585,62 @@
                             <!-- Cancellation Policy -->
                             <div class="cancellation-box mt-5">
                                 <strong>Cancellation Policy</strong>
-                                <p class="mb-0 mt-2">
-                                    <strong>50% Refund</strong> if cancelled at least <strong>14 days</strong> before
-                                    the
-                                    tour date.
-                                </p>
+                                <p class="mb-0 mt-2">{{ tour.cancellation_policy }}</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Reviews Card -->
                     <div class="reviews-card mt-4">
-                        <div class="reviews-section text-center">
+                        <div class="reviews-section">
                             <h2 class="reviews-title mb-4">Reviews & Ratings</h2>
-                            <div class="empty-state">
+                            {% if tour.reviews %}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <!-- Average Rating -->
+                                    <div class="text-center mb-4">
+                                        {% set avg_rating =
+                                        tour.reviews|selectattr('rating')|map(attribute='rating')|list|sum /
+                                        tour.reviews|length %}
+                                        <h1 class="display-4 fw-bold">{{ "%.1f"|format(avg_rating) }}</h1>
+                                        <div class="text-warning mb-2">
+                                            {% for i in range(5) %}
+                                            {% if i < avg_rating|int %} <i class="bi bi-star-fill"></i>
+                                                {% elif i < avg_rating %} <i class="bi bi-star-half"></i>
+                                                    {% else %}
+                                                    <i class="bi bi-star"></i>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                        </div>
+                                        <p class="text-muted">{{ tour.reviews|length }} reviews</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <!-- Reviews List -->
+                                    <div class="reviews-list">
+                                        {% for review in tour.reviews[:5] %}
+                                        <div class="review-item border-bottom pb-3 mb-3">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <div>
+                                                    <strong>{{ review.user.full_name }}</strong>
+                                                    <div class="text-warning">
+                                                        {% for i in range(5) %}
+                                                        <i
+                                                            class="bi bi-star{% if i < review.rating %}fill{% endif %}"></i>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <small class="text-muted">{{ review.created_at.strftime('%b %d, %Y')
+                                                    }}</small>
+                                            </div>
+                                            <p class="mb-0">{{ review.comment }}</p>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="empty-state text-center">
                                 <div class="star-icon mb-3">
                                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -591,9 +648,9 @@
                                     </svg>
                                 </div>
                                 <p class="empty-message text-muted mb-0">No reviews yet. Be the first to review this
-                                    tour!
-                                </p>
+                                    tour!</p>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -625,12 +682,12 @@
 
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <span>Price per person</span>
-                                <span class="price">${{ tour.price }}</span>
+                                <span class="price">${{ "%.2f"|format(tour.price) }}</span>
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <strong>Total</strong>
-                                <strong class="price" id="displayTotalPrice">${{ tour.price }}</strong>
+                                <strong class="price" id="displayTotalPrice">${{ "%.2f"|format(tour.price) }}</strong>
                             </div>
                             <!-- Book Button -->
                             {% if user %}
@@ -664,13 +721,13 @@
                                     <div class="mb-3">
                                         <label class="form-label fw-semibold">Adults</label>
                                         <input type="number" id="adultsInput" class="form-control" value="1" min="1"
-                                            required>
+                                            max="{{ tour.max_participants }}" required>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label fw-semibold">Kids</label>
                                         <input type="number" id="kidsInput" class="form-control" value="0" min="0"
-                                            required>
+                                            max="{{ tour.max_participants }}" required>
                                     </div>
 
                                     <div class="mb-3">
@@ -713,7 +770,7 @@
 
                                     <div class="border-top pt-3 mb-3 d-flex justify-content-between">
                                         <strong>Total</strong>
-                                        <strong class="price" id="totalPrice">${{ tour.price }}</strong>
+                                        <strong class="price" id="totalPrice">${{ "%.2f"|format(tour.price) }}</strong>
                                     </div>
 
                                     <div class="d-flex gap-2">
@@ -726,18 +783,27 @@
                         </div>
 
                         <!-- Tour Operator -->
+                        <!-- Tour Operator -->
                         <div class="operator-card">
                             <small class="text-muted">Tour Operator</small>
                             <div class="operator-info mt-2">
                                 <i class="bi bi-building operator-icon"></i>
                                 <div>
-                                    <h6 class="fw-bold mb-0">MMONDO TOUR OPERATOR</h6>
+                                    <h6 class="fw-bold mb-0">
+                                        {% if tour.creator %}
+                                        {{ tour.creator.company_name if tour.creator.company_name else
+                                        tour.creator.full_name }}
+                                        {% else %}
+                                        MMONDO TOUR OPERATOR
+                                        {% endif %}
+                                    </h6>
                                     <small class="text-muted">
                                         <i class="bi bi-check-circle-fill text-success me-1"></i>
                                         Verified Operator
                                     </small>
                                 </div>
                             </div>
+
                             <!-- Additional operator info -->
                             <div class="mt-3">
                                 <div class="d-flex align-items-center mb-2">
@@ -753,6 +819,15 @@
                                     <small>Licensed & Insured</small>
                                 </div>
                             </div>
+
+                            <!-- Bio Section -->
+                            {% if tour.creator and tour.creator.bio %}
+                            <div class="mt-3">
+                                <h6>Company Biography</h6>
+                                <p class="mb-0 text-muted small">{{ tour.creator.bio[:150] }}{% if
+                                    tour.creator.bio|length > 150 %}...{% endif %}</p>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -829,7 +904,6 @@
             </div>
         </div>
     </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Global variables
@@ -838,30 +912,38 @@
 
         // Function to update price display
         function updatePrice() {
+               // Validate max participants
+            const maxParticipants = {{ tour.max_participants }};
             const adults = parseInt(document.getElementById('adultsInput').value) || 1;
             const kids = parseInt(document.getElementById('kidsInput').value) || 0;
             const donationChecked = document.getElementById('donationCheckbox').checked;
 
-            // Calculate price
-            let priceMultiplier = currentTourType === 'private' ? 1.35 : 1;
-            let total = (adults + kids) * basePrice * priceMultiplier;
-
-            // Add donation if checked
-            if (donationChecked) {
-                total += 10;
-            }
-
-            // Update display
-            document.getElementById('totalPrice').textContent = '$' + total.toFixed(2);
-            document.getElementById('displayTotalPrice').textContent = '$' + total.toFixed(2);
-
-            // Update hidden form fields
-            document.getElementById('hiddenTotalPrice').value = total.toFixed(2);
-            document.getElementById('hiddenTourType').value = currentTourType;
-            document.getElementById('hiddenAdults').value = adults;
-            document.getElementById('hiddenKids').value = kids;
-            document.getElementById('hiddenDonate').value = donationChecked ? '10' : '';
+        if (adults + kids > maxParticipants) {
+            alert(`Maximum participants is ${maxParticipants}. Please adjust your booking.`);
+            document.getElementById('kidsInput').value = Math.max(0, maxParticipants - adults);
+            return;
         }
+
+        // Calculate price
+        let priceMultiplier = currentTourType === 'private' ? 1.35 : 1;
+        let total = (adults + kids) * basePrice * priceMultiplier;
+
+        // Add donation if checked
+        if (donationChecked) {
+            total += 10;
+        }
+
+        // Update display
+        document.getElementById('totalPrice').textContent = '$' + total.toFixed(2);
+        document.getElementById('displayTotalPrice').textContent = '$' + total.toFixed(2);
+
+        // Update hidden form fields
+        document.getElementById('hiddenTotalPrice').value = total.toFixed(2);
+        document.getElementById('hiddenTourType').value = currentTourType;
+        document.getElementById('hiddenAdults').value = adults;
+        document.getElementById('hiddenKids').value = kids;
+        document.getElementById('hiddenDonate').value = donationChecked ? '10' : '';
+    }
 
         // Function to set tour type
         function setTourType(type) {
@@ -883,63 +965,73 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Set minimum date to today
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('tourDate').min = today;
+            const tourDateInput = document.getElementById('tourDate');
+            if (tourDateInput) {
+                tourDateInput.min = today;
+            }
 
             // Initial price calculation
             updatePrice();
 
             // Book Now button click handler
-            document.getElementById('bookNowBtn').addEventListener('click', function () {
-                // Hide the Book Now button
-                this.style.display = 'none';
-                // Show the booking form
-                document.getElementById('bookingForm').classList.remove('d-none');
-            });
+            const bookNowBtn = document.getElementById('bookNowBtn');
+            if (bookNowBtn) {
+                bookNowBtn.addEventListener('click', function () {
+                    // Hide the Book Now button
+                    this.style.display = 'none';
+                    // Show the booking form
+                    document.getElementById('bookingForm').classList.remove('d-none');
+                });
+            }
 
             // Cancel button click handler
-            document.getElementById('cancelBtn').addEventListener('click', function () {
-                // Hide the booking form
-                document.getElementById('bookingForm').classList.add('d-none');
-                // Show the Book Now button
-                document.getElementById('bookNowBtn').style.display = 'block';
-            });
+            const cancelBtn = document.getElementById('cancelBtn');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', function () {
+                    // Hide the booking form
+                    document.getElementById('bookingForm').classList.add('d-none');
+                    // Show the Book Now button
+                    document.getElementById('bookNowBtn').style.display = 'block';
+                });
+            }
 
             // Form submission handler
-            document.getElementById('tourBookingForm').addEventListener('submit', function (e) {
-                e.preventDefault();
+            const tourBookingForm = document.getElementById('tourBookingForm');
+            if (tourBookingForm) {
+                tourBookingForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
 
-                // Validate required fields
-                const tourDate = document.getElementById('tourDate').value;
-                const contactPhone = document.getElementById('contactPhone').value;
+                    // Validate required fields
+                    const tourDate = document.getElementById('tourDate').value;
+                    const contactPhone = document.getElementById('contactPhone').value;
 
-                if (!tourDate) {
-                    alert('Please select a tour date');
-                    return;
-                }
+                    if (!tourDate) {
+                        alert('Please select a tour date');
+                        return;
+                    }
 
-                if (!contactPhone) {
-                    alert('Please enter your contact phone number');
-                    return;
-                }
+                    if (!contactPhone) {
+                        alert('Please enter your contact phone number');
+                        return;
+                    }
 
-                // Populate hidden form fields
-                document.getElementById('hiddenTourDate').value = tourDate;
-                document.getElementById('hiddenContactPhone').value = contactPhone;
-                document.getElementById('hiddenSpecialRequests').value = document.getElementById('specialRequests').value;
+                    // Populate hidden form fields
+                    document.getElementById('hiddenTourDate').value = tourDate;
+                    document.getElementById('hiddenContactPhone').value = contactPhone;
+                    document.getElementById('hiddenSpecialRequests').value = document.getElementById('specialRequests').value;
 
-                // Make sure price is updated
-                updatePrice();
+                    // Make sure price is updated
+                    updatePrice();
 
-                // Submit the hidden form
-                document.getElementById('hiddenBookingForm').submit();
-            });
+                    // Submit the hidden form
+                    document.getElementById('hiddenBookingForm').submit();
+                });
+            }
 
             // Add event listeners for real-time price updates
             document.getElementById('adultsInput').addEventListener('input', updatePrice);
             document.getElementById('kidsInput').addEventListener('input', updatePrice);
             document.getElementById('donationCheckbox').addEventListener('change', updatePrice);
-
-            // Tour type button click handlers (already handled by setTourType function)
         });
     </script>
 </body>

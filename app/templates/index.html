@@ -167,7 +167,7 @@
       cursor: pointer;
     }
 
-    .tour-badge {
+    .tour-type-badge {
       position: absolute;
       top: 15px;
       left: 15px;
@@ -179,7 +179,7 @@
       font-weight: 500;
     }
 
-    .tour-price {
+    .tour-price-badge {
       position: absolute;
       top: 15px;
       right: 15px;
@@ -191,13 +191,20 @@
       font-size: 1.1rem;
     }
 
-    .tour-difficulty {
-      display: inline-block;
+    .tour-difficulty-badge {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      color: white;
       padding: 4px 12px;
       border-radius: 15px;
       font-size: 0.85rem;
       font-weight: 500;
-      margin-bottom: 10px;
+      z-index: 2;
+    }
+
+    .difficulty-easy {
+      background-color: #28a745;
     }
 
     .difficulty-moderate {
@@ -205,32 +212,8 @@
       color: #000;
     }
 
-    .difficulty-easy {
-      background-color: #28a745;
-      color: white;
-    }
-
     .difficulty-challenging {
       background-color: #dc3545;
-      color: white;
-    }
-
-    .tour-location {
-      color: #6c757d;
-      font-size: 0.95rem;
-    }
-
-    .tour-duration {
-      color: #6c757d;
-      font-size: 0.95rem;
-    }
-
-    .tour-rating {
-      color: #ffc107;
-    }
-
-    .tour-rating .bi-star {
-      color: #ddd;
     }
 
     .tour-image-placeholder {
@@ -279,6 +262,108 @@
       opacity: 0.7;
     }
 
+    /* Tour Card Content */
+    .tour-card-content {
+      padding: 1.5rem;
+    }
+
+    .tour-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .tour-highlight {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .tour-meta-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .tour-meta-item i {
+      width: 20px;
+      color: var(--primary-color);
+      margin-right: 8px;
+    }
+
+    .tour-rating {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+      margin-bottom: 15px;
+    }
+
+    .star-rating {
+      color: #FFC107;
+      margin-right: 5px;
+    }
+
+    .review-count {
+      color: #6c757d;
+      font-size: 0.85rem;
+      margin-left: 5px;
+    }
+
+    .cancellation-policy {
+      padding: 12px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-top: 15px;
+      border-left: 3px solid var(--primary-color);
+    }
+
+    .cancellation-policy .policy-label {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .refund-full {
+      color: #28a745;
+      font-weight: 600;
+    }
+
+    .tour-status {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tour-status .availability {
+      display: flex;
+      align-items: center;
+    }
+
+    .tour-status .availability i {
+      margin-right: 5px;
+    }
+
+    .available {
+      color: #28a745;
+    }
+
+    .not-available {
+      color: #dc3545;
+    }
+
+    .tour-date {
+      color: #6c757d;
+      font-size: 0.85rem;
+    }
+
     /* Primary color buttons */
     .btn-primary {
       background-color: var(--primary-color);
@@ -301,17 +386,18 @@
       color: white;
     }
 
-    /* Tours Section Header */
+    /* REDUCED Tours Section Header - CENTERED */
     .tours-header {
-      background-color: #f8f9fa;
-      border-radius: 10px;
-      padding: 2rem;
-      margin: 3rem 0;
+      text-align: center;
+      padding: 2rem 1rem; /* Reduced from 3rem */
+      margin: 2rem 0; /* Reduced from 3rem */
     }
 
     .header-title {
       color: var(--primary-dark);
       font-weight: 700;
+      font-size: 2.2rem; /* Slightly smaller */
+      margin-bottom: 0.75rem; /* Reduced */
     }
 
     .tour-count {
@@ -319,17 +405,10 @@
       font-weight: 600;
     }
 
-    /* Fake data styling */
-    .fake-data-tag {
-      font-size: 0.8rem;
-      color: #6c757d;
-      font-style: italic;
-    }
-
-    /* Existing index.css styles preserved */
+    /* Existing index.css styles preserved - REDUCED PADDING */
     .video-hero {
-      height: 80vh;
-      min-height: 600px;
+      height: 70vh; /* Reduced from 80vh */
+      min-height: 500px; /* Reduced from 600px */
     }
 
     .video-container {
@@ -342,19 +421,19 @@
     }
 
     .section-narrow {
-      padding: 80px 0;
+      padding: 60px 0; /* Reduced from 80px */
     }
 
     .section-title {
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
+      font-size: 2.2rem; /* Reduced from 2.5rem */
+      margin-bottom: 1.5rem; /* Reduced from 2rem */
       color: var(--primary-dark);
     }
 
     .benefit-icon {
-      font-size: 3rem;
+      font-size: 2.5rem; /* Reduced from 3rem */
       color: var(--primary-color);
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem; /* Reduced from 1rem */
     }
 
     .testimonial-card {
@@ -363,32 +442,32 @@
 
     .process-step {
       text-align: center;
-      padding: 2rem 1rem;
+      padding: 1.5rem 1rem; /* Reduced from 2rem 1rem */
     }
 
     .process-number {
-      width: 60px;
-      height: 60px;
+      width: 50px; /* Reduced from 60px */
+      height: 50px; /* Reduced from 60px */
       background: var(--primary-color);
       color: white;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: 1.3rem; /* Reduced from 1.5rem */
       font-weight: bold;
-      margin: 0 auto 1rem;
+      margin: 0 auto 0.75rem; /* Reduced from 1rem */
     }
 
     .stat-number {
-      font-size: 3rem;
+      font-size: 2.5rem; /* Reduced from 3rem */
       font-weight: bold;
       color: var(--primary-color);
     }
 
     .profile-circle {
-      width: 150px;
-      height: 150px;
+      width: 130px; /* Reduced from 150px */
+      height: 130px; /* Reduced from 150px */
       border-radius: 50%;
       object-fit: cover;
       border: 3px solid var(--primary-color);
@@ -396,10 +475,59 @@
 
     .contact-box {
       transition: transform 0.3s ease;
+      padding: 1.5rem; /* Added consistent padding */
     }
 
     .contact-box:hover {
       transform: translateY(-5px);
+    }
+
+    /* View All Tours button */
+    .view-all-section {
+      text-align: center;
+      margin-top: 2rem; /* Reduced from 3rem */
+      padding-top: 1.5rem; /* Reduced from 2rem */
+      border-top: 1px solid #eee;
+    }
+
+    /* Additional spacing reductions */
+    .tour-card-content {
+      padding: 1.25rem; /* Reduced from 1.5rem */
+    }
+
+    .tour-title {
+      font-size: 1.3rem; /* Reduced from 1.4rem */
+      margin-bottom: 8px; /* Reduced from 10px */
+    }
+
+    .tour-highlight {
+      font-size: 0.9rem; /* Reduced from 0.95rem */
+      margin-bottom: 12px; /* Reduced from 15px */
+    }
+
+    .tour-rating {
+      margin-top: 8px; /* Reduced from 10px */
+      margin-bottom: 12px; /* Reduced from 15px */
+    }
+
+    .cancellation-policy {
+      padding: 10px; /* Reduced from 12px */
+      margin-top: 12px; /* Reduced from 15px */
+    }
+
+    .tour-status {
+      margin-top: 12px; /* Reduced from 15px */
+      padding-top: 12px; /* Reduced from 15px */
+    }
+
+    /* Reduced featured tours section padding */
+    #featured-tours {
+      padding: 3rem 0; /* Reduced overall section padding */
+    }
+
+    /* Reduce spacing between sections */
+    main section {
+      margin-bottom: 1rem; /* Reduced spacing between sections */
     }
   </style>
 </head>
@@ -517,155 +645,182 @@
     </section>
 
     <!-- Featured Tours Section -->
-    <section id="featured-tours" class="py-5">
+    <section id="featured-tours" class="py-4"> <!-- Reduced from py-5 -->
       <div class="container">
+        <!-- CENTERED HEADER -->
         <div class="tours-header">
-          <h1 class="header-title mb-3">Featured Tours</h1>
-          <p class="lead mb-4">Discover our most popular adventures in East Africa</p>
-
-          <div class="d-flex justify-content-between align-items-center mt-3">
-            <h2 class="h5 mb-0">Showing <span class="tour-count">6</span> featured tours</h2>
-            <a href="/tours" class="btn btn-primary">View All Tours</a>
+          <h1 class="header-title">Featured Tours</h1>
+          <p class="lead mb-3">Discover our most popular adventures in East Africa</p>
+          
+          <div class="mb-3">
+            <h2 class="h5">Showing <span class="tour-count">{{ tours|length if tours else 0 }}</span> featured tours</h2>
           </div>
         </div>
 
-        <!-- Tour Grid -->
-        <div class="row g-4 mb-5">
-          <!-- Sample Tour 1 -->
-          <div class="col-lg-4 col-md-6">
-            <a href="/tour/wildlife-safari" class="tour-card">
-              <div class="position-relative">
-                <div class="tour-image-placeholder">
-                  <div class="placeholder-image">
-                    <i class="bi bi-binoculars-fill"></i>
-                    <div class="placeholder-text">Wildlife Safari Preview</div>
+        <!-- Tour Grid with REAL tours from API -->
+        <div class="row g-4 mb-3"> <!-- Reduced from mb-4 -->
+          {% if tours and tours|length > 0 %}
+            {% set display_tours = tours[:6] %} <!-- Show only first 6 tours -->
+            {% for tour in display_tours %}
+            <div class="col-lg-4 col-md-6">
+              <a href="/tour/{{ tour.id }}" class="tour-card">
+                <div class="position-relative">
+                  <div class="tour-image-placeholder">
+                    {% if tour.images and tour.images|length > 0 %}
+                    <img src="{{ tour.images[0].image_url }}" alt="{{ tour.title }}"
+                      onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'placeholder-image\'><i class=\'bi bi-image\'></i><div class=\'placeholder-text\'>{{ tour.title }}</div></div>';">
+                    {% else %}
+                    <div class="placeholder-image">
+                      <i class="bi bi-image"></i>
+                      <div class="placeholder-text">{{ tour.title }}</div>
+                    </div>
+                    {% endif %}
                   </div>
-                </div>
-                <span class="tour-badge">Wildlife</span>
-                <span class="tour-price">$2,450</span>
-              </div>
-              <div class="p-4">
-                <span class="tour-difficulty difficulty-moderate">Moderate</span>
-                <h3 class="h5 fw-bold mb-3">Serengeti Wildlife Safari</h3>
-                <p class="mb-3">
-                  Experience the breathtaking wildlife of Tanzania. Spot the Big Five in their natural habitat during
-                  this 7-day safari adventure.
-                </p>
 
-                <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-geo-alt text-primary me-2"></i>
-                  <span class="tour-location">Serengeti National Park, Tanzania</span>
+                  <!-- TOUR TYPE BADGE -->
+                  {% if tour.tour_type %}
+                  <span class="tour-type-badge">{{ tour.tour_type|title }}</span>
+                  {% endif %}
+
+                  <!-- PRICE BADGE -->
+                  <span class="tour-price-badge">${{ "%.0f"|format(tour.price) }}</span>
+
+                  <!-- DIFFICULTY BADGE -->
+                  {% if tour.difficulty %}
+                  <span class="tour-difficulty-badge 
+                      {% if tour.difficulty == 'Easy' or tour.difficulty == 'easy' %}difficulty-easy
+                      {% elif tour.difficulty == 'Moderate' or tour.difficulty == 'moderate' %}difficulty-moderate
+                      {% elif tour.difficulty == 'Difficult' or tour.difficulty == 'difficult' or tour.difficulty == 'Challenging' %}difficulty-challenging
+                      {% endif %}">
+                    {{ tour.difficulty }}
+                  </span>
+                  {% endif %}
                 </div>
 
-                <div class="d-flex align-items-center mb-3">
-                  <i class="bi bi-clock text-primary me-2"></i>
-                  <span class="tour-duration">7 days</span>
-                </div>
+                <div class="tour-card-content">
+                  <!-- Tour Title -->
+                  <h3 class="tour-title">{{ tour.title }}</h3>
 
-                <div class="d-flex align-items-center justify-content-between mb-3">
+                  <!-- Description/Highlight -->
+                  <p class="tour-highlight">
+                    {% if tour.description %}
+                    {{ tour.description[:100] }}...
+                    {% else %}
+                    No description available
+                    {% endif %}
+                  </p>
+
+                  <!-- Location and Duration -->
+                  <div class="tour-meta-item">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>
+                      {% if tour.locations %}
+                      {{ tour.locations[:50] }}{% if tour.locations|length > 50 %}...{% endif %}
+                      {% elif tour.location %}
+                      {{ tour.location }}
+                      {% elif tour.country %}
+                      {{ tour.country }}
+                      {% else %}
+                      Location not specified
+                      {% endif %}
+                    </span>
+                  </div>
+
+                  <div class="tour-meta-item">
+                    <i class="bi bi-clock"></i>
+                    <span>
+                      {{ tour.duration if tour.duration else 'Duration not specified' }}
+                    </span>
+                  </div>
+
+                  <!-- Rating section -->
                   <div class="tour-rating">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-half"></i>
-                    <span class="ms-1">4.5 (128 reviews)</span>
+                    <div class="star-rating">
+                      {% if tour.reviews and tour.reviews|length > 0 %}
+                      {% set avg_rating = tour.reviews|selectattr('rating')|map(attribute='rating')|list|sum /
+                      tour.reviews|length if tour.reviews|length > 0 else 0 %}
+                      {% for i in range(1, 6) %}
+                      {% if i <= avg_rating %} <i class="bi bi-star-fill"></i>
+                        {% elif i-0.5 <= avg_rating %} <i class="bi bi-star-half"></i>
+                          {% else %}
+                          <i class="bi bi-star"></i>
+                          {% endif %}
+                          {% endfor %}
+                          {% else %}
+                          <!-- Default stars for new tours -->
+                          <i class="bi bi-star-fill"></i>
+                          <i class="bi bi-star-fill"></i>
+                          <i class="bi bi-star-fill"></i>
+                          <i class="bi bi-star-fill"></i>
+                          <i class="bi bi-star-half"></i>
+                          {% endif %}
+                    </div>
+                    <span class="review-count">
+                      {% if tour.reviews and tour.reviews|length > 0 %}
+                      {{ "%.1f"|format(avg_rating) if avg_rating else "0.0" }} ({{ tour.reviews|length }} reviews)
+                      {% else %}
+                      4.9 (0 reviews)
+                      {% endif %}
+                    </span>
+                  </div>
+
+                  <!-- Cancellation policy -->
+                  <div class="cancellation-policy">
+                    <div class="policy-label">Cancellation Policy</div>
+                    <div class="refund-full">
+                      {% if tour.cancellation_policy %}
+                      {{ tour.cancellation_policy }}
+                      {% else %}
+                      Full Refund
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!-- Tour status and creation date -->
+                  <div class="tour-status">
+                    <div class="availability">
+                      <i class="bi bi-circle-fill me-1 {% if tour.is_active %}available{% else %}not-available{% endif %}"></i>
+                      <span class="{% if tour.is_active %}available{% else %}not-available{% endif %}">
+                        {{ 'Available' if tour.is_active else 'Not Available' }}
+                      </span>
+                    </div>
+                    {% if tour.created_at %}
+                    <div class="tour-date">
+                      <i class="bi bi-calendar me-1"></i>
+                      {{ tour.created_at.strftime('%b %Y') }}
+                    </div>
+                    {% endif %}
                   </div>
                 </div>
+              </a>
+            </div>
+            {% endfor %}
+          {% else %}
+          <!-- No tours available message -->
+          <div class="col-12 text-center my-4"> <!-- Reduced from my-5 -->
+            <div class="card border-0 shadow-sm">
+              <div class="card-body py-4"> <!-- Reduced from py-5 -->
+                <i class="bi bi-compass display-1 text-muted mb-3"></i> <!-- Reduced from mb-4 -->
+                <h3 class="text-muted mb-2">No tours available</h3> <!-- Reduced from mb-3 -->
+                <p class="text-muted mb-3">Check back soon for new adventures!</p> <!-- Reduced from mb-4 -->
               </div>
-            </a>
+            </div>
           </div>
-
-          <!-- Sample Tour 2 -->
-          <div class="col-lg-4 col-md-6">
-            <a href="/tour/gorilla-trekking" class="tour-card">
-              <div class="position-relative">
-                <div class="tour-image-placeholder">
-                  <div class="placeholder-image">
-                    <i class="bi bi-tree-fill"></i>
-                    <div class="placeholder-text">Gorilla Trekking Preview</div>
-                  </div>
-                </div>
-                <span class="tour-badge">Adventure</span>
-                <span class="tour-price">$1,850</span>
-              </div>
-              <div class="p-4">
-                <span class="tour-difficulty difficulty-challenging">Challenging</span>
-                <h3 class="h5 fw-bold mb-3">Bwindi Gorilla Trekking</h3>
-                <p class="mb-3">
-                  Trek through Uganda's Bwindi Impenetrable Forest to encounter endangered mountain gorillas in their
-                  natural habitat.
-                </p>
-
-                <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-geo-alt text-primary me-2"></i>
-                  <span class="tour-location">Bwindi Impenetrable Forest, Uganda</span>
-                </div>
-
-                <div class="d-flex align-items-center mb-3">
-                  <i class="bi bi-clock text-primary me-2"></i>
-                  <span class="tour-duration">4 days</span>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                  <div class="tour-rating">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <span class="ms-1">5.0 (96 reviews)</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <!-- Sample Tour 3 -->
-          <div class="col-lg-4 col-md-6">
-            <a href="/tour/cultural-experience" class="tour-card">
-              <div class="position-relative">
-                <div class="tour-image-placeholder">
-                  <div class="placeholder-image">
-                    <i class="bi bi-people-fill"></i>
-                    <div class="placeholder-text">Cultural Experience Preview</div>
-                  </div>
-                </div>
-                <span class="tour-badge">Culture</span>
-                <span class="tour-price">$1,200</span>
-              </div>
-              <div class="p-4">
-                <span class="tour-difficulty difficulty-easy">Easy</span>
-                <h3 class="h5 fw-bold mb-3">Maasai Cultural Immersion</h3>
-                <p class="mb-3">
-                  Immerse yourself in the rich cultural heritage of the Maasai people in Kenya. Traditional dances,
-                  crafts, and village life.
-                </p>
-
-                <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-geo-alt text-primary me-2"></i>
-                  <span class="tour-location">Masai Mara, Kenya</span>
-                </div>
-
-                <div class="d-flex align-items-center mb-3">
-                  <i class="bi bi-clock text-primary me-2"></i>
-                  <span class="tour-duration">5 days</span>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                  <div class="tour-rating">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                    <span class="ms-1">4.0 (87 reviews)</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
+          {% endif %}
         </div>
+
+        <!-- View All Tours Link -->
+        {% if tours and tours|length > 6 %}
+        <div class="view-all-section">
+          <p class="lead mb-3">We have {{ tours|length }} amazing tours waiting for you!</p> <!-- Reduced from mb-4 -->
+          <a href="/tours" class="btn btn-primary btn-lg">View All Tours</a>
+        </div>
+        {% elif tours and tours|length > 0 %}
+        <div class="view-all-section">
+          <p class="lead mb-3">Explore all our amazing tours!</p> <!-- Reduced from mb-4 -->
+          <a href="/tours" class="btn btn-primary btn-lg">View All Tours</a>
+        </div>
+        {% endif %}
       </div>
     </section>
 
@@ -673,16 +828,16 @@
     <section id="about-us" class="bg-light section-narrow">
       <div class="container">
         <h2 class="text-center section-title">Why Choose Us?</h2>
-        <p class="text-center lead mb-5">
+        <p class="text-center lead mb-4"> <!-- Reduced from mb-5 -->
           At Travel Adventures, we're committed to providing unforgettable
           travel experiences
         </p>
 
         <!-- Benefits Grid -->
-        <div class="row g-4">
+        <div class="row g-3"> <!-- Reduced from g-4 -->
           <div class="col-md-4">
             <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center p-4">
+              <div class="card-body text-center p-3"> <!-- Reduced from p-4 -->
                 <div class="benefit-icon">
                   <i class="fas fa-headset"></i>
                 </div>
@@ -697,7 +852,7 @@
 
           <div class="col-md-4">
             <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center p-4">
+              <div class="card-body text-center p-3"> <!-- Reduced from p-4 -->
                 <div class="benefit-icon">
                   <i class="fas fa-map-marked-alt"></i>
                 </div>
@@ -712,7 +867,7 @@
 
           <div class="col-md-4">
             <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center p-4">
+              <div class="card-body text-center p-3"> <!-- Reduced from p-4 -->
                 <div class="benefit-icon">
                   <i class="fas fa-credit-card"></i>
                 </div>
@@ -733,11 +888,11 @@
       <div class="container">
         <h2 class="text-center section-title">What Our Travelers Say</h2>
 
-        <div class="row g-4">
+        <div class="row g-3"> <!-- Reduced from g-4 -->
           <div class="col-md-6">
             <div class="card h-100 testimonial-card">
-              <div class="card-body p-4">
-                <div class="mb-3">
+              <div class="card-body p-3"> <!-- Reduced from p-4 -->
+                <div class="mb-2"> <!-- Reduced from mb-3 -->
                   <i class="fas fa-star text-warning"></i>
                   <i class="fas fa-star text-warning"></i>
                   <i class="fas fa-star text-warning"></i>
@@ -748,7 +903,7 @@
                   "The best-organized tour I've ever experienced! Our guide made
                   history come alive."
                 </p>
-                <div class="d-flex align-items-center mt-3">
+                <div class="d-flex align-items-center mt-2"> <!-- Reduced from mt-3 -->
                   <img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle me-3" width="50"
                     alt="Sarah" />
                   <div>
@@ -762,8 +917,8 @@
 
           <div class="col-md-6">
             <div class="card h-100 testimonial-card">
-              <div class="card-body p-4">
-                <div class="mb-3">
+              <div class="card-body p-3"> <!-- Reduced from p-4 -->
+                <div class="mb-2"> <!-- Reduced from mb-3 -->
                   <i class="fas fa-star text-warning"></i>
                   <i class="fas fa-star text-warning"></i>
                   <i class="fas fa-star text-warning"></i>
@@ -774,7 +929,7 @@
                   "Flawless from booking to return. The 24/7 support really
                   saved us when our flight was delayed."
                 </p>
-                <div class="d-flex align-items-center mt-3">
+                <div class="d-flex align-items-center mt-2"> <!-- Reduced from mt-3 -->
                   <img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle me-3" width="50"
                     alt="John" />
                   <div>
@@ -794,7 +949,7 @@
       <div class="container">
         <h2 class="text-center section-title">How It Works</h2>
 
-        <div class="row g-4">
+        <div class="row g-3"> <!-- Reduced from g-4 -->
           <div class="col-md-4 process-step">
             <div class="process-number">1</div>
             <h3>Choose Your Tour package</h3>
@@ -819,7 +974,7 @@
     <!-- Stats Section -->
     <section id="stats" class="section-narrow">
       <div class="container">
-        <div class="row text-center g-4">
+        <div class="row text-center g-3"> <!-- Reduced from g-4 -->
           <div class="col-6 col-md-3">
             <div class="stat-number">10,000</div>
             <p class="text-muted">Happy Clients</p>
@@ -844,11 +999,11 @@
     <section id="team" class="bg-light section-narrow">
       <div class="container">
         <h2 class="text-center section-title">Our Team</h2>
-        <p class="text-center lead mb-5">
+        <p class="text-center lead mb-4"> <!-- Reduced from mb-5 -->
           Meet the passionate professionals behind your perfect trip
         </p>
 
-        <div class="row g-4 justify-content-center">
+        <div class="row g-3 justify-content-center"> <!-- Reduced from g-4 -->
           <div class="col-md-4 col-lg-3 text-center">
             <img src="static/img/IMG_1274s.PNG" class="profile-circle mb-3" alt="Team Member" />
             <h4>Mr. Kyamuwendo Oscar</h4>
@@ -876,13 +1031,13 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact-section py-5 bg-light">
+    <section id="contact" class="contact-section py-4 bg-light"> <!-- Reduced from py-5 -->
       <div class="container">
         <h2 class="text-center section-title">We'd Love to Hear From You</h2>
-        <div class="row text-center g-4">
+        <div class="row text-center g-3"> <!-- Reduced from g-4 -->
           <div class="col-md-6 col-lg-3">
-            <div class="contact-box shadow-sm p-4 bg-white rounded">
-              <div class="mb-3">
+            <div class="contact-box shadow-sm bg-white rounded">
+              <div class="mb-2"> <!-- Reduced from mb-3 -->
                 <i class="bi bi-telephone-fill fs-2"></i>
               </div>
               <h5 class="fw-bold">Phone Number</h5>
@@ -892,8 +1047,8 @@
           </div>
 
           <div class="col-md-6 col-lg-3">
-            <div class="contact-box shadow-sm p-4 bg-white rounded">
-              <div class="mb-3">
+            <div class="contact-box shadow-sm bg-white rounded">
+              <div class="mb-2"> <!-- Reduced from mb-3 -->
                 <i class="bi bi-envelope-fill fs-2"></i>
               </div>
               <h5 class="fw-bold">Email</h5>
@@ -902,8 +1057,8 @@
           </div>
 
           <div class="col-md-6 col-lg-3">
-            <div class="contact-box shadow-sm p-4 bg-white rounded">
-              <div class="mb-3">
+            <div class="contact-box shadow-sm bg-white rounded">
+              <div class="mb-2"> <!-- Reduced from mb-3 -->
                 <i class="bi bi-geo-alt-fill fs-2"></i>
               </div>
               <h5 class="fw-bold">Location</h5>
@@ -915,8 +1070,8 @@
           </div>
 
           <div class="col-md-6 col-lg-3">
-            <div class="contact-box shadow-sm p-4 bg-white rounded">
-              <div class="mb-3">
+            <div class="contact-box shadow-sm bg-white rounded">
+              <div class="mb-2"> <!-- Reduced from mb-3 -->
                 <i class="bi bi-clock-fill fs-2"></i>
               </div>
               <h5 class="fw-bold">Working Hours</h5>
