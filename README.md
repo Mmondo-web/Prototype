@@ -90,16 +90,11 @@ chmod +x start.sh
 ./start.sh
 ```
 
-2. **Create an admin inside Docker:**
 
-```bash
-docker exec -it first-prototype-app-1 python -m app.create_admin
-```
-
-3. **Customer Sign-Up/Login:**  
+2. **Customer Sign-Up/Login:**  
    Use the app interface to register and log in.
 
-4. **Stop the services:**
+3. **Stop the services:**
 
 ```bash
 Ctrl + C
