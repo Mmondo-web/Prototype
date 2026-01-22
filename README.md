@@ -78,27 +78,6 @@
 python -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python -m uvicorn app.main:app --reload --host localhost
 ```
 
-2. **Admin Sign-In:**
-
-Use the following credentials:
-
-- **Email:** `mutalegeorge367@gmail.com`
-- **Password:** `Operator01@#`
-
-Alternatively, create a new admin via terminal:
-
-```bash
-python -m app.create_admin
-```
-
-3. **Customer Sign-In:**
-
-Use the following credentials:
-
-- **Email:** `george.mutale@stud.th-deg.de`
-- **Password:** `Tourist01@#`
-
----
 
 ### 🐳 Using Docker
 
