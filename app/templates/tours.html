@@ -19,63 +19,64 @@
       --navbar-bg: #1a1a1a;
       --footer-bg: #1a1a1a;
     }
-    
+
     /* Fix for navbar covering content */
     body {
-      padding-top: 76px; /* Height of navbar */
+      padding-top: 76px;
+      /* Height of navbar */
     }
-    
+
     /* Navbar with Dark Color (matching footer) */
     .navbar-custom {
       background-color: var(--navbar-bg) !important;
       background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
       border-bottom: 3px solid var(--primary-color);
     }
-    
+
     .navbar-custom .navbar-nav .nav-link {
       color: rgba(255, 255, 255, 0.9) !important;
       transition: all 0.3s ease;
     }
-    
+
     .navbar-custom .navbar-nav .nav-link:hover,
     .navbar-custom .navbar-nav .nav-link.active {
       color: white !important;
       background-color: rgba(234, 88, 12, 0.2);
       border-radius: 5px;
     }
-    
+
     .navbar-custom .navbar-brand {
       color: white !important;
       font-weight: 700;
       font-size: 1.5rem;
     }
-    
+
     .navbar-custom .navbar-brand:hover {
       color: var(--primary-light) !important;
     }
-    
+
     .navbar-custom .btn-outline-light {
       border-color: rgba(255, 255, 255, 0.3);
       color: rgba(255, 255, 255, 0.9);
     }
-    
+
     .navbar-custom .btn-outline-light:hover {
       background-color: var(--primary-color);
       border-color: var(--primary-color);
       color: white !important;
     }
-    
+
     .navbar-custom .btn-light {
       background-color: var(--primary-color);
       color: white !important;
       border: 1px solid var(--primary-color);
     }
-    
+
     .navbar-custom .btn-light:hover {
       background-color: var(--primary-dark);
       border-color: var(--primary-dark);
     }
-    
+
     .user-avatar {
       width: 32px;
       height: 32px;
@@ -83,29 +84,29 @@
       object-fit: cover;
       border: 2px solid rgba(234, 88, 12, 0.5);
     }
-    
+
     /* Dropdown menu styling */
     .navbar-custom .dropdown-menu {
       background-color: #2c2c2c;
       border: 1px solid rgba(234, 88, 12, 0.2);
     }
-    
+
     .navbar-custom .dropdown-item {
       color: #ddd;
     }
-    
+
     .navbar-custom .dropdown-item:hover {
       background-color: rgba(234, 88, 12, 0.2);
       color: white;
     }
-    
+
     /* Footer with Dark Color */
     .footer {
       background-color: var(--footer-bg);
       background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
       border-top: 4px solid var(--primary-color);
     }
-    
+
     .footer-link {
       color: #ddd !important;
       text-decoration: none;
@@ -113,12 +114,12 @@
       display: inline-block;
       padding: 3px 0;
     }
-    
+
     .footer-link:hover {
       color: var(--primary-light) !important;
       padding-left: 5px;
     }
-    
+
     .social-icon {
       display: inline-block;
       width: 36px;
@@ -131,23 +132,23 @@
       color: white;
       transition: all 0.3s ease;
     }
-    
+
     .social-icon:hover {
       background-color: var(--primary-color);
       transform: translateY(-3px);
     }
-    
+
     .footer .btn-info {
       background-color: var(--primary-color);
       border-color: var(--primary-color);
       color: white;
     }
-    
+
     .footer .btn-info:hover {
       background-color: var(--primary-dark);
       border-color: var(--primary-dark);
     }
-    
+
     /* Tour Card Styles */
     .tour-card {
       border: 1px solid #e0e0e0;
@@ -159,14 +160,14 @@
       color: inherit;
       display: block;
     }
-    
+
     .tour-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 20px rgba(234, 88, 12, 0.1);
       border-color: var(--primary-light);
       cursor: pointer;
     }
-    
+
     .tour-badge {
       position: absolute;
       top: 15px;
@@ -178,7 +179,7 @@
       font-size: 0.85rem;
       font-weight: 500;
     }
-    
+
     .tour-price {
       position: absolute;
       top: 15px;
@@ -190,7 +191,7 @@
       font-weight: 600;
       font-size: 1.1rem;
     }
-    
+
     .tour-difficulty {
       display: inline-block;
       padding: 4px 12px;
@@ -199,40 +200,40 @@
       font-weight: 500;
       margin-bottom: 10px;
     }
-    
+
     .difficulty-moderate {
       background-color: #ffc107;
       color: #000;
     }
-    
+
     .difficulty-easy {
       background-color: #28a745;
       color: white;
     }
-    
+
     .difficulty-challenging {
       background-color: #dc3545;
       color: white;
     }
-    
+
     .tour-location {
       color: #6c757d;
       font-size: 0.95rem;
     }
-    
+
     .tour-duration {
       color: #6c757d;
       font-size: 0.95rem;
     }
-    
+
     .tour-rating {
       color: #ffc107;
     }
-    
+
     .tour-rating .bi-star {
       color: #ddd;
     }
-    
+
     .cancellation-policy {
       padding: 8px 12px;
       background-color: #f8f9fa;
@@ -240,27 +241,27 @@
       font-size: 0.9rem;
       margin-top: 15px;
     }
-    
+
     .refund-full {
       color: #28a745;
       font-weight: 600;
     }
-    
+
     .refund-high {
       color: #20c997;
       font-weight: 600;
     }
-    
+
     .refund-medium {
       color: #ffc107;
       font-weight: 600;
     }
-    
+
     .refund-low {
       color: #dc3545;
       font-weight: 600;
     }
-    
+
     .tour-image-placeholder {
       height: 200px;
       background: linear-gradient(135deg, var(--primary-color) 0%, #fd7238 100%);
@@ -272,13 +273,13 @@
       position: relative;
       overflow: hidden;
     }
-    
+
     .tour-image-placeholder img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-    
+
     .tour-image-placeholder .placeholder-text {
       position: absolute;
       bottom: 0;
@@ -290,7 +291,7 @@
       font-size: 0.9rem;
       text-align: center;
     }
-    
+
     /* Placeholder image styling */
     .placeholder-image {
       display: flex;
@@ -300,54 +301,54 @@
       height: 100%;
       width: 100%;
     }
-    
+
     .placeholder-image .bi-image {
       font-size: 3rem;
       margin-bottom: 10px;
       opacity: 0.7;
     }
-    
+
     /* Primary color buttons */
     .btn-primary {
       background-color: var(--primary-color);
       border-color: var(--primary-color);
     }
-    
+
     .btn-primary:hover {
       background-color: var(--primary-dark);
       border-color: var(--primary-dark);
     }
-    
+
     .btn-outline-primary {
       color: var(--primary-color);
       border-color: var(--primary-color);
     }
-    
+
     .btn-outline-primary:hover {
       background-color: var(--primary-color);
       border-color: var(--primary-color);
       color: white;
     }
-    
+
     /* Filter section styles */
     .filter-section {
       background: white;
       border-radius: 10px;
       padding: 1.5rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
       margin-bottom: 1.5rem;
     }
-    
+
     .search-box {
       position: relative;
     }
-    
+
     .search-box .form-control {
       padding-left: 40px;
       border-radius: 25px;
       border: 1px solid #ddd;
     }
-    
+
     .search-box .bi-search {
       position: absolute;
       left: 15px;
@@ -355,46 +356,46 @@
       transform: translateY(-50%);
       color: #6c757d;
     }
-    
+
     .filter-dropdown {
       position: relative;
     }
-    
+
     .filter-dropdown .form-select {
       border-radius: 25px;
       border: 1px solid #ddd;
       cursor: pointer;
     }
-    
+
     .clear-filters-btn {
       color: var(--primary-color);
       text-decoration: none;
       font-weight: 500;
     }
-    
+
     .clear-filters-btn:hover {
       text-decoration: underline;
       color: var(--primary-dark);
     }
-    
+
     /* Header text styles */
     .header-title {
       color: var(--primary-dark);
       font-weight: 700;
     }
-    
+
     .tour-count {
       color: var(--primary-color);
       font-weight: 600;
     }
-    
+
     .tour-header {
       background-color: #f8f9fa;
       border-radius: 10px;
       padding: 2rem;
       margin-bottom: 2rem;
     }
-    
+
     /* Fake data styling */
     .fake-data-tag {
       font-size: 0.8rem;
@@ -438,50 +439,52 @@
 
       <div class="d-flex align-items-center gap-2">
         {% if user %}
-          <!-- Enhanced User Dropdown -->
-          <div class="dropdown">
-            <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" role="button" 
-               data-bs-toggle="dropdown" aria-expanded="false">
-              {% if user.picture %}
-              <img src="{{ user.picture }}" alt="Profile" class="user-avatar me-2">
-              {% else %}
-              <i class="bi bi-person-circle me-2" style="color: var(--primary-light);"></i>
-              {% endif %}
-              {{ user.full_name }}
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="/profile">
+        <!-- Enhanced User Dropdown -->
+        <div class="dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            {% if user.picture %}
+            <img src="{{ user.picture }}" alt="Profile" class="user-avatar me-2">
+            {% else %}
+            <i class="bi bi-person-circle me-2" style="color: var(--primary-light);"></i>
+            {% endif %}
+            {{ user.full_name }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="/profile">
                 <i class="bi bi-person me-2"></i>My Profile
               </a></li>
-              <li><a class="dropdown-item" href="/my-bookings">
+            <li><a class="dropdown-item" href="/my-bookings">
                 <i class="bi bi-calendar-check me-2"></i>My Bookings
               </a></li>
-              <li><hr class="dropdown-divider" style="border-color: rgba(255,255,255,0.1);"></li>
-              {% if user.newsletter_subscribed %}
-              <li>
-                <form action="/user/unsubscribe_newsletter" method="post" class="m-0">
-                  <button type="submit" class="dropdown-item text-warning">
-                    <i class="bi bi-bell-slash me-2"></i>Unsubscribe
-                  </button>
-                </form>
-              </li>
-              {% else %}
-              <li>
-                <form action="/subscribe_newsletter" method="post" class="m-0">
-                  <button type="submit" class="dropdown-item text-info">
-                    <i class="bi bi-bell me-2"></i>Subscribe
-                  </button>
-                </form>
-              </li>
-              {% endif %}
-              <li><a class="dropdown-item text-danger" href="/logout">
+            <li>
+              <hr class="dropdown-divider" style="border-color: rgba(255,255,255,0.1);">
+            </li>
+            {% if user.newsletter_subscribed %}
+            <li>
+              <form action="/user/unsubscribe_newsletter" method="post" class="m-0">
+                <button type="submit" class="dropdown-item text-warning">
+                  <i class="bi bi-bell-slash me-2"></i>Unsubscribe
+                </button>
+              </form>
+            </li>
+            {% else %}
+            <li>
+              <form action="/subscribe_newsletter" method="post" class="m-0">
+                <button type="submit" class="dropdown-item text-info">
+                  <i class="bi bi-bell me-2"></i>Subscribe
+                </button>
+              </form>
+            </li>
+            {% endif %}
+            <li><a class="dropdown-item text-danger" href="/logout">
                 <i class="bi bi-box-arrow-right me-2"></i>Logout
               </a></li>
-            </ul>
-          </div>
+          </ul>
+        </div>
         {% else %}
-          <a class="btn btn-outline-light btn-sm" href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
-          <a class="btn btn-light btn-sm" href="/signup"><i class="bi bi-person-plus"></i> Signup</a>
+        <a class="btn btn-outline-light btn-sm" href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+        <a class="btn btn-light btn-sm" href="/signup"><i class="bi bi-person-plus"></i> Signup</a>
         {% endif %}
       </div>
 
@@ -493,8 +496,9 @@
       <!-- New Tour Header Section -->
       <div class="tour-header mb-4">
         <h1 class="header-title mb-3">Explore East Africa Tours</h1>
-        <p class="lead mb-4">Find your perfect adventure from <span class="tour-count">{{ tours|length if tours else 0 }}</span> available tours</p>
-        
+        <p class="lead mb-4">Find your perfect adventure from <span class="tour-count">{{ tours|length if tours else 0
+            }}</span> available tours</p>
+
         <!-- Filters Section -->
         <div class="filter-section">
           <div class="row g-3 align-items-end">
@@ -505,7 +509,7 @@
                 <input type="text" class="form-control" placeholder="Search tours...">
               </div>
             </div>
-            
+
             <!-- Country Filter -->
             <div class="col-lg-2 col-md-6">
               <div class="filter-dropdown">
@@ -518,7 +522,7 @@
                 </select>
               </div>
             </div>
-            
+
             <!-- Category Filter -->
             <div class="col-lg-2 col-md-6">
               <div class="filter-dropdown">
@@ -531,7 +535,7 @@
                 </select>
               </div>
             </div>
-            
+
             <!-- Price Filter -->
             <div class="col-lg-2 col-md-6">
               <div class="filter-dropdown">
@@ -543,7 +547,7 @@
                 </select>
               </div>
             </div>
-            
+
             <!-- Clear Filters Button -->
             <div class="col-lg-2 col-md-6">
               <a href="#" class="clear-filters-btn d-block text-end">
@@ -552,7 +556,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Results Count -->
         <div class="d-flex justify-content-between align-items-center mt-3">
           <h2 class="h5 mb-0">Showing <span class="tour-count">{{ tours|length if tours else 0 }}</span> tours</h2>
@@ -584,196 +588,115 @@
       <!-- Dynamic Tour Grid Layout -->
       <div class="row g-4 mb-5">
         {% if tours and tours|length > 0 %}
-          {% for tour in tours %}
-          <div class="col-lg-4 col-md-6">
-            <!-- Entire tour card is now clickable -->
-            <a href="/tour/{{ tour.id if tour.id else '#' }}" class="tour-card">
-              <div class="position-relative">
-                <div class="tour-image-placeholder">
-                  {% if tour.images and tour.images|length > 0 and tour.images[0].image_url %}
-                    <img src="{{ tour.images[0].image_url }}" alt="{{ tour.title }}">
-                  {% else %}
-                    <!-- Fake tour images based on category -->
-                    <div class="placeholder-image">
-                      {% if tour.category == 'Wildlife' %}
-                        <i class="bi bi-binoculars-fill"></i>
-                        <div class="placeholder-text">Wildlife Safari Preview</div>
-                      {% elif tour.category == 'Culture' %}
-                        <i class="bi bi-people-fill"></i>
-                        <div class="placeholder-text">Cultural Experience Preview</div>
-                      {% elif tour.category == 'Adventure' %}
-                        <i class="bi bi-compass-fill"></i>
-                        <div class="placeholder-text">Adventure Preview</div>
-                      {% elif tour.category == 'Luxury' %}
-                        <i class="bi bi-stars"></i>
-                        <div class="placeholder-text">Luxury Tour Preview</div>
-                      {% else %}
-                        <i class="bi bi-image"></i>
-                        <div class="placeholder-text">Tour Preview Image</div>
-                      {% endif %}
-                    </div>
-                  {% endif %}
+        {% for tour in tours %}
+        <div class="col-lg-4 col-md-6">
+          <!-- Entire tour card is now clickable -->
+          <a href="/tour/{{ tour.id if tour.id else '#' }}" class="tour-card">
+            <div class="position-relative">
+              <div class="tour-image-placeholder">
+                {% if tour.images and tour.images|length > 0 and tour.images[0].image_url %}
+                <img src="{{ tour.images[0].image_url }}" alt="{{ tour.title }}">
+                {% else %}
+                <!-- Fallback placeholder image -->
+                <div class="placeholder-image">
+                  <i class="bi bi-image"></i>
+                  <div class="placeholder-text">Tour Preview</div>
                 </div>
-                <span class="tour-badge">{{ tour.category if tour.category else 'Tour' }}</span>
-                <span class="tour-price">${{ tour.price if tour.price else (range(800, 3500)|random) }}</span>
+                {% endif %}
               </div>
-              <div class="p-4">
-                <span class="tour-difficulty 
-                  {% if tour.difficulty %}difficulty-{{ tour.difficulty|lower }}
+              <!-- Removed category badge since it's not in your model -->
+              <span class="tour-price">${{ "%.2f"|format(tour.price) if tour.price else '0.00' }}</span>
+            </div>
+            <div class="p-4">
+              <!-- Removed difficulty badge since it's not in your model -->
+              <h3 class="h5 fw-bold mb-3">{{ tour.title if tour.title else 'Untitled Tour' }}</h3>
+              <p class="mb-3">
+                {% if tour.description %}
+                {{ tour.description[:150] }}...
+                {% else %}
+                No description available
+                {% endif %}
+              </p>
+
+              <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-geo-alt text-primary me-2"></i>
+                <span class="tour-location">
+                  {% if tour.locations %}
+                  {{ tour.locations }}
                   {% else %}
-                    {% set difficulties = ['easy', 'moderate', 'challenging'] %}
-                    difficulty-{{ difficulties|random }}
-                  {% endif %}">
-                  {{ tour.difficulty if tour.difficulty else (['Easy', 'Moderate', 'Challenging']|random) }}
+                  {{ tour.country if tour.country else 'Location not specified' }}
+                  {% endif %}
                 </span>
-                <h3 class="h5 fw-bold mb-3">{{ tour.title if tour.title else 'Untitled Tour' }}</h3>
-                <p class="mb-3">
-                  {% if tour.description %}
-                    {{ tour.description[:150] }}...
-                  {% else %}
-                    <!-- Fake tour descriptions based on category -->
-                    {% if tour.category == 'Wildlife' %}
-                      Experience the breathtaking wildlife of East Africa. Spot the Big Five in their natural habitat...
-                    {% elif tour.category == 'Culture' %}
-                      Immerse yourself in the rich cultural heritage of East African communities. Traditional dances...
-                    {% elif tour.category == 'Adventure' %}
-                      Embark on an unforgettable adventure through East Africa's most stunning landscapes...
-                    {% elif tour.category == 'Luxury' %}
-                      Indulge in a luxurious East African experience with premium accommodations and exclusive access...
-                    {% else %}
-                      Discover the beauty and diversity of East Africa with our expertly curated tour experience...
-                    {% endif %}
-                  {% endif %}
-                </p>
-                
-                <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-geo-alt text-primary me-2"></i>
-                  <span class="tour-location">
-                    {% if tour.location %}
-                      {{ tour.location }}
-                    {% else %}
-                      <!-- Fake locations in East Africa -->
-                      {% set locations = [
-                        'Bwindi Impenetrable Forest, Uganda',
-                        'Serengeti National Park, Tanzania', 
-                        'Masai Mara, Kenya',
-                        'Volcanoes National Park, Rwanda',
-                        'Ngorongoro Crater, Tanzania',
-                        'Queen Elizabeth NP, Uganda',
-                        'Amboseli National Park, Kenya'
-                      ] %}
-                      {{ locations|random }}
-                    {% endif %}
+              </div>
+
+              <div class="d-flex align-items-center mb-3">
+                <i class="bi bi-clock text-primary me-2"></i>
+                <span class="tour-duration">
+                  {{ tour.duration if tour.duration else 'Duration not specified' }}
+                </span>
+              </div>
+
+              <div class="d-flex align-items-center mb-3">
+                <i class="bi bi-people text-primary me-2"></i>
+                <span class="tour-participants">
+                  Max: {{ tour.max_participants if tour.max_participants else 20 }} participants
+                </span>
+              </div>
+
+              <div class="d-flex align-items-center mb-3">
+                <i class="bi bi-tag text-primary me-2"></i>
+                <span class="tour-type">
+                  {{ tour.tour_type|capitalize if tour.tour_type else 'Normal' }} Tour
+                </span>
+              </div>
+
+              <div class="cancellation-policy mb-3">
+                <div class="d-flex justify-content-between">
+                  <span>Cancellation Policy:</span>
+                  <span class="refund-policy">
+                    {{ tour.cancellation_policy if tour.cancellation_policy else 'Not specified' }}
                   </span>
-                </div>
-                
-                <div class="d-flex align-items-center mb-3">
-                  <i class="bi bi-clock text-primary me-2"></i>
-                  <span class="tour-duration">
-                    {% if tour.duration %}
-                      {{ tour.duration }}
-                    {% else %}
-                      <!-- Fake durations -->
-                      {% set durations = ['3 days', '5 days', '7 days', '10 days', '14 days'] %}
-                      {{ durations|random }}
-                    {% endif %}
-                  </span>
-                </div>
-                
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                  <div class="tour-rating">
-                    {% if tour.rating %}
-                      {% set rating = tour.rating|float %}
-                      {% set full_stars = rating|int %}
-                      {% set has_half_star = (rating - full_stars) >= 0.5 %}
-                    {% else %}
-                      <!-- Generate random rating between 3.5 and 5.0 -->
-                      {% set rating = (range(35, 50)|random) / 10 %}
-                      {% set full_stars = rating|int %}
-                      {% set has_half_star = (rating - full_stars) >= 0.5 %}
-                    {% endif %}
-                    
-                    {% for i in range(5) %}
-                      {% if i < full_stars %}
-                        <i class="bi bi-star-fill"></i>
-                      {% elif i == full_stars and has_half_star %}
-                        <i class="bi bi-star-half"></i>
-                      {% else %}
-                        <i class="bi bi-star"></i>
-                      {% endif %}
-                    {% endfor %}
-                    <span class="ms-1">
-                      {{ rating|round(1) }}
-                      {% if tour.review_count %}
-                        ({{ tour.review_count }} reviews)
-                      {% else %}
-                        <!-- Generate random review count -->
-                        ({{ range(5, 150)|random }} reviews)
-                      {% endif %}
-                    </span>
-                  </div>
-                </div>
-                
-                <div class="cancellation-policy">
-                  <div class="d-flex justify-content-between">
-                    <span>Cancellation Policy</span>
-                    <span class="
-                      {% if tour.refund_policy %}
-                        {% if 'Full' in tour.refund_policy %}refund-full
-                        {% elif '50%' in tour.refund_policy %}refund-high
-                        {% elif '25%' in tour.refund_policy %}refund-medium
-                        {% else %}refund-low{% endif %}
-                      {% else %}
-                        {% set policies = ['refund-full', 'refund-high', 'refund-medium', 'refund-low'] %}
-                        {{ policies|random }}
-                      {% endif %}
-                    ">
-                      {% if tour.refund_policy %}
-                        {{ tour.refund_policy }}
-                      {% else %}
-                        <!-- Random cancellation policies -->
-                        {% set policy_text = ['Full Refund', '50% Refund', '25% Refund', 'No Refund']|random %}
-                        {{ policy_text }}
-                      {% endif %}
-                    </span>
-                  </div>
-                </div>
-                
-                <!-- Fake hotel/accommodation info -->
-                <div class="mt-2">
-                  <small class="fake-data-tag">
-                    <i class="bi bi-building me-1"></i>
-                    {% set hotels = [
-                      'Luxury lodge accommodation',
-                      'Boutique hotel included',
-                      'Premium tented camp',
-                      '4-star hotel package',
-                      'Eco-friendly resort'
-                    ] %}
-                    {{ hotels|random }}
-                  </small>
                 </div>
               </div>
-            </a>
-          </div>
-          {% endfor %}
-        {% else %}
-          <!-- No tours available message -->
-          <div class="col-12 text-center my-5">
-            <div class="card border-0 shadow-sm">
-              <div class="card-body py-5">
-                <i class="bi bi-compass display-1 text-muted mb-4"></i>
-                <h3 class="text-muted mb-3">No tours available</h3>
-                <p class="text-muted mb-4">Check back soon for new adventures!</p>
-                <a href="/" class="btn btn-primary">Explore Homepage</a>
+
+              <!-- Optional risk warning if available -->
+              {% if tour.risk %}
+              <div class="mt-2">
+                <small class="text-warning">
+                  <i class="bi bi-exclamation-triangle me-1"></i>
+                  {{ tour.risk[:100] }}{% if tour.risk|length > 100 %}...{% endif %}
+                </small>
+              </div>
+              {% endif %}
+
+              <!-- Tour status indicator -->
+              <div class="mt-3 pt-3 border-top">
+                <small class="{% if tour.is_active %}text-success{% else %}text-danger{% endif %}">
+                  <i class="bi bi-circle-fill me-1"></i>
+                  {{ 'Available' if tour.is_active else 'Not Available' }}
+                </small>
               </div>
             </div>
+          </a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <!-- No tours available message -->
+        <div class="col-12 text-center my-5">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body py-5">
+              <i class="bi bi-compass display-1 text-muted mb-4"></i>
+              <h3 class="text-muted mb-3">No tours available</h3>
+              <p class="text-muted mb-4">Check back soon for new adventures!</p>
+              <a href="/" class="btn btn-primary">Explore Homepage</a>
+            </div>
           </div>
+        </div>
         {% endif %}
       </div>
     </div>
   </main>
-  
+
   <!-- Footer with Dark Color -->
   <footer class="footer text-white pt-5 pb-4">
     <div class="container">

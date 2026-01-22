@@ -1,8 +1,8 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime
 
 Base = declarative_base()
 
@@ -14,23 +14,28 @@ class User(Base):
     full_name = Column(String(100))
     is_active = Column(Boolean, default=True)
     is_admin = Column(Boolean, default=False)
-    # In models.py, add to the User class:
+    phone = Column(String(50), nullable=True)
+    bio = Column(Text, nullable=True)
     is_superadmin = Column(Boolean, default=False)
     newsletter_subscribed = Column(Boolean, default=False)
-    unsubscribe_token=Column(String(36), default=lambda:str(uuid.uuid4()))
+    unsubscribe_token = Column(String(36), default=lambda: str(uuid.uuid4()))
     company_name = Column(String(100), nullable=True)
     company_link = Column(String(200), nullable=True)
     picture = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    # Add OAuth fields by oscar
+    # Add OAuth fields
     google_id = Column(String(255), unique=True, index=True, nullable=True)
     apple_id = Column(String(255), unique=True, index=True, nullable=True)
     email_verified = Column(Boolean, default=False)
     
-    # Track auth method by oscar
+    # Track auth method
     auth_method = Column(String, default="email")
+    
+    # Relationships
     created_tours = relationship("Tour", back_populates="creator")
+    bookings = relationship("Booking", back_populates="user")
+    reviews = relationship("Review", back_populates="user")
 
 
 class Session(Base):
@@ -53,8 +58,7 @@ class Tour(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     is_active = Column(Boolean, default=True)
-    images = relationship("TourImage", backref="tour", cascade="all, delete-orphan")
-
+    
     tour_type = Column(String(50), default='normal')
     risk = Column(String(500), nullable=True)
     country = Column(String(100), nullable=False)
@@ -63,8 +67,12 @@ class Tour(Base):
     not_included = Column(String(1000), nullable=False)
     cancellation_policy = Column(String(500), nullable=False)
     creator_id = Column(Integer, ForeignKey("users.id"), nullable=True)
-    #creator = relationship("User", backref="created_tours")
+    
+    # Relationships
+    images = relationship("TourImage", back_populates="tour", cascade="all, delete-orphan")
     creator = relationship("User", back_populates="created_tours")
+    bookings = relationship("Booking", back_populates="tour", cascade="all, delete-orphan")
+    reviews = relationship("Review", back_populates="tour", cascade="all, delete-orphan")
 
     def calculate_price(self, adults: int, kids: int, is_private: bool = False) -> float:
         base_price = (adults + kids) * self.price
@@ -77,6 +85,9 @@ class TourImage(Base):
     tour_id = Column(Integer, ForeignKey("tours.id"))
     image_url = Column(String(200))
     is_primary = Column(Boolean, default=False)
+    
+    # Relationship
+    tour = relationship("Tour", back_populates="images")
 
 
 class Booking(Base):
@@ -90,90 +101,79 @@ class Booking(Base):
     total_price = Column(Float)
     is_private = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
-    user = relationship("User", backref="bookings")
-    tour = relationship("Tour", backref="bookings")
     payment_method = Column(String(20))
     payment_id = Column(String(50))
     payment_status = Column(String)
+    status = Column(String(20), default='pending')
     deleted_at = Column(DateTime, nullable=True)
     cancelled_at = Column(DateTime, nullable=True)
     donation = Column(Float, default=0.0)
     special_requirements = Column(String(500), nullable=True)
+    
+    # Relationships
+    user = relationship("User", back_populates="bookings")
+    tour = relationship("Tour", back_populates="bookings")
 
     @property
     def participant_count(self):
         return self.adults + self.kids
-    # ======================================================
-# ============ Added by Bammez (CULTURE SYSTEM) ============
-# ======================================================
+
 
 class Country(Base):
     """
     Stores East African culture information for the Mmondo Adventures
     cultural bank page.
-
-    This is NOT for tours, but for culture display:
-    Uganda, Kenya, Tanzania, Rwanda, Burundi, South Sudan, etc.
     """
-
     __tablename__ = "countries"
-
     id = Column(Integer, primary_key=True, index=True)
-
-    # Slug for urls like: /cultures#uganda
     slug = Column(String(50), unique=True, index=True)
-
-    # Country name (Uganda, Kenya, Tanzania...)
     name = Column(String(100), nullable=False)
-
-    # Country description (NEW FIELD)
-    description = Column(String(1000), nullable=True)  # <-- ADD THIS LINE
-
-    # Culture content
+    description = Column(String(1000), nullable=True)
     food = Column(String(1000), nullable=True)
     dress = Column(String(1000), nullable=True)
     traditions = Column(String(1500), nullable=True)
     tour_themes = Column(String(1000), nullable=True)
-
-    # YouTube video link (admin can change it anytime)
     video_url = Column(String(300), nullable=True)
     video_credit = Column(String(200), nullable=True)
-
-    # Optional testimonial about the culture
     testimonial = Column(String(1500), nullable=True)
-
-    # For badge display on UI
     badge_label = Column(String(50), nullable=True)
     badge_color = Column(String(50), nullable=True)
-
-    # ===== Added by Bammez: relationship to culture images =====
+    
+    # Relationship to culture images
     images = relationship(
-        "CountryImage",               # model name defined below
-        backref="country",            # access: image.country
-        cascade="all, delete-orphan"  # delete images when country is deleted
+        "CountryImage",
+        back_populates="country",
+        cascade="all, delete-orphan"
     )
-    # ===== CountryImage for culture gallery =====
-# ===== CountryImage for culture gallery =====
+
+
 class CountryImage(Base):
     """
     Image table for countries on the culture page.
-    Stores image URL + optional alt text.
     """
-
     __tablename__ = "country_images"
-
     id = Column(Integer, primary_key=True, index=True)
     country_id = Column(Integer, ForeignKey("countries.id"), index=True)
-
-    # URL to image file (e.g. /static/uploads/uganda1.jpg)
     image_url = Column(String(300), nullable=False)
-
-    # Optional alt text for accessibility
     alt_text = Column(String(200), nullable=True)
-
-    # Mark the main/hero image if you want
     is_primary = Column(Boolean, default=False)
-    
-    # Optional: Store filename and filepath for easier file management
     filename = Column(String(200), nullable=True)
     filepath = Column(String(500), nullable=True)
+    
+    # Relationship
+    country = relationship("Country", back_populates="images")
+
+
+class Review(Base):
+    __tablename__ = "reviews"
+    id = Column(Integer, primary_key=True, index=True)
+    tour_id = Column(Integer, ForeignKey("tours.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    rating = Column(Integer, nullable=False)  # 1-5
+    comment = Column(Text, nullable=True)
+    is_verified = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
+    # Relationships
+    tour = relationship("Tour", back_populates="reviews")
+    user = relationship("User", back_populates="reviews")
