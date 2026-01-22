@@ -1,6 +1,6 @@
 # MMONDO Web Application
 
-**MMONDO**is a platform that allows users to browse tours and view detailed information about each experience. Administrators can easily manage tour listings, ensuring up-to-date and accurate offerings. Our website connects East African tour operators with customers in the European market, helping bridge the gap and open new opportunities for them in the international tourism sector.
+**MMONDO** is a platform that allows users to browse tours and view detailed information about each experience. Administrators can easily manage tour listings, ensuring up-to-date and accurate offerings. Our website connects East African tour operators with customers in the European market, helping bridge the gap and open new opportunities for them in the international tourism sector.
 
 ---
 
