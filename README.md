@@ -15,25 +15,24 @@
 
 ## 📁 Project Structure
 
-├── app/ # Main application folder
-│ ├── templates/ # HTML templates
-│ ├── static/ # Static files (CSS, JS, images)
-│ ├── main.py # FastAPI application entry point
-│ ├── models.py # Database models
-│ ├── routes.py # Application routes
-│ └── ... # Other Python modules
-├── static/ # Public static assets
-├── test.db # SQLite database file
+```
+├── app/                    # Main application folder
+│   ├── templates/          # HTML templates
+│   ├── static/             # Static files (CSS, JS, images)
+│   ├── main.py             # FastAPI application entry point
+│   ├── models.py           # Database models
+│   ├── routes.py           # Application routes
+│   └── ...                 # Other Python modules
+├── static/                 # Public static assets
+├── test.db                 # SQLite database file
 ├── .gitignore
-├── Dockerfile # Docker configuration
-├── docker-compose.yaml # Docker Compose config
-├── requirements.txt # Python dependencies
-├── start.sh # Startup script
-├── Tests/ # pytest tests
-└── .github/workflows/ # GitHub Actions workflows
-
-yaml
-Copy code
+├── Dockerfile              # Docker configuration
+├── docker-compose.yaml     # Docker Compose config
+├── requirements.txt        # Python dependencies
+├── start.sh                # Startup script
+├── Tests/                  # pytest tests
+└── .github/workflows/      # GitHub Actions workflows
+```
 
 ---
 
@@ -58,42 +57,6 @@ Copy code
 
 ---
 
-## 🔐 Admin & Super Admin Management
-
-MMONDO uses a role-based access system to manage platform permissions.
-
-### User Roles
-- **Customer:** Default role on public registration
-- **Admin:** Manages tours, bookings, newsletters, and platform content
-- **Super Admin:** Creates and manages admin accounts
-
-### Admin Creation
-Admins can only be created by a **Super Admin** via:
-
-POST /register/admin
-
-csharp
-Copy code
-
-This endpoint is protected and cannot be accessed by normal users.
-
-### Super Admin Creation
-A Super Admin can be created via:
-
-POST /superadmin/create
-
-yaml
-Copy code
-
-This route is strictly restricted and intended for:
-- Initial system setup
-- Terminal-based execution
-- Secure environment-based access
-
-> ⚠️ It is recommended to disable this route after the first Super Admin is created.
-
----
-
 ## ⚙️ Setup and Running the Project
 
 ### Prerequisites
@@ -104,7 +67,37 @@ This route is strictly restricted and intended for:
 - Docker Compose (optional)
 
 ---
+## 🔐 Admin & Super Admin Management
 
+MMONDO uses a role-based access system to manage platform permissions.
+
+### User Roles
+
+Customer: Default role on public registration
+
+Admin: Manages tours, bookings, newsletters, and platform content
+
+Super Admin: Creates and manages admin accounts
+
+### Admin Creation
+
+Admins can only be created by a Super Admin via:
+####  /register/admin
+
+This endpoint is protected and cannot be accessed by normal users.
+
+### Super Admin Creation
+
+A Super Admin can be created via:
+####  /superadmin/create
+
+This route is strictly restricted and intended for:
+
+Initial system setup
+
+Terminal-based execution
+
+Secure environment-based access
 ## 🚀 Running the App
 
 ### ✅ Using Uvicorn (Local)
@@ -113,90 +106,76 @@ This route is strictly restricted and intended for:
 
 ```bash
 python -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python -m uvicorn app.main:app --reload --host localhost
-Sample Accounts
+```
 
-For testing purposes, the following sample accounts have been added. Replace the placeholders with your own emails and passwords as needed:
+2. **Superdmin Sign-In:**
 
-Super Admin:
+Use the following credentials:
 
-Email: <superadmin_email>
+- **Email:** `mutalegeorge367@gmail.com`
+- **Password:** `Operator01@#`
 
-Password: <superadmin_password>
 
-Admin:
+3. **Admin Sign-In:**
 
-Email: <admin_email>
+Use the following credentials:
 
-Password: <admin_password>
+- **Email:** `mutalegeorge367@gmail.com`
+- **Password:** `Operator01@#`
 
-Customer:
+Alternatively, create a new admin via terminal:
 
-Email: <customer_email>
 
-Password: <customer_password>
+4. **Customer Sign-In:**
 
-You can use these accounts to log in and explore the application features.
+Use the following credentials:
 
-🐳 Using Docker
-Docker creates a separate database. You must manually create admin and customer accounts inside the container.
+- **Email:** `george.mutale@stud.th-deg.de`
+- **Password:** `Tourist01@#`
 
-Build and run the services:
+---
 
-bash
-Copy code
+### 🐳 Using Docker
+
+> Docker creates a separate database. You must manually create admin and customer accounts inside the container.
+
+1. **Build and run the services:**
+
+```bash
 chmod +x start.sh
 ./start.sh
-Sample Accounts
+```
 
-The same sample accounts are available inside the container.
+2. **Customer Sign-Up/Login:**  
+   Use the app interface to register and log in.
 
-Stop the services:
+3. **Stop the services:**
 
-bash
-Copy code
+```bash
 Ctrl + C
 # Or stop the container manually
 docker ps
 docker stop <container_id>
-🤝 Contributing
-We welcome contributions!
-
-Steps to Contribute
-Fork the repository
-
-Create a new feature branch: git checkout -b feature-name
-
-Commit your changes: git commit -m "Description of changes"
-
-Push to your fork: git push origin feature-name
-
-Open a pull request
-
-Please follow standard coding practices and ensure your code passes tests.
-
-📄 License
-Specify the license for the project here. (e.g., MIT, Apache 2.0)
-
-yaml
-Copy code
+```
 
 ---
 
-✅ This version is **ready for GitHub Markdown**. All headings, code blocks, bullet points, and spacing match your original format.  
+## 🤝 Contributing
 
-If you want, I can also **add a small ASCII-style workflow diagram** like:
+We welcome contributions!
 
-Customer → Admin → Super Admin
+### Steps to Contribute
 
-vbnet
-Copy code
+1. Fork the repository
+2. Create a new feature branch: `git checkout -b feature-name`
+3. Commit your changes: `git commit -m "Description of changes"`
+4. Push to your fork: `git push origin feature-name`
+5. Open a pull request
 
-inside the Markdown to make it visually clear for GitHub.  
+Please follow standard coding practices and ensure your code passes tests.
 
-Do you want me to do that?
+---
 
+## 📄 License
 
-
-
-
-
+Specify the license for the project here. (e.g., MIT, Apache 2.0)
