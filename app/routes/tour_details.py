@@ -27,7 +27,7 @@ async def tour_details_page(
         "tour_details.html",
         {
             "request": request,
-            "title": f"{tour.title} - Pearl Tours",
+            "title": f"{tour.title} - Mmondo Adventures",
             "is_logged_in": user is not None,
             "user": user,
             "tour": tour

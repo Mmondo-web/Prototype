@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     <style>
         :root {
             --primary-color: #EA580C;
@@ -183,10 +184,25 @@
             font-weight: 500;
         }
 
-        .status-pending { background: #fff3cd; color: #856404; }
-        .status-confirmed { background: #d4edda; color: #155724; }
-        .status-declined { background: #f8d7da; color: #721c24; }
-        .status-cancelled { background: #f1f1f1; color: #6c757d; }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-declined {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-cancelled {
+            background: #f1f1f1;
+            color: #6c757d;
+        }
 
         /* Tour Cards */
         .tour-card {
@@ -301,8 +317,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Responsive */
@@ -310,15 +331,15 @@
             body {
                 padding-top: 70px;
             }
-            
+
             .stat-number {
                 font-size: 2rem;
             }
-            
+
             .dashboard-card {
                 padding: 20px;
             }
-            
+
             .nav-tabs-custom .nav-link {
                 padding: 10px 15px;
                 font-size: 0.9rem;
@@ -326,6 +347,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top shadow-lg">
@@ -333,11 +355,11 @@
             <a class="navbar-brand" href="/">
                 <i class="bi bi-gem me-2" style="color: var(--primary-light);"></i>MMONDO
             </a>
-            
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
@@ -368,12 +390,14 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="#profile" onclick="showTab('profile')">
-                                <i class="bi bi-person me-2"></i>Profile
-                            </a></li>
-                            <li><hr class="dropdown-divider"></li>
+                                    <i class="bi bi-person me-2"></i>Profile
+                                </a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item text-danger" href="/logout">
-                                <i class="bi bi-box-arrow-right me-2"></i>Logout
-                            </a></li>
+                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                </a></li>
                         </ul>
                     </li>
                 </ul>
@@ -390,7 +414,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
         {% endif %}
-        
+
         {% if request.session.get('error') %}
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             {{ request.session.get('error') }}
@@ -411,9 +435,11 @@
                     {% endif %}
                 </p>
             </div>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTourModal">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tourModal"
+                onclick="prepareCreateTour()">
                 <i class="bi bi-plus-circle me-2"></i> Create New Tour
             </button>
+
         </div>
 
         <!-- Statistics -->
@@ -518,25 +544,26 @@
                             <h4 class="fw-bold mb-4">Recent Activity</h4>
                             <div id="recentActivities">
                                 {% if recent_activities and recent_activities|length > 0 %}
-                                    {% for activity in recent_activities %}
-                                    <div class="d-flex align-items-start mb-3 pb-3 border-bottom">
-                                        <div class="me-3">
-                                            <div class="stat-icon {{ activity.type }}" style="width: 40px; height: 40px; font-size: 18px;">
-                                                <i class="bi bi-{{ activity.icon }}"></i>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <h6 class="fw-bold mb-1">{{ activity.title }}</h6>
-                                            <p class="text-muted small mb-1">{{ activity.description }}</p>
-                                            <small class="text-muted">{{ activity.time }}</small>
+                                {% for activity in recent_activities %}
+                                <div class="d-flex align-items-start mb-3 pb-3 border-bottom">
+                                    <div class="me-3">
+                                        <div class="stat-icon {{ activity.type }}"
+                                            style="width: 40px; height: 40px; font-size: 18px;">
+                                            <i class="bi bi-{{ activity.icon }}"></i>
                                         </div>
                                     </div>
-                                    {% endfor %}
+                                    <div>
+                                        <h6 class="fw-bold mb-1">{{ activity.title }}</h6>
+                                        <p class="text-muted small mb-1">{{ activity.description }}</p>
+                                        <small class="text-muted">{{ activity.time }}</small>
+                                    </div>
+                                </div>
+                                {% endfor %}
                                 {% else %}
-                                    <div class="text-center py-4">
-                                        <i class="bi bi-activity display-4 text-muted mb-3"></i>
-                                        <p class="text-muted">No recent activity</p>
-                                    </div>
+                                <div class="text-center py-4">
+                                    <i class="bi bi-activity display-4 text-muted mb-3"></i>
+                                    <p class="text-muted">No recent activity</p>
+                                </div>
                                 {% endif %}
                             </div>
                         </div>
@@ -566,42 +593,46 @@
                             </thead>
                             <tbody>
                                 {% if bookings and bookings|length > 0 %}
-                                    {% for booking in bookings %}
-                                    <tr>
-                                        <td>#{{ booking.id }}</td>
-                                        <td>{{ booking.tour.title[:20] if booking.tour else 'N/A' }}...</td>
-                                        <td>{{ booking.user.full_name if booking.user else 'N/A' }}</td>
-                                        <td>{{ booking.tour_date.strftime('%Y-%m-%d') if booking.tour_date else 'N/A' }}</td>
-                                        <td>${{ "%.2f"|format(booking.total_price) }}</td>
-                                        <td>
-                                            <span class="status-badge status-{{ booking.status }}">
-                                                {{ booking.status|capitalize }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <button class="btn btn-sm btn-outline-primary" onclick="viewBookingDetails({{ booking.id }})">
-                                                    <i class="bi bi-eye"></i>
-                                                </button>
-                                                {% if booking.status == 'pending' %}
-                                                <button class="btn btn-sm btn-success" onclick="updateBookingStatus({{ booking.id }}, 'confirmed')">
-                                                    <i class="bi bi-check"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-danger" onclick="updateBookingStatus({{ booking.id }}, 'declined')">
-                                                    <i class="bi bi-x"></i>
-                                                </button>
-                                                {% endif %}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
+                                {% for booking in bookings %}
+                                <tr>
+                                    <td>#{{ booking.id }}</td>
+                                    <td>{{ booking.tour.title[:20] if booking.tour else 'N/A' }}...</td>
+                                    <td>{{ booking.user.full_name if booking.user else 'N/A' }}</td>
+                                    <td>{{ booking.tour_date.strftime('%Y-%m-%d') if booking.tour_date else 'N/A' }}
+                                    </td>
+                                    <td>${{ "%.2f"|format(booking.total_price) }}</td>
+                                    <td>
+                                        <span class="status-badge status-{{ booking.status }}">
+                                            {{ booking.status|capitalize }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-sm btn-outline-primary"
+                                                onclick="viewBookingDetails({{ booking.id }})">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            {% if booking.status == 'pending' %}
+                                            <button class="btn btn-sm btn-success"
+                                                onclick="updateBookingStatus({{ booking.id }}, 'confirmed')">
+                                                <i class="bi bi-check"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger"
+                                                onclick="updateBookingStatus({{ booking.id }}, 'declined')">
+                                                <i class="bi bi-x"></i>
+                                            </button>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
                                 {% else %}
-                                    <tr>
-                                        <td colspan="7" class="text-center py-4">
-                                            <i class="bi bi-calendar-x display-4 text-muted mb-3"></i>
-                                            <p class="text-muted">No bookings yet</p>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td colspan="7" class="text-center py-4">
+                                        <i class="bi bi-calendar-x display-4 text-muted mb-3"></i>
+                                        <p class="text-muted">No bookings yet</p>
+                                    </td>
+                                </tr>
                                 {% endif %}
                             </tbody>
                         </table>
@@ -622,7 +653,8 @@
                                 <option value="declined">Declined</option>
                                 <option value="cancelled">Cancelled</option>
                             </select>
-                            <input type="date" class="form-control form-control-sm" id="bookingDateFilter" onchange="filterBookings()">
+                            <input type="date" class="form-control form-control-sm" id="bookingDateFilter"
+                                onchange="filterBookings()">
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -641,61 +673,72 @@
                             </thead>
                             <tbody id="bookingsTableBody">
                                 {% if bookings and bookings|length > 0 %}
-                                    {% for booking in bookings %}
-                                    <tr data-status="{{ booking.status }}" data-date="{{ booking.tour_date.strftime('%Y-%m-%d') if booking.tour_date else '' }}">
-                                        <td>#{{ booking.id }}</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                {% if booking.tour.images and booking.tour.images|length > 0 %}
-                                                <img src="{{ booking.tour.images[0].image_url }}" alt="{{ booking.tour.title }}" style="width: 40px; height: 40px; border-radius: 8px; margin-right: 10px; object-fit: cover;">
-                                                {% endif %}
-                                                <span>{{ booking.tour.title[:30] if booking.tour else 'N/A' }}...</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div>{{ booking.user.full_name if booking.user else 'N/A' }}</div>
-                                            <small class="text-muted">{{ booking.user.email if booking.user else 'N/A' }}</small>
-                                        </td>
-                                        <td>{{ booking.tour_date.strftime('%Y-%m-%d') if booking.tour_date else 'N/A' }}</td>
-                                        <td>{{ booking.adults + booking.kids }} ({{ booking.adults }}A, {{ booking.kids }}K)</td>
-                                        <td>${{ "%.2f"|format(booking.total_price) }}</td>
-                                        <td>
-                                            <span class="status-badge status-{{ booking.status }}">
-                                                {{ booking.status|capitalize }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <button class="btn btn-sm btn-outline-primary" onclick="viewBookingDetails({{ booking.id }})">
-                                                    <i class="bi bi-eye"></i>
-                                                </button>
-                                                {% if booking.status == 'pending' %}
-                                                <button class="btn btn-sm btn-success" onclick="updateBookingStatus({{ booking.id }}, 'confirmed')">
-                                                    <i class="bi bi-check"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-danger" onclick="updateBookingStatus({{ booking.id }}, 'declined')">
-                                                    <i class="bi bi-x"></i>
-                                                </button>
-                                                {% elif booking.status == 'confirmed' %}
-                                                <button class="btn btn-sm btn-warning" onclick="updateBookingStatus({{ booking.id }}, 'cancelled')">
-                                                    <i class="bi bi-x-circle"></i>
-                                                </button>
-                                                {% endif %}
-                                                <button class="btn btn-sm btn-outline-secondary" onclick="sendReminder({{ booking.id }})">
-                                                    <i class="bi bi-bell"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
+                                {% for booking in bookings %}
+                                <tr data-status="{{ booking.status }}"
+                                    data-date="{{ booking.tour_date.strftime('%Y-%m-%d') if booking.tour_date else '' }}">
+                                    <td>#{{ booking.id }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {% if booking.tour.images and booking.tour.images|length > 0 %}
+                                            <img src="{{ booking.tour.images[0].image_url }}"
+                                                alt="{{ booking.tour.title }}"
+                                                style="width: 40px; height: 40px; border-radius: 8px; margin-right: 10px; object-fit: cover;">
+                                            {% endif %}
+                                            <span>{{ booking.tour.title[:30] if booking.tour else 'N/A' }}...</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>{{ booking.user.full_name if booking.user else 'N/A' }}</div>
+                                        <small class="text-muted">{{ booking.user.email if booking.user else 'N/A'
+                                            }}</small>
+                                    </td>
+                                    <td>{{ booking.tour_date.strftime('%Y-%m-%d') if booking.tour_date else 'N/A' }}
+                                    </td>
+                                    <td>{{ booking.adults + booking.kids }} ({{ booking.adults }}A, {{ booking.kids }}K)
+                                    </td>
+                                    <td>${{ "%.2f"|format(booking.total_price) }}</td>
+                                    <td>
+                                        <span class="status-badge status-{{ booking.status }}">
+                                            {{ booking.status|capitalize }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-sm btn-outline-primary"
+                                                onclick="viewBookingDetails({{ booking.id }})">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            {% if booking.status == 'pending' %}
+                                            <button class="btn btn-sm btn-success"
+                                                onclick="updateBookingStatus({{ booking.id }}, 'confirmed')">
+                                                <i class="bi bi-check"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger"
+                                                onclick="updateBookingStatus({{ booking.id }}, 'declined')">
+                                                <i class="bi bi-x"></i>
+                                            </button>
+                                            {% elif booking.status == 'confirmed' %}
+                                            <button class="btn btn-sm btn-warning"
+                                                onclick="updateBookingStatus({{ booking.id }}, 'cancelled')">
+                                                <i class="bi bi-x-circle"></i>
+                                            </button>
+                                            {% endif %}
+                                            <button class="btn btn-sm btn-outline-secondary"
+                                                onclick="sendReminder({{ booking.id }})">
+                                                <i class="bi bi-bell"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
                                 {% else %}
-                                    <tr>
-                                        <td colspan="8" class="text-center py-5">
-                                            <i class="bi bi-calendar-x display-4 text-muted mb-3"></i>
-                                            <h5 class="mt-3">No Bookings Found</h5>
-                                            <p class="text-muted">When customers book your tours, they'll appear here.</p>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td colspan="8" class="text-center py-5">
+                                        <i class="bi bi-calendar-x display-4 text-muted mb-3"></i>
+                                        <h5 class="mt-3">No Bookings Found</h5>
+                                        <p class="text-muted">When customers book your tours, they'll appear here.</p>
+                                    </td>
+                                </tr>
                                 {% endif %}
                             </tbody>
                         </table>
@@ -708,57 +751,63 @@
                 <div class="dashboard-card">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h4 class="fw-bold mb-0">Your Tours</h4>
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createTourModal">
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tourModal"
+                            onclick="prepareCreateTour()">
                             <i class="bi bi-plus-circle me-1"></i> Add Tour
                         </button>
                     </div>
-                    
+
                     <div class="row g-4">
                         {% if tours and tours|length > 0 %}
-                            {% for tour in tours %}
-                            <div class="col-md-4 col-lg-3">
-                                <div class="card tour-card">
-                                    {% if tour.images and tour.images|length > 0 %}
-                                    <img src="{{ tour.images[0].image_url }}" class="tour-card-img" alt="{{ tour.title }}">
-                                    {% else %}
-                                    <div class="tour-card-img bg-secondary d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-image text-white" style="font-size: 3rem;"></i>
+                        {% for tour in tours %}
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card tour-card">
+                                {% if tour.images and tour.images|length > 0 %}
+                                <img src="{{ tour.images[0].image_url }}" class="tour-card-img" alt="{{ tour.title }}">
+                                {% else %}
+                                <div
+                                    class="tour-card-img bg-secondary d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-image text-white" style="font-size: 3rem;"></i>
+                                </div>
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ tour.title[:25] }}{% if tour.title|length > 25 %}...{%
+                                        endif %}</h5>
+                                    <p class="card-text text-muted small mb-2">
+                                        {{ tour.description[:50] }}...
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="badge bg-primary">{{ tour.tour_type|capitalize }}</span>
+                                        <span class="text-success fw-bold">${{ "%.2f"|format(tour.price) }}</span>
                                     </div>
-                                    {% endif %}
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ tour.title[:25] }}{% if tour.title|length > 25 %}...{% endif %}</h5>
-                                        <p class="card-text text-muted small mb-2">
-                                            {{ tour.description[:50] }}...
-                                        </p>
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <span class="badge bg-primary">{{ tour.tour_type|capitalize }}</span>
-                                            <span class="text-success fw-bold">${{ "%.2f"|format(tour.price) }}</span>
-                                        </div>
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <small class="text-muted">
-                                                <i class="bi bi-geo-alt"></i> {{ tour.country }}
-                                            </small>
-                                            <small class="text-muted">
-                                                <i class="bi bi-clock"></i> {{ tour.duration }}
-                                            </small>
-                                        </div>
-                                        <div class="d-flex gap-2">
-                                            <a href="/tour/{{ tour.id }}" class="btn btn-sm btn-outline-primary flex-fill" target="_blank">
-                                                <i class="bi bi-eye"></i> View
-                                            </a>
-                                            <a href="/admin/tours/edit/{{ tour.id }}" class="btn btn-sm btn-warning">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            <form action="/admin/tours/delete/{{ tour.id }}" method="POST" class="d-inline">
-                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this tour?')">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </form>
-                                        </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <small class="text-muted">
+                                            <i class="bi bi-geo-alt"></i> {{ tour.country }}
+                                        </small>
+                                        <small class="text-muted">
+                                            <i class="bi bi-clock"></i> {{ tour.duration }}
+                                        </small>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <a href="/tour/{{ tour.id }}" class="btn btn-sm btn-outline-primary flex-fill"
+                                            target="_blank">
+                                            <i class="bi bi-eye"></i> View
+                                        </a>
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-warning"
+                                            onclick="editTour('{{ tour.id }}')">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form action="/admin/tours/delete/{{ tour.id }}" method="POST" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Are you sure you want to delete this tour?')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            {% endfor %}
+                        </div>
+                        {% endfor %}
                         {% else %}
                         <div class="col-12">
                             <div class="alert alert-info text-center py-5">
@@ -783,77 +832,81 @@
                                 </div>
                                 <div class="mb-3">
                                     {% for i in range(5) %}
-                                        {% if i < average_rating|float %}
-                                            <i class="bi bi-star-fill text-warning"></i>
+                                    {% if i < average_rating|float %} <i class="bi bi-star-fill text-warning"></i>
                                         {% else %}
-                                            <i class="bi bi-star text-muted"></i>
+                                        <i class="bi bi-star text-muted"></i>
                                         {% endif %}
-                                    {% endfor %}
+                                        {% endfor %}
                                 </div>
                                 <p class="text-muted">Based on {{ total_reviews|default(0) }} reviews</p>
                             </div>
                         </div>
-                        
+
                         <div class="dashboard-card mt-4">
                             <h5 class="fw-bold mb-3">Rating Distribution</h5>
                             {% for i in range(5, 0, -1) %}
                             <div class="d-flex align-items-center mb-2">
                                 <small class="me-2">{{ i }} <i class="bi bi-star-fill text-warning"></i></small>
                                 <div class="progress flex-grow-1" style="height: 8px;">
-                                    <div class="progress-bar bg-warning" style="width: {{ rating_distribution[i]|default(20) }}%"></div>
+                                    <div class="progress-bar bg-warning"
+                                        style="width: {{ rating_distribution[i]|default(20) }}%"></div>
                                 </div>
                                 <small class="ms-2">{{ rating_distribution[i]|default(20) }}%</small>
                             </div>
                             {% endfor %}
                         </div>
                     </div>
-                    
+
                     <div class="col-lg-8">
                         <div class="dashboard-card">
                             <h4 class="fw-bold mb-4">Customer Reviews</h4>
                             <div id="reviewsList">
                                 {% if reviews and reviews|length > 0 %}
-                                    {% for review in reviews %}
-                                    <div class="review-item mb-4 pb-4 border-bottom">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <div>
-                                                <h6 class="mb-1">{{ review.user.full_name if review.user else 'Anonymous' }}</h6>
-                                                <small class="text-muted">{{ review.tour.title if review.tour else 'Tour' }}</small>
-                                            </div>
-                                            <div class="text-warning">
-                                                {% for i in range(5) %}
-                                                    {% if i < review.rating %}
-                                                        <i class="bi bi-star-fill"></i>
-                                                    {% else %}
-                                                        <i class="bi bi-star"></i>
-                                                    {% endif %}
+                                {% for review in reviews %}
+                                <div class="review-item mb-4 pb-4 border-bottom">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <h6 class="mb-1">{{ review.user.full_name if review.user else 'Anonymous' }}
+                                            </h6>
+                                            <small class="text-muted">{{ review.tour.title if review.tour else 'Tour'
+                                                }}</small>
+                                        </div>
+                                        <div class="text-warning">
+                                            {% for i in range(5) %}
+                                            {% if i < review.rating %} <i class="bi bi-star-fill"></i>
+                                                {% else %}
+                                                <i class="bi bi-star"></i>
+                                                {% endif %}
                                                 {% endfor %}
-                                            </div>
-                                        </div>
-                                        <p class="mb-2">{{ review.comment or 'No comment provided' }}</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <small class="text-muted">{{ review.created_at.strftime('%B %d, %Y') if review.created_at else 'N/A' }}</small>
-                                            {% if not review.is_verified %}
-                                            <div>
-                                                <button class="btn btn-sm btn-success" onclick="verifyReview({{ review.id }})">
-                                                    <i class="bi bi-check-circle me-1"></i>Verify
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteReview({{ review.id }})">
-                                                    <i class="bi bi-trash me-1"></i>Delete
-                                                </button>
-                                            </div>
-                                            {% else %}
-                                            <span class="badge bg-success">Verified</span>
-                                            {% endif %}
                                         </div>
                                     </div>
-                                    {% endfor %}
+                                    <p class="mb-2">{{ review.comment or 'No comment provided' }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">{{ review.created_at.strftime('%B %d, %Y') if
+                                            review.created_at else 'N/A' }}</small>
+                                        {% if not review.is_verified %}
+                                        <div>
+                                            <button class="btn btn-sm btn-success"
+                                                onclick="verifyReview({{ review.id }})">
+                                                <i class="bi bi-check-circle me-1"></i>Verify
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger"
+                                                onclick="deleteReview({{ review.id }})">
+                                                <i class="bi bi-trash me-1"></i>Delete
+                                            </button>
+                                        </div>
+                                        {% else %}
+                                        <span class="badge bg-success">Verified</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
                                 {% else %}
-                                    <div class="text-center py-5">
-                                        <i class="bi bi-chat-text display-4 text-muted mb-3"></i>
-                                        <h5>No Reviews Yet</h5>
-                                        <p class="text-muted">Customer reviews will appear here</p>
-                                    </div>
+                                <div class="text-center py-5">
+                                    <i class="bi bi-chat-text display-4 text-muted mb-3"></i>
+                                    <h5>No Reviews Yet</h5>
+                                    <p class="text-muted">Customer reviews will appear here</p>
+                                </div>
                                 {% endif %}
                             </div>
                         </div>
@@ -866,46 +919,50 @@
                 <div class="dashboard-card">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h4 class="fw-bold mb-0">Revenue Analytics</h4>
-                        <select class="form-select form-select-sm w-auto" id="revenuePeriod" onchange="loadRevenueData()">
+                        <select class="form-select form-select-sm w-auto" id="revenuePeriod"
+                            onchange="loadRevenueData()">
                             <option value="monthly">Monthly</option>
                             <option value="quarterly">Quarterly</option>
                             <option value="yearly">Yearly</option>
                         </select>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-lg-8">
                             <div style="height: 350px;">
                                 <canvas id="revenueAnalyticsChart"></canvas>
                             </div>
                         </div>
-                        
+
                         <div class="col-lg-4">
                             <div class="dashboard-card">
                                 <h5 class="fw-bold mb-4">Top Performing Tours</h5>
                                 {% if top_tours and top_tours|length > 0 %}
-                                    {% for tour in top_tours %}
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div class="flex-shrink-0">
-                                            {% if tour.image %}
-                                            <img src="{{ tour.image }}" alt="{{ tour.title }}" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;">
-                                            {% else %}
-                                            <div style="width: 50px; height: 50px; border-radius: 8px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
-                                                <i class="bi bi-image text-muted"></i>
-                                            </div>
-                                            {% endif %}
+                                {% for tour in top_tours %}
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="flex-shrink-0">
+                                        {% if tour.image %}
+                                        <img src="{{ tour.image }}" alt="{{ tour.title }}"
+                                            style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;">
+                                        {% else %}
+                                        <div
+                                            style="width: 50px; height: 50px; border-radius: 8px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-image text-muted"></i>
                                         </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1">{{ tour.title[:25] }}{% if tour.title|length > 25 %}...{% endif %}</h6>
-                                            <small class="text-muted">${{ "%.2f"|format(tour.revenue) }} revenue</small>
-                                        </div>
+                                        {% endif %}
                                     </div>
-                                    {% endfor %}
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1">{{ tour.title[:25] }}{% if tour.title|length > 25 %}...{% endif
+                                            %}</h6>
+                                        <small class="text-muted">${{ "%.2f"|format(tour.revenue) }} revenue</small>
+                                    </div>
+                                </div>
+                                {% endfor %}
                                 {% else %}
-                                    <div class="text-center py-4">
-                                        <i class="bi bi-graph-up display-4 text-muted mb-3"></i>
-                                        <p class="text-muted">No revenue data available</p>
-                                    </div>
+                                <div class="text-center py-4">
+                                    <i class="bi bi-graph-up display-4 text-muted mb-3"></i>
+                                    <p class="text-muted">No revenue data available</p>
+                                </div>
                                 {% endif %}
                             </div>
                         </div>
@@ -919,24 +976,28 @@
                     <div class="col-lg-4 mb-4">
                         <div class="dashboard-card text-center">
                             {% if user.picture %}
-                            <img src="{{ user.picture }}" alt="Profile" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover; border: 3px solid var(--primary-color);">
+                            <img src="{{ user.picture }}" alt="Profile" class="rounded-circle mb-3"
+                                style="width: 150px; height: 150px; object-fit: cover; border: 3px solid var(--primary-color);">
                             {% else %}
-                            <div class="rounded-circle bg-primary mb-3 mx-auto d-flex align-items-center justify-content-center" style="width: 150px; height: 150px; border: 3px solid var(--primary-color);">
+                            <div class="rounded-circle bg-primary mb-3 mx-auto d-flex align-items-center justify-content-center"
+                                style="width: 150px; height: 150px; border: 3px solid var(--primary-color);">
                                 <i class="bi bi-person text-white" style="font-size: 4rem;"></i>
                             </div>
                             {% endif %}
                             <h4>{{ user.full_name or 'No Name' }}</h4>
                             <p class="text-muted">
-                                {% if user.is_superadmin %}Super Administrator{% elif user.is_admin %}Tour Operator{% else %}User{% endif %}
+                                {% if user.is_superadmin %}Super Administrator{% elif user.is_admin %}Tour Operator{%
+                                else %}User{% endif %}
                             </p>
                             <p class="text-muted">{{ user.email }}</p>
-                            <button class="btn btn-outline-primary" onclick="document.getElementById('pictureInput').click()">
+                            <button class="btn btn-outline-primary"
+                                onclick="document.getElementById('pictureInput').click()">
                                 <i class="bi bi-camera me-2"></i>Change Picture
                             </button>
                             <input type="file" id="pictureInput" accept="image/*" style="display: none;">
                         </div>
                     </div>
-                    
+
                     <div class="col-lg-8">
                         <div class="dashboard-card">
                             <h4 class="fw-bold mb-4">Profile Information</h4>
@@ -944,23 +1005,28 @@
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label class="form-label">Full Name *</label>
-                                        <input type="text" name="full_name" class="form-control" value="{{ user.full_name if user.full_name else '' }}" required>
+                                        <input type="text" name="full_name" class="form-control"
+                                            value="{{ user.full_name if user.full_name else '' }}" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Email Address *</label>
-                                        <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+                                        <input type="email" name="email" class="form-control" value="{{ user.email }}"
+                                            required>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Phone Number</label>
-                                        <input type="tel" name="phone" class="form-control" value="{{ user.phone if user.phone else '' }}">
+                                        <input type="tel" name="phone" class="form-control"
+                                            value="{{ user.phone if user.phone else '' }}">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Company Name</label>
-                                        <input type="text" name="company_name" class="form-control" value="{{ user.company_name if user.company_name else '' }}">
+                                        <input type="text" name="company_name" class="form-control"
+                                            value="{{ user.company_name if user.company_name else '' }}">
                                     </div>
                                     <div class="col-12">
                                         <label class="form-label">Bio/Description</label>
-                                        <textarea name="bio" class="form-control" rows="4">{{ user.bio if user.bio else '' }}</textarea>
+                                        <textarea name="bio" class="form-control"
+                                            rows="4">{{ user.bio if user.bio else '' }}</textarea>
                                     </div>
                                     <div class="col-12">
                                         <button type="submit" class="btn btn-primary">
@@ -1001,106 +1067,199 @@
         </div>
     </div>
 
-    <!-- Create Tour Modal -->
-    <div class="modal fade" id="createTourModal" tabindex="-1">
+
+    <!-- Create/Update Tour Modal -->
+    <div class="modal fade" id="tourModal" tabindex="-1">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <form method="post" action="/admin/tours/create" enctype="multipart/form-data" id="tourForm">
+                <form method="post" id="tourForm" enctype="multipart/form-data" action="/admin/tours/create">
                     <div class="modal-header">
-                        <h5 class="modal-title">Create New Tour</h5>
+                        <h5 class="modal-title" id="tourModalTitle">Create New Tour</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row g-3">
-                            <div class="col-md-8">
+                            <!-- Hidden fields -->
+                            <input type="hidden" name="tour_id" id="tourId">
+                            <input type="hidden" name="creator_id" value="{{ user.id if user else '' }}">
+                            <input type="hidden" name="duration" id="durationCombined">
+
+                            <!-- Top row: Title -->
+                            <div class="col-md-12">
                                 <label class="form-label">Tour Title *</label>
-                                <input type="text" name="title" class="form-control" required placeholder="E.g.: 5-Day Gorilla Trekking in Bwindi">
+                                <input type="text" name="title" id="title" class="form-control" required maxlength="100"
+                                    placeholder="E.g.: Serengeti Migration Safari">
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Tour Type *</label>
-                                <select name="tour_type" class="form-select" required>
-                                    <option value="normal">Normal</option>
-                                    <option value="private">Private</option>
-                                    <option value="luxury">Luxury</option>
-                                    <option value="adventure">Adventure</option>
-                                    <option value="cultural">Cultural</option>
-                                    <option value="wildlife">Wildlife</option>
-                                </select>
-                            </div>
-                            
+
+                            <!-- Description -->
                             <div class="col-12">
                                 <label class="form-label">Description *</label>
-                                <textarea name="description" class="form-control" rows="4" required placeholder="Describe your tour in detail..."></textarea>
+                                <textarea name="description" id="description" class="form-control" rows="3" required
+                                    maxlength="500" placeholder="Describe your tour in detail..."></textarea>
                             </div>
-                            
-                            <div class="col-md-6">
-                                <label class="form-label">Price (USD) *</label>
-                                <input type="number" name="price" class="form-control" step="0.01" min="0" required placeholder="499.99">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Duration *</label>
-                                <input type="text" name="duration" class="form-control" required placeholder="E.g.: 5 days/4 nights">
-                            </div>
-                            
-                            <div class="col-md-6">
+
+                            <!-- Country -->
+                            <div class="col-md-12">
                                 <label class="form-label">Country *</label>
-                                <select name="country" class="form-select" required>
+                                <select name="country" id="country" class="form-select" required>
                                     <option value="Uganda">Uganda</option>
                                     <option value="Kenya">Kenya</option>
-                                    <option value="Tanzania">Tanzania</option>
+                                    <option value="Tanzania" selected>Tanzania</option>
                                     <option value="Rwanda">Rwanda</option>
                                     <option value="Ethiopia">Ethiopia</option>
+                                    <option value="Other">Other</option>
                                 </select>
                             </div>
+
+                            <!-- Tour Locations -->
+                            <div class="col-12">
+                                <label class="form-label">Tour Locations *</label>
+                                <input type="text" name="locations" id="locations" class="form-control" required
+                                    maxlength="100" placeholder="E.g.: Serengeti National Park, Ngorongoro, Tarangire">
+                                <small class="text-muted">List all locations visited in this tour (e.g., "Serengeti
+                                    National Park, Ngorongoro, Tarangire"), separated by commas (max 100
+                                    characters)</small>
+                            </div>
+
+                            <!-- Tour Type (now includes category) -->
+                            <div class="col-md-12">
+                                <label class="form-label">Tour Type *</label>
+                                <select name="tour_type" id="tour_type" class="form-select" required>
+                                    <option value="Safari" selected>Safari</option>
+                                    <option value="Wildlife Safari">Wildlife Safari</option>
+                                    <option value="Adventure Safari">Adventure Safari</option>
+                                    <option value="Cultural Tour">Cultural Tour</option>
+                                    <option value="Luxury Safari">Luxury Safari</option>
+                                    <option value="Budget Safari">Budget Safari</option>
+                                    <option value="Beach Vacation">Beach Vacation</option>
+                                    <option value="Hiking Adventure">Hiking Adventure</option>
+                                    <option value="Photography Safari">Photography Safari</option>
+                                    <option value="Family Safari">Family Safari</option>
+                                    <option value="Honeymoon Safari">Honeymoon Safari</option>
+                                </select>
+                            </div>
+
+                            <!-- Price and Duration -->
+                            <div class="col-md-6">
+                                <label class="form-label">Price (USD per person) *</label>
+                                <input type="number" name="price" id="price" class="form-control" step="0.01" min="0"
+                                    required placeholder="3500">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Duration *</label>
+                                <div class="row g-2">
+                                    <div class="col-8">
+                                        <input type="number" name="duration_value" id="duration_value"
+                                            class="form-control" min="1" required placeholder="6">
+                                    </div>
+                                    <div class="col-4">
+                                        <select name="duration_unit" id="duration_unit" class="form-select" required>
+                                            <option value="days" selected>Days</option>
+                                            <option value="nights">Nights</option>
+                                            <option value="hours">Hours</option>
+                                            <option value="weeks">Weeks</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Max Participants and Difficulty -->
                             <div class="col-md-6">
                                 <label class="form-label">Max Participants *</label>
-                                <input type="number" name="max_participants" class="form-control" min="1" value="20" required>
+                                <input type="number" name="max_participants" id="max_participants" class="form-control"
+                                    min="1" value="20" required>
                             </div>
-                            
-                            <div class="col-12">
-                                <label class="form-label">Locations *</label>
-                                <input type="text" name="locations" class="form-control" required placeholder="E.g.: Kampala, Jinja, Entebbe">
+
+                            <div class="col-md-6">
+                                <label class="form-label">Difficulty *</label>
+                                <select name="difficulty" id="difficulty" class="form-select" required>
+                                    <option value="Easy" selected>Easy</option>
+                                    <option value="Moderate">Moderate</option>
+                                    <option value="Difficult">Difficult</option>
+                                    <option value="Challenging">Challenging</option>
+                                </select>
                             </div>
-                            
-                            <div class="col-12">
-                                <label class="form-label">What's Included</label>
-                                <textarea name="included" class="form-control" rows="3" placeholder="List what is included in the tour price..."></textarea>
+
+                            <!-- Cancellation Policy -->
+                            <div class="col-md-12">
+                                <label class="form-label">Cancellation Policy *</label>
+                                <select name="cancellation_policy" id="cancellation_policy" class="form-select"
+                                    required>
+                                    <option value="Non-refundable">Non-refundable</option>
+                                    <option value="Free cancellation">Free cancellation</option>
+                                    <option value="25% Refund">25% Refund</option>
+                                    <option value="50% Refund" selected>50% Refund</option>
+                                    <option value="75% Refund">75% Refund</option>
+                                    <option value="Full refund">Full refund</option>
+                                    <option value="Credit only">Credit only</option>
+                                </select>
                             </div>
-                            
+
+                            <!-- What's Included -->
                             <div class="col-12">
-                                <label class="form-label">What's Not Included</label>
-                                <textarea name="not_included" class="form-control" rows="3" placeholder="List what is not included in the tour price..."></textarea>
+                                <label class="form-label">What's Included *</label>
+                                <div class="input-group mb-2">
+                                    <input type="text" class="form-control included-input"
+                                        placeholder="E.g.: All meals, Accommodation, Park fees">
+                                    <button type="button" class="btn btn-outline-primary" id="addIncludedBtn">+
+                                        Add</button>
+                                </div>
+                                <div class="included-container mt-2" id="includedContainer">
+                                    <!-- Included items will be added here dynamically -->
+                                </div>
+                                <input type="hidden" name="included" id="includedInput" required>
+                                <small class="text-muted">List what's included in the tour price</small>
                             </div>
-                            
+
+                            <!-- What's Not Included -->
                             <div class="col-12">
-                                <label class="form-label">Risk Assessment</label>
-                                <textarea name="risk" class="form-control" rows="3" placeholder="Describe potential risks and safety measures..."></textarea>
+                                <label class="form-label">What's Not Included *</label>
+                                <div class="input-group mb-2">
+                                    <input type="text" class="form-control not-included-input"
+                                        placeholder="E.g.: International flights, Travel insurance">
+                                    <button type="button" class="btn btn-outline-primary" id="addNotIncludedBtn">+
+                                        Add</button>
+                                </div>
+                                <div class="not-included-container mt-2" id="notIncludedContainer">
+                                    <!-- Not included items will be added here dynamically -->
+                                </div>
+                                <input type="hidden" name="not_included" id="notIncludedInput" required>
+                                <small class="text-muted">List what's NOT included in the tour price</small>
                             </div>
-                            
+
+                            <!-- Upload Images -->
                             <div class="col-12">
-                                <label class="form-label">Cancellation Policy</label>
-                                <textarea name="cancellation_policy" class="form-control" rows="3" placeholder="Describe cancellation policy..."></textarea>
+                                <label class="form-label">Upload Images</label>
+                                <input type="file" name="images" class="form-control" id="fileInput" multiple
+                                    accept="image/*" onchange="previewImages(event)">
+                                <small class="text-muted">Upload at least one image. First image will be the primary
+                                    display image.</small>
+                                <div class="image-preview-container mt-3" id="imagePreview">
+                                    <!-- Existing images for update will appear here -->
+                                </div>
                             </div>
-                            
-                            <div class="col-12">
-                                <label class="form-label">Tour Images *</label>
-                                <input type="file" name="images" class="form-control" id="fileInput" multiple required accept="image/*" onchange="previewImages(event)">
-                                <small class="text-muted">Upload at least one image. First image will be the primary display image.</small>
-                                <div class="image-preview-container mt-3" id="imagePreview"></div>
+
+                            <!-- Status (only for update) -->
+                            <div class="col-md-12 d-none" id="statusField">
+                                <label class="form-label">Tour Status</label>
+                                <select name="is_active" id="is_active" class="form-select">
+                                    <option value="true">Active</option>
+                                    <option value="false">Inactive</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-check-circle me-2"></i> Create Tour
+                        <button type="submit" class="btn btn-primary" id="tourFormSubmit">
+                            <i class="bi bi-check-circle me-2"></i> <span id="submitBtnText">Create Tour</span>
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
     <!-- Booking Details Modal -->
     <div class="modal fade" id="bookingDetailsModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
@@ -1120,8 +1279,11 @@
     <script>
         // Global variables
         let selectedFiles = [];
+        let existingImages = [];
         let revenueChart = null;
         let analyticsChart = null;
+        let includedItems = [];
+        let notIncludedItems = [];
 
         // Tab Navigation
         function showTab(tabName) {
@@ -1159,6 +1321,8 @@
         // Initialize Charts
         function initializeRevenueChart() {
             const ctx = document.getElementById('revenueChart').getContext('2d');
+            if (!ctx) return;
+
             revenueChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -1182,7 +1346,7 @@
                         },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     return `$${context.parsed.y.toLocaleString()}`;
                                 }
                             }
@@ -1195,7 +1359,7 @@
                                 color: 'rgba(0, 0, 0, 0.05)'
                             },
                             ticks: {
-                                callback: function(value) {
+                                callback: function (value) {
                                     return '$' + value.toLocaleString();
                                 }
                             }
@@ -1212,28 +1376,36 @@
 
         // Load Revenue Data
         async function loadRevenueData() {
-            const period = document.getElementById('revenuePeriod').value;
+            const period = document.getElementById('revenuePeriod')?.value || 'monthly';
             try {
                 const response = await fetch(`/admin/revenue/analytics?period=${period}`);
                 const data = await response.json();
-                
                 updateAnalyticsChart(data);
             } catch (error) {
                 console.error('Error loading revenue data:', error);
+                // Fallback to sample data
+                updateAnalyticsChart({
+                    last_12_months: {
+                        'Jan': 1200, 'Feb': 1900, 'Mar': 3000, 'Apr': 5000,
+                        'May': 2000, 'Jun': 3000, 'Jul': 4000, 'Aug': 3500,
+                        'Sep': 4200, 'Oct': 4800, 'Nov': 5200, 'Dec': 6000
+                    }
+                });
             }
         }
 
         function updateAnalyticsChart(data) {
-            const ctx = document.getElementById('revenueAnalyticsChart').getContext('2d');
-            
+            const ctx = document.getElementById('revenueAnalyticsChart')?.getContext('2d');
+            if (!ctx) return;
+
             // Destroy existing chart if it exists
             if (analyticsChart) {
                 analyticsChart.destroy();
             }
-            
+
             let labels, chartData;
-            const period = document.getElementById('revenuePeriod').value;
-            
+            const period = document.getElementById('revenuePeriod')?.value || 'monthly';
+
             if (period === 'monthly') {
                 labels = Object.keys(data.last_12_months || {});
                 chartData = Object.values(data.last_12_months || {});
@@ -1244,7 +1416,7 @@
                 labels = Object.keys(data.yearly || {});
                 chartData = Object.values(data.yearly || {});
             }
-            
+
             analyticsChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -1265,7 +1437,7 @@
                         },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     return `$${context.parsed.y.toLocaleString()}`;
                                 }
                             }
@@ -1278,7 +1450,7 @@
                                 color: 'rgba(0, 0, 0, 0.05)'
                             },
                             ticks: {
-                                callback: function(value) {
+                                callback: function (value) {
                                     return '$' + value.toLocaleString();
                                 }
                             }
@@ -1298,64 +1470,86 @@
             const newFiles = Array.from(event.target.files);
             selectedFiles = [...selectedFiles, ...newFiles];
             updateFileInput();
-            renderPreviews();
+            renderImagePreviews();
         }
 
-        function renderPreviews() {
-            const preview = document.getElementById("imagePreview");
-            preview.innerHTML = "";
-            
-            if (selectedFiles.length === 0) {
-                preview.innerHTML = '<div class="text-muted">No images selected</div>';
-                return;
-            }
-            
+        function renderImagePreviews() {
+            const previewContainer = document.getElementById('imagePreview');
+            if (!previewContainer) return;
+
+            previewContainer.innerHTML = '';
+
+            // Render existing images
+            existingImages.forEach((image, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'image-preview position-relative d-inline-block me-2 mb-2';
+                wrapper.innerHTML = `
+                <img src="${image.image_url || image}" class="preview-image" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px;">
+                <button type="button" class="remove-btn" onclick="removeExistingImage(${index})">&times;</button>
+                <input type="hidden" name="existing_images" value="${image.id || ''}">
+                <div class="text-center small mt-1">Existing</div>
+            `;
+                previewContainer.appendChild(wrapper);
+            });
+
+            // Render new images
             selectedFiles.forEach((file, index) => {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    const wrapper = document.createElement("div");
-                    wrapper.className = "image-preview";
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'image-preview position-relative d-inline-block me-2 mb-2';
                     wrapper.innerHTML = `
-                    <img src="${e.target.result}" class="preview-image">
-                    <button type="button" class="remove-btn" onclick="removeImage(${index})">&times;</button>
+                    <img src="${e.target.result}" class="preview-image" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px;">
+                    <button type="button" class="remove-btn" onclick="removeNewImage(${index})">&times;</button>
+                    <div class="text-center small mt-1">New</div>
                 `;
-                    preview.appendChild(wrapper);
+                    previewContainer.appendChild(wrapper);
                 };
                 reader.readAsDataURL(file);
             });
         }
 
-        function removeImage(index) {
-            selectedFiles = selectedFiles.filter((_, i) => i !== index);
+        function removeNewImage(index) {
+            selectedFiles.splice(index, 1);
             updateFileInput();
-            renderPreviews();
+            renderImagePreviews();
+        }
+
+        function removeExistingImage(index) {
+            if (confirm('Are you sure you want to remove this image?')) {
+                existingImages.splice(index, 1);
+                renderImagePreviews();
+            }
         }
 
         function updateFileInput() {
+            const fileInput = document.getElementById("fileInput");
+            if (!fileInput) return;
+
             const dataTransfer = new DataTransfer();
             selectedFiles.forEach((file) => dataTransfer.items.add(file));
-            document.getElementById("fileInput").files = dataTransfer.files;
+            fileInput.files = dataTransfer.files;
         }
 
         // Booking Filtering
         function filterBookings() {
-            const statusFilter = document.getElementById('bookingFilter').value;
-            const dateFilter = document.getElementById('bookingDateFilter').value;
+            const statusFilter = document.getElementById('bookingFilter')?.value || 'all';
+            const dateFilter = document.getElementById('bookingDateFilter')?.value || '';
             const rows = document.querySelectorAll('#bookingsTableBody tr');
-            
+
             rows.forEach(row => {
                 const status = row.getAttribute('data-status');
                 const date = row.getAttribute('data-date');
                 let show = true;
-                
+
                 if (statusFilter !== 'all' && status !== statusFilter) {
                     show = false;
                 }
-                
+
                 if (dateFilter && date !== dateFilter) {
                     show = false;
                 }
-                
+
                 row.style.display = show ? '' : 'none';
             });
         }
@@ -1363,54 +1557,56 @@
         // Booking Actions
         async function viewBookingDetails(bookingId) {
             try {
-                const response = await fetch(`/admin/booking/${bookingId}/details`);
+                const response = await fetch(`/admin/booking/${bookingId}/details`, { credentials: "include" });
                 const booking = await response.json();
-                
+
                 const content = document.getElementById('bookingDetailsContent');
+                if (!content) return;
+
                 content.innerHTML = `
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6>Tour Information</h6>
-                            <p><strong>Tour:</strong> ${booking.tour.title}</p>
-                            <p><strong>Price per person:</strong> $${booking.tour.price}</p>
-                            <p><strong>Duration:</strong> ${booking.tour.duration}</p>
-                            <p><strong>Country:</strong> ${booking.tour.country}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <h6>Customer Information</h6>
-                            <p><strong>Name:</strong> ${booking.customer.name}</p>
-                            <p><strong>Email:</strong> ${booking.customer.email}</p>
-                            <p><strong>Phone:</strong> ${booking.customer.phone || 'N/A'}</p>
-                        </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Tour Information</h6>
+                        <p><strong>Tour:</strong> ${booking.tour?.title || 'N/A'}</p>
+                        <p><strong>Price per person:</strong> $${booking.tour?.price || '0.00'}</p>
+                        <p><strong>Duration:</strong> ${booking.tour?.duration || 'N/A'}</p>
+                        <p><strong>Country:</strong> ${booking.tour?.country || 'N/A'}</p>
                     </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6>Booking Details</h6>
-                            <p><strong>Booking ID:</strong> #${booking.id}</p>
-                            <p><strong>Tour Date:</strong> ${new Date(booking.booking_details.tour_date).toLocaleDateString()}</p>
-                            <p><strong>Adults:</strong> ${booking.booking_details.adults}</p>
-                            <p><strong>Kids:</strong> ${booking.booking_details.kids}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <h6>Payment & Status</h6>
-                            <p><strong>Total Price:</strong> $${booking.booking_details.total_price}</p>
-                            <p><strong>Status:</strong> <span class="status-badge status-${booking.booking_details.status}">${booking.booking_details.status}</span></p>
-                            <p><strong>Payment Method:</strong> ${booking.booking_details.payment_method || 'N/A'}</p>
-                            <p><strong>Payment Status:</strong> ${booking.booking_details.payment_status || 'N/A'}</p>
-                        </div>
+                    <div class="col-md-6">
+                        <h6>Customer Information</h6>
+                        <p><strong>Name:</strong> ${booking.customer?.name || 'N/A'}</p>
+                        <p><strong>Email:</strong> ${booking.customer?.email || 'N/A'}</p>
+                        <p><strong>Phone:</strong> ${booking.customer?.phone || 'N/A'}</p>
                     </div>
-                    ${booking.booking_details.special_requirements ? `
-                    <hr>
-                    <div class="row">
-                        <div class="col-12">
-                            <h6>Special Requirements</h6>
-                            <p>${booking.booking_details.special_requirements}</p>
-                        </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Booking Details</h6>
+                        <p><strong>Booking ID:</strong> #${booking.id}</p>
+                        <p><strong>Tour Date:</strong> ${new Date(booking.booking_details?.tour_date).toLocaleDateString() || 'N/A'}</p>
+                        <p><strong>Adults:</strong> ${booking.booking_details?.adults || 0}</p>
+                        <p><strong>Kids:</strong> ${booking.booking_details?.kids || 0}</p>
                     </div>
-                    ` : ''}
-                `;
-                
+                    <div class="col-md-6">
+                        <h6>Payment & Status</h6>
+                        <p><strong>Total Price:</strong> $${booking.booking_details?.total_price || '0.00'}</p>
+                        <p><strong>Status:</strong> <span class="status-badge status-${booking.booking_details?.status}">${booking.booking_details?.status || 'N/A'}</span></p>
+                        <p><strong>Payment Method:</strong> ${booking.booking_details?.payment_method || 'N/A'}</p>
+                        <p><strong>Payment Status:</strong> ${booking.booking_details?.payment_status || 'N/A'}</p>
+                    </div>
+                </div>
+                ${booking.booking_details?.special_requirements ? `
+                <hr>
+                <div class="row">
+                    <div class="col-12">
+                        <h6>Special Requirements</h6>
+                        <p>${booking.booking_details.special_requirements}</p>
+                    </div>
+                </div>
+                ` : ''}
+            `;
+
                 const modal = new bootstrap.Modal(document.getElementById('bookingDetailsModal'));
                 modal.show();
             } catch (error) {
@@ -1421,18 +1617,19 @@
 
         async function updateBookingStatus(bookingId, status) {
             if (!confirm(`Are you sure you want to ${status} this booking?`)) return;
-            
+
             try {
                 const response = await fetch(`/admin/bookings/${bookingId}/status`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ status: status })
+                    body: JSON.stringify({ status: status }),
+                    credentials: "include"
                 });
-                
+
                 const result = await response.json();
-                
+
                 if (result.success) {
                     alert(result.message);
                     location.reload();
@@ -1447,10 +1644,19 @@
 
         async function sendReminder(bookingId) {
             if (!confirm('Send reminder email to customer?')) return;
-            
+
             try {
-                // Implement reminder API call here
-                alert('Reminder sent successfully!');
+                const response = await fetch(`/admin/bookings/${bookingId}/reminder`, {
+                    method: 'POST'
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('Reminder sent successfully!');
+                } else {
+                    alert('Error sending reminder');
+                }
             } catch (error) {
                 console.error('Error sending reminder:', error);
                 alert('Error sending reminder');
@@ -1460,14 +1666,15 @@
         // Review Actions
         async function verifyReview(reviewId) {
             if (!confirm('Verify this review?')) return;
-            
+
             try {
                 const response = await fetch(`/admin/reviews/${reviewId}/verify`, {
-                    method: 'POST'
+                    method: 'POST',
+                    credentials: "include"
                 });
-                
+
                 const result = await response.json();
-                
+
                 if (result.success) {
                     alert(result.message);
                     location.reload();
@@ -1480,14 +1687,15 @@
 
         async function deleteReview(reviewId) {
             if (!confirm('Delete this review?')) return;
-            
+
             try {
                 const response = await fetch(`/admin/reviews/${reviewId}`, {
-                    method: 'DELETE'
+                    method: 'DELETE',
+                    credentials: "include"
                 });
-                
+
                 const result = await response.json();
-                
+
                 if (result.success) {
                     alert(result.message);
                     location.reload();
@@ -1498,233 +1706,294 @@
             }
         }
 
-               // Form Validation
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set up form validation for tour creation
-            const tourForm = document.getElementById('tourForm');
-            if (tourForm) {
-                tourForm.addEventListener('submit', function(e) {
-                    const title = this.querySelector('input[name="title"]')?.value.trim();
-                    const description = this.querySelector('textarea[name="description"]')?.value.trim();
-                    const price = this.querySelector('input[name="price"]')?.value;
-                    
-                    if (!title || !description || !price) {
-                        e.preventDefault();
-                        alert('Please fill in all required fields');
-                        return false;
-                    }
-                    
-                    if (selectedFiles.length < 1) {
-                        e.preventDefault();
-                        alert('Please upload at least one image for the tour');
-                        return false;
-                    }
-                    
-                    return true;
-                });
-            }
-            
-            // Set up form validation for profile update
-            const profileForm = document.getElementById('profileForm');
-            if (profileForm) {
-                profileForm.addEventListener('submit', function(e) {
-                    const fullName = this.querySelector('input[name="full_name"]')?.value.trim();
-                    const email = this.querySelector('input[name="email"]')?.value.trim();
-                    
-                    if (!fullName || !email) {
-                        e.preventDefault();
-                        alert('Please fill in all required fields');
-                        return false;
-                    }
-                    
-                    // Email validation
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!emailRegex.test(email)) {
-                        e.preventDefault();
-                        alert('Please enter a valid email address');
-                        return false;
-                    }
-                    
-                    return true;
-                });
-            }
-            
-            // Set up form validation for password change
-            const passwordForm = document.getElementById('passwordForm');
-            if (passwordForm) {
-                passwordForm.addEventListener('submit', function(e) {
-                    const currentPassword = this.querySelector('input[name="current_password"]')?.value;
-                    const newPassword = this.querySelector('input[name="new_password"]')?.value;
-                    const confirmPassword = this.querySelector('input[name="confirm_password"]')?.value;
-                    
-                    if (!currentPassword || !newPassword || !confirmPassword) {
-                        e.preventDefault();
-                        alert('Please fill in all password fields');
-                        return false;
-                    }
-                    
-                    if (newPassword.length < 8) {
-                        e.preventDefault();
-                        alert('New password must be at least 8 characters long');
-                        return false;
-                    }
-                    
-                    if (newPassword !== confirmPassword) {
-                        e.preventDefault();
-                        alert('New passwords do not match');
-                        return false;
-                    }
-                    
-                    return true;
-                });
+        // Dynamic Form Elements Functions - SIMPLIFIED
+        function addListItem(type) {
+            let input, array, container, hiddenInput;
+
+            if (type === 'included') {
+                input = document.querySelector('.included-input');
+                array = includedItems;
+                container = document.getElementById('includedContainer');
+                hiddenInput = document.getElementById('includedInput');
+            } else if (type === 'not-included') {
+                input = document.querySelector('.not-included-input');
+                array = notIncludedItems;
+                container = document.getElementById('notIncludedContainer');
+                hiddenInput = document.getElementById('notIncludedInput');
+            } else {
+                return;
             }
 
-            // Clear session messages after 5 seconds
-            setTimeout(() => {
-                const alerts = document.querySelectorAll('.alert');
-                alerts.forEach(alert => {
-                    const bsAlert = new bootstrap.Alert(alert);
-                    bsAlert.close();
-                });
-            }, 5000);
+            const value = input.value.trim();
+            if (!value) return;
 
-            // Initialize tooltips
-            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl);
-            });
+            // Add to array
+            array.push(value);
 
-            // Initialize popovers
-            const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-            popoverTriggerList.map(function (popoverTriggerEl) {
-                return new bootstrap.Popover(popoverTriggerEl);
-            });
+            // Create badge element
+            const badge = document.createElement('span');
+            badge.className = 'badge bg-light text-dark border me-2 mb-2 p-2 d-inline-flex align-items-center';
 
-            // Load dashboard data
-            loadDashboardData();
-            
-            // Initialize charts if on dashboard tab
-            if (document.getElementById('dashboardTab') && !document.getElementById('dashboardTab').classList.contains('d-none')) {
-                setTimeout(initializeRevenueChart, 100);
+            let iconClass = 'bi bi-check-circle me-1';
+            if (type === 'not-included') iconClass = 'bi bi-x-circle me-1';
+
+            badge.innerHTML = `
+            <i class="${iconClass}"></i> ${value}
+            <button type="button" class="btn-close btn-close-sm ms-2" onclick="removeListItem('${type}', '${value}')"></button>
+        `;
+
+            // Add to container
+            container.appendChild(badge);
+
+            // Update hidden input
+            hiddenInput.value = array.join(', ');
+
+            // Clear input
+            input.value = '';
+        }
+
+        function removeListItem(type, value) {
+            let array, container, hiddenInput;
+
+            if (type === 'included') {
+                array = includedItems;
+                container = document.getElementById('includedContainer');
+                hiddenInput = document.getElementById('includedInput');
+            } else if (type === 'not-included') {
+                array = notIncludedItems;
+                container = document.getElementById('notIncludedContainer');
+                hiddenInput = document.getElementById('notIncludedInput');
+            } else {
+                return;
             }
-        });
 
-        // Load Dashboard Data
-        async function loadDashboardData() {
+            // Remove from array
+            const index = array.indexOf(value);
+            if (index > -1) {
+                array.splice(index, 1);
+            }
+
+            // Update hidden input
+            hiddenInput.value = array.join(', ');
+
+            // Remove badge from DOM
+            const badges = container.getElementsByClassName('badge');
+            for (let badge of badges) {
+                if (badge.textContent.includes(value)) {
+                    badge.remove();
+                    break;
+                }
+            }
+        }
+
+        // Tour Management Functions - SIMPLIFIED
+        function prepareCreateTour() {
+            // Reset form
+            document.getElementById('tourForm').reset();
+
+            // Clear dynamic containers
+            document.getElementById('includedContainer').innerHTML = '';
+            document.getElementById('notIncludedContainer').innerHTML = '';
+            document.getElementById('imagePreview').innerHTML = '';
+
+            // Reset arrays
+            selectedFiles = [];
+            existingImages = [];
+            includedItems = [];
+            notIncludedItems = [];
+
+            // Reset hidden inputs
+            document.getElementById('includedInput').value = '';
+            document.getElementById('notIncludedInput').value = '';
+
+            // Clear tour ID
+            document.getElementById('tourId').value = '';
+
+            // Set modal title and button text
+            document.getElementById('tourModalTitle').textContent = 'Create New Tour';
+            document.getElementById('submitBtnText').textContent = 'Create Tour';
+
+            // Hide status field for create
+            const statusField = document.getElementById('statusField');
+            if (statusField) statusField.classList.add('d-none');
+
+            // Set form action for create
+            document.getElementById('tourForm').action = '/admin/tours/create';
+
+            // Set default values
+            document.getElementById('duration_value').value = '6';
+            document.getElementById('duration_unit').value = 'days';
+            document.getElementById('max_participants').value = '20';
+            document.getElementById('difficulty').value = 'Easy';
+            document.getElementById('cancellation_policy').value = '50% Refund';
+            document.getElementById('country').value = 'Tanzania';
+            document.getElementById('tour_type').value = 'Safari';
+        }
+
+        async function editTour(tourId) {
             try {
-                // Load stats overview
-                const statsResponse = await fetch('/admin/stats/overview');
-                if (statsResponse.ok) {
-                    const stats = await statsResponse.json();
-                    updateStatsDisplay(stats);
-                }
-                
-                // Load recent activities
-                const activitiesResponse = await fetch('/admin/recent/activities?limit=5');
-                if (activitiesResponse.ok) {
-                    const activities = await activitiesResponse.json();
-                    updateRecentActivities(activities);
-                }
-            } catch (error) {
-                console.error('Error loading dashboard data:', error);
-            }
-        }
+                const response = await fetch(`/admin/tours/get/${tourId}`, {
+                    credentials: 'include'
+                });
 
-        function updateStatsDisplay(stats) {
-            // Update booking count with pending indicator
-            const bookingCard = document.querySelector('.stat-card:nth-child(1) .stat-number');
-            if (bookingCard && stats.total_bookings) {
-                bookingCard.textContent = stats.total_bookings;
-                
-                // Add pending indicator if exists
-                if (stats.pending_bookings > 0) {
-                    const pendingSpan = document.querySelector('.stat-card:nth-child(1) .text-warning');
-                    if (!pendingSpan) {
-                        const card = document.querySelector('.stat-card:nth-child(1)');
-                        const indicator = document.createElement('small');
-                        indicator.className = 'text-warning d-block mt-2';
-                        indicator.innerHTML = `<i class="bi bi-exclamation-circle me-1"></i>${stats.pending_bookings} pending`;
-                        card.querySelector('.stat-label').after(indicator);
+                if (!response.ok) throw new Error('Failed to fetch tour data');
+
+                const tour = await response.json();
+                console.log('Tour data:', tour);
+
+                // Reset form
+                document.getElementById('tourForm').reset();
+                selectedFiles = [];
+                existingImages = [];
+                includedItems = [];
+                notIncludedItems = [];
+
+                // Clear containers
+                document.getElementById('includedContainer').innerHTML = '';
+                document.getElementById('notIncludedContainer').innerHTML = '';
+                document.getElementById('imagePreview').innerHTML = '';
+
+                // Set basic fields
+                document.getElementById('tourId').value = tour.id;
+                document.getElementById('title').value = tour.title || '';
+                document.getElementById('description').value = tour.description || '';
+                document.getElementById('price').value = tour.price || '';
+
+                // PARSE DURATION CORRECTLY
+                console.log('Duration from API:', tour.duration);
+
+                let durationValue = '6';
+                let durationUnit = 'days';
+
+                if (tour.duration) {
+                    const durationStr = tour.duration.toString().trim();
+                    console.log('Duration string:', durationStr);
+
+                    // Try splitting by space
+                    const parts = durationStr.split(/\s+/);
+                    console.log('Split parts:', parts);
+
+                    if (parts.length >= 2) {
+                        // Format: "5 days"
+                        durationValue = parts[0];
+                        durationUnit = parts[1];
+                    } else if (parts.length === 1) {
+                        // Format: "5days" or "5"
+                        const match = parts[0].match(/(\d+)(\D+)?/);
+                        if (match) {
+                            durationValue = match[1];
+                            if (match[2]) {
+                                durationUnit = match[2];
+                            }
+                        }
                     }
                 }
-            }
-            
-            // Update revenue with growth indicator
-            const revenueCard = document.querySelector('.stat-card:nth-child(2) .stat-number');
-            if (revenueCard && stats.total_revenue) {
-                revenueCard.textContent = `$${stats.total_revenue.toFixed(2)}`;
-                
-                // Add growth indicator
-                if (stats.revenue_growth !== undefined) {
-                    const card = document.querySelector('.stat-card:nth-child(2)');
-                    const growthIndicator = document.createElement('small');
-                    growthIndicator.className = `d-block mt-2 ${stats.revenue_growth >= 0 ? 'text-success' : 'text-danger'}`;
-                    growthIndicator.innerHTML = `<i class="bi bi-arrow-${stats.revenue_growth >= 0 ? 'up' : 'down'} me-1"></i>${Math.abs(stats.revenue_growth)}%`;
-                    card.querySelector('.stat-label').after(growthIndicator);
+
+                console.log('Setting duration:', durationValue, durationUnit);
+                document.getElementById('duration_value').value = durationValue;
+                document.getElementById('duration_unit').value = durationUnit;
+
+                // Set other fields
+                document.getElementById('max_participants').value = tour.max_participants || '20';
+                document.getElementById('difficulty').value = tour.difficulty || 'Easy';
+                document.getElementById('country').value = tour.country || 'Tanzania';
+                document.getElementById('locations').value = tour.locations || '';
+                document.getElementById('tour_type').value = tour.tour_type || 'Safari';
+                document.getElementById('cancellation_policy').value = tour.cancellation_policy || '50% Refund';
+
+                // Handle included/not included
+                if (tour.included) {
+                    includedItems = tour.included.split(',').map(i => i.trim()).filter(i => i);
+                    document.getElementById('includedInput').value = tour.included;
+                    renderDynamicList('includedContainer', includedItems, 'included');
                 }
+
+                if (tour.not_included) {
+                    notIncludedItems = tour.not_included.split(',').map(i => i.trim()).filter(i => i);
+                    document.getElementById('notIncludedInput').value = tour.not_included;
+                    renderDynamicList('notIncludedContainer', notIncludedItems, 'not-included');
+                }
+
+                // Handle images
+                if (tour.images && tour.images.length > 0) {
+                    existingImages = tour.images;
+                    renderImagePreviews();
+                }
+
+                // Show status field
+                const statusField = document.getElementById('statusField');
+                if (statusField) {
+                    statusField.classList.remove('d-none');
+                    document.getElementById('is_active').value = tour.is_active ? 'true' : 'false';
+                }
+
+                // Update modal
+                document.getElementById('tourModalTitle').textContent = 'Edit Tour';
+                document.getElementById('submitBtnText').textContent = 'Update Tour';
+                document.getElementById('tourForm').action = `/admin/tours/update/${tourId}`;
+
+                // Show modal
+                new bootstrap.Modal(document.getElementById('tourModal')).show();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to load tour: ' + error.message);
             }
         }
 
-        function updateRecentActivities(activities) {
-            const container = document.getElementById('recentActivities');
-            if (!container || activities.length === 0) return;
-            
+        // Helper function to render dynamic lists
+        function renderDynamicList(containerId, items, type) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
             container.innerHTML = '';
-            activities.forEach(activity => {
-                const activityDiv = document.createElement('div');
-                activityDiv.className = 'd-flex align-items-start mb-3 pb-3 border-bottom';
-                
-                // Determine icon color based on type
-                let iconColor = 'primary';
-                if (activity.type === 'booking') iconColor = 'success';
-                if (activity.type === 'review') iconColor = 'warning';
-                
-                activityDiv.innerHTML = `
-                    <div class="me-3">
-                        <div class="stat-icon ${activity.type}" style="width: 40px; height: 40px; font-size: 18px;">
-                            <i class="bi bi-${activity.icon}"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <h6 class="fw-bold mb-1">${activity.title}</h6>
-                        <p class="text-muted small mb-1">${activity.description}</p>
-                        <small class="text-muted">${activity.time}</small>
-                    </div>
-                `;
-                container.appendChild(activityDiv);
+
+            items.forEach(item => {
+                const badge = document.createElement('span');
+                badge.className = 'badge bg-light text-dark border me-2 mb-2 p-2 d-inline-flex align-items-center';
+
+                let iconClass = 'bi bi-check-circle me-1';
+                if (type === 'not-included') iconClass = 'bi bi-x-circle me-1';
+
+                badge.innerHTML = `
+                <i class="${iconClass}"></i> ${item}
+                <button type="button" class="btn-close btn-close-sm ms-2" onclick="removeListItem('${type}', '${item}')"></button>
+            `;
+
+                container.appendChild(badge);
             });
         }
 
         // Profile Picture Upload
-        document.getElementById('pictureInput')?.addEventListener('change', async function(e) {
+        document.getElementById('pictureInput')?.addEventListener('change', async function (e) {
             const file = e.target.files[0];
             if (!file) return;
-            
+
             if (!file.type.startsWith('image/')) {
                 alert('Please select an image file');
                 return;
             }
-            
+
             if (file.size > 5 * 1024 * 1024) { // 5MB limit
                 alert('Image size should be less than 5MB');
                 return;
             }
-            
+
             // Show loading state
             const uploadBtn = document.querySelector('.btn-outline-primary');
             const originalText = uploadBtn.innerHTML;
             uploadBtn.innerHTML = '<span class="loading-spinner"></span> Uploading...';
             uploadBtn.disabled = true;
-            
+
             try {
                 const formData = new FormData();
                 formData.append('picture', file);
-                
+
                 const response = await fetch('/admin/profile/upload-picture', {
                     method: 'POST',
                     body: formData
                 });
-                
+
                 if (response.ok) {
                     const result = await response.json();
                     if (result.success) {
@@ -1809,12 +2078,12 @@
         function searchTours() {
             const searchTerm = document.getElementById('tourSearch')?.value.toLowerCase();
             const tourCards = document.querySelectorAll('#toursTab .tour-card');
-            
+
             tourCards.forEach(card => {
                 const title = card.querySelector('.card-title').textContent.toLowerCase();
                 const description = card.querySelector('.card-text').textContent.toLowerCase();
                 const country = card.querySelector('.bi-geo-alt').nextSibling.textContent.toLowerCase();
-                
+
                 if (title.includes(searchTerm) || description.includes(searchTerm) || country.includes(searchTerm)) {
                     card.parentElement.style.display = '';
                 } else {
@@ -1830,7 +2099,7 @@
                 const originalText = refreshBtn.innerHTML;
                 refreshBtn.innerHTML = '<span class="loading-spinner"></span> Refreshing...';
                 refreshBtn.disabled = true;
-                
+
                 try {
                     await loadDashboardData();
                     alert('Dashboard refreshed successfully!');
@@ -1847,43 +2116,43 @@
         function printTabContent() {
             const activeTab = document.querySelector('.nav-tabs-custom .nav-link.active');
             const tabName = activeTab?.getAttribute('onclick')?.match(/'(\w+)'/)?.[1];
-            
+
             if (!tabName) return;
-            
+
             const tabContent = document.getElementById(tabName + 'Tab');
             if (!tabContent) return;
-            
+
             const printWindow = window.open('', '_blank');
             printWindow.document.write(`
-                <html>
-                    <head>
-                        <title>MMONDO Dashboard - ${tabName.charAt(0).toUpperCase() + tabName.slice(1)}</title>
-                        <style>
-                            body { font-family: Arial, sans-serif; padding: 20px; }
-                            h1 { color: #333; }
-                            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-                            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                            th { background-color: #f4f4f4; }
-                            .print-header { text-align: center; margin-bottom: 30px; }
-                            .print-date { color: #666; margin-top: 5px; }
-                            .print-footer { margin-top: 50px; text-align: center; color: #666; font-size: 12px; }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="print-header">
-                            <h1>MMONTOURS ADMIN DASHBOARD</h1>
-                            <div class="print-date">Printed: ${new Date().toLocaleString()}</div>
-                            <h2>${tabName.charAt(0).toUpperCase() + tabName.slice(1)} Report</h2>
-                        </div>
-                        ${tabContent.innerHTML}
-                        <div class="print-footer">
-                            <hr>
-                            <p>© ${new Date().getFullYear()} Mmondo Tours. All rights reserved.</p>
-                            <p>Confidential - For internal use only</p>
-                        </div>
-                    </body>
-                </html>
-            `);
+            <html>
+                <head>
+                    <title>MMONDO Dashboard - ${tabName.charAt(0).toUpperCase() + tabName.slice(1)}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; }
+                        h1 { color: #333; }
+                        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        th { background-color: #f4f4f4; }
+                        .print-header { text-align: center; margin-bottom: 30px; }
+                        .print-date { color: #666; margin-top: 5px; }
+                        .print-footer { margin-top: 50px; text-align: center; color: #666; font-size: 12px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="print-header">
+                        <h1>MMONTOURS ADMIN DASHBOARD</h1>
+                        <div class="print-date">Printed: ${new Date().toLocaleString()}</div>
+                        <h2>${tabName.charAt(0).toUpperCase() + tabName.slice(1)} Report</h2>
+                    </div>
+                    ${tabContent.innerHTML}
+                    <div class="print-footer">
+                        <hr>
+                        <p>© ${new Date().getFullYear()} Mmondo Tours. All rights reserved.</p>
+                        <p>Confidential - For internal use only</p>
+                    </div>
+                </body>
+            </html>
+        `);
             printWindow.document.close();
             printWindow.focus();
             setTimeout(() => {
@@ -1896,7 +2165,7 @@
         function selectAllBookings() {
             const checkboxes = document.querySelectorAll('#bookingsTableBody input[type="checkbox"]');
             const selectAll = document.getElementById('selectAllBookings');
-            
+
             checkboxes.forEach(checkbox => {
                 checkbox.checked = selectAll?.checked || false;
             });
@@ -1907,14 +2176,14 @@
             document.querySelectorAll('#bookingsTableBody input[type="checkbox"]:checked').forEach(checkbox => {
                 selectedIds.push(parseInt(checkbox.value));
             });
-            
+
             if (selectedIds.length === 0) {
                 alert('Please select at least one booking');
                 return;
             }
-            
+
             if (!confirm(`Update ${selectedIds.length} booking(s) to ${status}?`)) return;
-            
+
             try {
                 const response = await fetch('/admin/bookings/bulk-status', {
                     method: 'POST',
@@ -1926,9 +2195,9 @@
                         status: status
                     })
                 });
-                
+
                 const result = await response.json();
-                
+
                 if (result.success) {
                     alert(result.message);
                     location.reload();
@@ -1945,45 +2214,209 @@
         function calculateQuickStats() {
             const bookingsTable = document.querySelector('#bookingsTableBody');
             if (!bookingsTable) return;
-            
+
             const rows = bookingsTable.querySelectorAll('tr[data-status]');
             let totalRevenue = 0;
             let pendingCount = 0;
             let confirmedCount = 0;
-            
+
             rows.forEach(row => {
                 const status = row.getAttribute('data-status');
                 const amountCell = row.querySelector('td:nth-child(6)');
                 const amount = parseFloat(amountCell?.textContent.replace('$', '') || 0);
-                
+
                 if (status === 'pending') pendingCount++;
                 if (status === 'confirmed') {
                     confirmedCount++;
                     totalRevenue += amount;
                 }
             });
-            
+
             // Update quick stats display
             const quickStatsDiv = document.getElementById('quickStats');
             if (quickStatsDiv) {
                 quickStatsDiv.innerHTML = `
-                    <div class="row">
-                        <div class="col-4 text-center">
-                            <div class="h4 mb-1">${pendingCount}</div>
-                            <small class="text-muted">Pending</small>
-                        </div>
-                        <div class="col-4 text-center">
-                            <div class="h4 mb-1">${confirmedCount}</div>
-                            <small class="text-muted">Confirmed</small>
-                        </div>
-                        <div class="col-4 text-center">
-                            <div class="h4 mb-1">$${totalRevenue.toFixed(2)}</div>
-                            <small class="text-muted">Revenue</small>
-                        </div>
+                <div class="row">
+                    <div class="col-4 text-center">
+                        <div class="h4 mb-1">${pendingCount}</div>
+                        <small class="text-muted">Pending</small>
                     </div>
-                `;
+                    <div class="col-4 text-center">
+                        <div class="h4 mb-1">${confirmedCount}</div>
+                        <small class="text-muted">Confirmed</small>
+                    </div>
+                    <div class="col-4 text-center">
+                        <div class="h4 mb-1">$${totalRevenue.toFixed(2)}</div>
+                        <small class="text-muted">Revenue</small>
+                    </div>
+                </div>
+            `;
             }
         }
+
+        // Load Dashboard Data
+        async function loadDashboardData() {
+            try {
+                // Load stats overview
+                const statsResponse = await fetch('/admin/stats/overview');
+                if (statsResponse.ok) {
+                    const stats = await statsResponse.json();
+                    updateStatsDisplay(stats);
+                }
+
+                // Load recent activities
+                const activitiesResponse = await fetch('/admin/recent/activities?limit=5');
+                if (activitiesResponse.ok) {
+                    const activities = await activitiesResponse.json();
+                    updateRecentActivities(activities);
+                }
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+            }
+        }
+
+        function updateStatsDisplay(stats) {
+            // Update booking count with pending indicator
+            const bookingCard = document.querySelector('.stat-card:nth-child(1) .stat-number');
+            if (bookingCard && stats.total_bookings) {
+                bookingCard.textContent = stats.total_bookings;
+
+                // Add pending indicator if exists
+                if (stats.pending_bookings > 0) {
+                    const pendingSpan = document.querySelector('.stat-card:nth-child(1) .text-warning');
+                    if (!pendingSpan) {
+                        const card = document.querySelector('.stat-card:nth-child(1)');
+                        const indicator = document.createElement('small');
+                        indicator.className = 'text-warning d-block mt-2';
+                        indicator.innerHTML = `<i class="bi bi-exclamation-circle me-1"></i>${stats.pending_bookings} pending`;
+                        card.querySelector('.stat-label').after(indicator);
+                    }
+                }
+            }
+
+            // Update revenue with growth indicator
+            const revenueCard = document.querySelector('.stat-card:nth-child(2) .stat-number');
+            if (revenueCard && stats.total_revenue) {
+                revenueCard.textContent = `$${stats.total_revenue.toFixed(2)}`;
+
+                // Add growth indicator
+                if (stats.revenue_growth !== undefined) {
+                    const card = document.querySelector('.stat-card:nth-child(2)');
+                    const growthIndicator = document.createElement('small');
+                    growthIndicator.className = `d-block mt-2 ${stats.revenue_growth >= 0 ? 'text-success' : 'text-danger'}`;
+                    growthIndicator.innerHTML = `<i class="bi bi-arrow-${stats.revenue_growth >= 0 ? 'up' : 'down'} me-1"></i>${Math.abs(stats.revenue_growth)}%`;
+                    card.querySelector('.stat-label').after(growthIndicator);
+                }
+            }
+        }
+
+        function updateRecentActivities(activities) {
+            const container = document.getElementById('recentActivities');
+            if (!container || activities.length === 0) return;
+
+            container.innerHTML = '';
+            activities.forEach(activity => {
+                const activityDiv = document.createElement('div');
+                activityDiv.className = 'd-flex align-items-start mb-3 pb-3 border-bottom';
+
+                // Determine icon color based on type
+                let iconColor = 'primary';
+                if (activity.type === 'booking') iconColor = 'success';
+                if (activity.type === 'review') iconColor = 'warning';
+
+                activityDiv.innerHTML = `
+                <div class="me-3">
+                    <div class="stat-icon ${activity.type}" style="width: 40px; height: 40px; font-size: 18px;">
+                        <i class="bi bi-${activity.icon}"></i>
+                    </div>
+                </div>
+                <div>
+                    <h6 class="fw-bold mb-1">${activity.title}</h6>
+                    <p class="text-muted small mb-1">${activity.description}</p>
+                    <small class="text-muted">${activity.time}</small>
+                </div>
+            `;
+                container.appendChild(activityDiv);
+            });
+        }
+
+        // Initialize everything when DOM is loaded - SIMPLIFIED VERSION
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set up dynamic list buttons
+            document.getElementById('addIncludedBtn')?.addEventListener('click', () => addListItem('included'));
+            document.getElementById('addNotIncludedBtn')?.addEventListener('click', () => addListItem('not-included'));
+
+            // Allow Enter key in input fields
+            document.querySelector('.included-input')?.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addListItem('included');
+                }
+            });
+
+            document.querySelector('.not-included-input')?.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addListItem('not-included');
+                }
+            });
+
+            // Clear session messages after 5 seconds
+            setTimeout(() => {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(alert => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                });
+            }, 5000);
+
+            // Initialize dashboard
+            loadDashboardData();
+            calculateQuickStats();
+
+            // Add simple form validation
+            const tourForm = document.getElementById('tourForm');
+            if (tourForm) {
+                tourForm.addEventListener('submit', function (e) {
+                    // Validate required fields
+                    const title = document.getElementById('title')?.value.trim();
+                    const description = document.getElementById('description')?.value.trim();
+                    const price = document.getElementById('price')?.value;
+                    const locations = document.getElementById('locations')?.value.trim();
+
+                    if (!title || !description || !price || !locations) {
+                        e.preventDefault();
+                        alert('Please fill in all required fields (Title, Description, Price, and Locations)');
+                        return false;
+                    }
+
+                    if (isNaN(price) || parseFloat(price) <= 0) {
+                        e.preventDefault();
+                        alert('Please enter a valid price greater than 0');
+                        return false;
+                    }
+
+                    // Ensure images are provided for new tours
+                    if (tourForm.action.includes('/create')) {
+                        const files = document.getElementById('fileInput')?.files;
+                        if (!files || files.length === 0) {
+                            e.preventDefault();
+                            alert('Please upload at least one image for the tour');
+                            return false;
+                        }
+                    }
+
+                    // Add loading indicator
+                    const submitBtn = document.getElementById('tourFormSubmit');
+                    if (submitBtn) {
+                        submitBtn.innerHTML = '<span class="loading-spinner"></span> Processing...';
+                        submitBtn.disabled = true;
+                    }
+
+                    return true;
+                });
+            }
+        });
 
         // Auto-refresh dashboard every 5 minutes
         setInterval(() => {
@@ -1993,13 +2426,13 @@
         }, 300000); // 5 minutes
 
         // Keyboard Shortcuts
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             // Ctrl + S: Save/Search
             if (e.ctrlKey && e.key === 's') {
                 e.preventDefault();
                 const activeTab = document.querySelector('.nav-tabs-custom .nav-link.active');
                 const tabName = activeTab?.getAttribute('onclick')?.match(/'(\w+)'/)?.[1];
-                
+
                 if (tabName === 'tours') {
                     searchTours();
                 } else {
@@ -2010,19 +2443,19 @@
                     }
                 }
             }
-            
+
             // Ctrl + R: Refresh
             if (e.ctrlKey && e.key === 'r') {
                 e.preventDefault();
                 refreshDashboard();
             }
-            
+
             // Ctrl + P: Print
             if (e.ctrlKey && e.key === 'p') {
                 e.preventDefault();
                 printTabContent();
             }
-            
+
             // Escape: Close modals
             if (e.key === 'Escape') {
                 const modals = document.querySelectorAll('.modal.show');
@@ -2033,15 +2466,16 @@
             }
         });
 
-        // Initialize any pending calculations
-        window.onload = function() {
+        // Initialize on window load
+        window.onload = function () {
             calculateQuickStats();
-            
-            // Set default date filter to today
-            const dateFilter = document.getElementById('bookingDateFilter');
-            if (dateFilter) {
-                const today = new Date().toISOString().split('T')[0];
-                dateFilter.value = today;
+
+            // Initialize charts if on dashboard tab
+            if (document.getElementById('dashboardTab') && !document.getElementById('dashboardTab').classList.contains('d-none')) {
+                setTimeout(initializeRevenueChart, 100);
             }
         };
     </script>
+</body>
+
+</html>

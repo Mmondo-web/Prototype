@@ -58,9 +58,8 @@ class Tour(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     is_active = Column(Boolean, default=True)
-    
-    tour_type = Column(String(50), default='normal')
-    risk = Column(String(500), nullable=True)
+    tour_type = Column(String(50), default='safari')  # e.g., safari, cultural, adventure
+    difficulty = Column(String(500), nullable=True, default='easy')  # e.g., easy, moderate, hard
     country = Column(String(100), nullable=False)
     max_participants = Column(Integer, default=20)
     included = Column(String(1000), nullable=False)
