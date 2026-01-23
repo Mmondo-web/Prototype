@@ -10,6 +10,8 @@
 - **Frontend:** HTML, CSS, JavaScript, Bootstrap, Tailwind
 - **Database:** MySQL (SQLite for development/testing)
 - **Containerization:** Docker, Docker Compose
+- **CI/CD intergration:** Github Actions for pytesting and deployment
+
 
 ---
 
