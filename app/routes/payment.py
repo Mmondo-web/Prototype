@@ -17,7 +17,7 @@ stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 #BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
 
 #Here yo are supposed to set your codespace url
-BASE_URL = os.getenv("BASE_URL").rstrip("/")
+BASE_URL = os.getenv("BASE_URL", "http://localhost:8000").rstrip("/")
 print(BASE_URL)
 
 @router.get("/payment", response_class=HTMLResponse)
