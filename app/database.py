@@ -1,15 +1,20 @@
-import os
-from dotenv import load_dotenv
-load_dotenv()
+# app/database.py
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
-from app.models import Base
-# SQLALCHEMY_DATABASE_URL = "mysql+pymysql://admin:1237tyu@db:3306/tourdb"
-#SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
-SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"  # Use SQLite for simplicity
+from sqlalchemy.orm import sessionmaker
+import os
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL )
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+DATABASE_URL = "postgresql+psycopg2://postgres.auvmdcncpwuqztdypssj:prototype0012343334@aws-1-eu-north-1.pooler.supabase.com:6543/postgres?sslmode=require"
+
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True,
+)
+
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine,
+)
 
 def get_db():
     db = SessionLocal()

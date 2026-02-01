@@ -13,10 +13,7 @@ load_dotenv()
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates", auto_reload = True)
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
-# uncomment if you are running the app on local server
-#BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
 
-#Here yo are supposed to set your codespace url
 BASE_URL = os.getenv("BASE_URL", "http://localhost:8000").rstrip("/")
 print(BASE_URL)
 

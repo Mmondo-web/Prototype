@@ -1,10 +1,9 @@
 # app/main.py
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
-from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 import os
 
 from app.routes import (
@@ -19,29 +18,27 @@ from app.routes import (
     create_admin,
     culture_admin,
     superadmin,
-    superadmin_creation # <-- Added by Bammez: culture admin routes
+    superadmin_creation
 )
-from app.database import engine, Base
-from dotenv import load_dotenv
+
+from app.database import engine
+from app.models import Base
 
 app = FastAPI(debug=True)
 
-# Mount static files and templates
+# Static files & templates
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 templates.env.auto_reload = True
 
-
 # Middleware
 app.add_middleware(
     SessionMiddleware,
-    secret_key="your_secret_key",  # you can move this to .env later
+    secret_key="your_secret_key",  # move to .env later
     session_cookie="session_id",
 )
 
-# app.add_middleware(HTTPSRedirectMiddleware)
-
-# Include all routes
+# Routes
 app.include_router(auth.router)
 app.include_router(tours.router)
 app.include_router(culture.router)
@@ -53,7 +50,7 @@ app.include_router(tour_details.router)
 app.include_router(create_admin.router)
 app.include_router(culture_admin.router)
 app.include_router(superadmin.router)
-app.include_router(superadmin_creation.router) # <-- Added by Bammez: /admin/cultures etc.
+app.include_router(superadmin_creation.router)
 
-# Create database tables
-Base.metadata.create_all(bind=engine)
+
+# Base.metadata.create_all(bind=engine)
