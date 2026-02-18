@@ -104,80 +104,76 @@ async def payment_success(
     request: Request,
     session_id: str,
     db: Session = Depends(get_db),
-    user: User = Depends(get_current_user)
 ):
     try:
+        # 1️⃣ Retrieve Stripe session
         session = stripe.checkout.Session.retrieve(session_id)
-         # Get booking data from session
-        booking_data = request.session.get('booking', {})
-        
+
+        # 2️⃣ Verify payment was successful
+        if session.payment_status != "paid":
+            return RedirectResponse(url="/payment-error", status_code=303)
+
+        # 3️⃣ Get user from metadata (NOT from session cookie)
+        user_id = int(session.metadata["user_id"])
+        user = db.query(User).filter(User.id == user_id).first()
+
+        if not user:
+            return RedirectResponse(url="/payment-error", status_code=303)
+
+        # 4️⃣ Prevent duplicate bookings (VERY IMPORTANT)
+        existing_booking = db.query(Booking).filter(
+            Booking.payment_id == session.payment_intent
+        ).first()
+
+        if existing_booking:
+            return RedirectResponse(url="/confirmation", status_code=303)
+
+        # 5️⃣ Create booking from Stripe metadata
         new_booking = Booking(
             user_id=user.id,
-            tour_id=session.metadata['tour_id'],
-            adults=session.metadata['adults'],
-            kids=session.metadata['kids'],
-            tour_date=datetime.strptime(session.metadata['tour_date'], "%Y-%m-%d"),
-            total_price=session.metadata['total_price'],
-            payment_method='stripe',
+            tour_id=int(session.metadata["tour_id"]),
+            adults=int(session.metadata["adults"]),
+            kids=int(session.metadata["kids"]),
+            tour_date=datetime.strptime(session.metadata["tour_date"], "%Y-%m-%d"),
+            total_price=float(session.metadata["total_price"]),
+            payment_method="stripe",
             payment_id=session.payment_intent,
-            special_requirements= booking_data.get('special_requirements'),  # Save special requirements
-            payment_status='completed'
+            payment_status="completed"
         )
-        
+
         db.add(new_booking)
         db.commit()
-        
-        # Send confirmation email with special requirements
-        special_reqs = booking_data.get('special_requirements')
-        special_reqs_text = f"<p><strong>Special Requirements:</strong> {special_reqs}</p>" if special_reqs else ""
 
+        # 6️⃣ Clear booking session safely
+        request.session.pop("booking", None)
+
+        # 7️⃣ Send confirmation email
         send_email(
             user.email,
             "Booking Confirmation",
             f"""
-            <html>
-            <body style="font-family: Arial, sans-serif; color: #333; background-color: #f9f9f9; padding: 20px;">
-                <table width="100%" style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-                <tr style="background-color: #003366; color: #ffffff;">
-                    <td style="padding: 20px; font-size: 18px;">
-                    Booking Confirmation
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding: 20px;">
-                    <p>Dear {user.full_name},</p>
-                    <p>Thank you for booking with Pearl Tours! Here are your booking details:</p>
-                    <ul style="padding-left: 20px;">
-                        <li><strong>Tour:</strong> {new_booking.tour.title}</li>
-                        <li><strong>Date:</strong> {new_booking.tour_date}</li>
-                        <li><strong>Adults:</strong> {new_booking.adults}</li>
-                        <li><strong>Children:</strong> {new_booking.kids}</li>
-                        <li><strong>Total:</strong> ${new_booking.total_price}</li>
-                        <li><strong>Payment ID:</strong> {session.payment_intent}</li>
-                        {special_reqs_text}
-                    </ul>
-                    <p>We look forward to providing you with a wonderful experience.</p>
-                    <p>Best regards,<br>
-                    Pearl Tours Support Team</p>
-                    </td>
-                </tr>
-                <tr style="background-color: #f0f0f0; text-align: center;">
-                    <td style="padding: 10px; font-size: 12px; color: #777;">
-                    &copy; {datetime.now().year} Pearl Tours. All rights reserved.
-                    </td>
-                </tr>
-                </table>
-            </body>
-            </html>
-            """, is_html=True
+            <h2>Booking Confirmed 🎉</h2>
+            <p>Dear {user.full_name},</p>
+            <p>Your booking has been successfully completed.</p>
+            <ul>
+                <li>Tour ID: {new_booking.tour_id}</li>
+                <li>Date: {new_booking.tour_date}</li>
+                <li>Adults: {new_booking.adults}</li>
+                <li>Kids: {new_booking.kids}</li>
+                <li>Total Paid: ${new_booking.total_price}</li>
+                <li>Payment ID: {session.payment_intent}</li>
+            </ul>
+            """,
+            is_html=True
         )
 
         return RedirectResponse(url="/confirmation", status_code=303)
 
     except Exception as e:
         db.rollback()
-        print(f"Payment success error: {str(e)}")
+        print(f"Stripe success error: {str(e)}")
         return RedirectResponse(url="/payment-error", status_code=303)
+
 
 @router.post("/complete_booking")
 async def complete_booking(

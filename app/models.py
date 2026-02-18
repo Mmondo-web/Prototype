@@ -1,10 +1,16 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float, ForeignKey, Text
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float, ForeignKey, Text, Enum
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
 from datetime import datetime
-
+import enum
 Base = declarative_base()
+
+        
+class UserRole(str, enum.Enum):
+    customer = "customer"
+    admin = "admin"
+    superadmin = "superadmin"
 
 class User(Base):
     __tablename__ = "users"
@@ -23,6 +29,7 @@ class User(Base):
     company_link = Column(String(200), nullable=True)
     picture = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
+    role = Column(Enum(UserRole), default=UserRole.customer, nullable=False)
 
     # Add OAuth fields
     google_id = Column(String(255), unique=True, index=True, nullable=True)
@@ -36,6 +43,29 @@ class User(Base):
     created_tours = relationship("Tour", back_populates="creator")
     bookings = relationship("Booking", back_populates="user")
     reviews = relationship("Review", back_populates="user")
+    
+    sent_messages = relationship(
+        "Message",
+        foreign_keys='Message.sender_id',
+        back_populates="sender",
+        cascade="all, delete-orphan"
+    )
+    received_messages = relationship(
+        "Message",
+        foreign_keys='Message.receiver_id',
+        back_populates="receiver",
+        cascade="all, delete-orphan"
+    )
+    #property
+    @property
+    def role(self) -> str:
+        if self.is_superadmin:
+            return "superadmin"
+        elif self.is_admin:
+            return "admin"
+        else:
+            return "customer"
+        
 
 
 class Session(Base):
@@ -112,6 +142,12 @@ class Booking(Base):
     # Relationships
     user = relationship("User", back_populates="bookings")
     tour = relationship("Tour", back_populates="bookings")
+    
+    messages = relationship(
+        "Message",
+        back_populates="booking",
+        cascade="all, delete-orphan"
+    )
 
     @property
     def participant_count(self):
@@ -176,3 +212,47 @@ class Review(Base):
     # Relationships
     tour = relationship("Tour", back_populates="reviews")
     user = relationship("User", back_populates="reviews")
+    
+    
+    
+# Add this MessageStatus enum
+class MessageStatus(enum.Enum):
+    UNREAD = "unread"
+    READ = "read"
+    ARCHIVED = "archived"
+
+# Add this Message model
+class Message(Base):
+    __tablename__ = "messages"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    sender_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    receiver_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    booking_id = Column(Integer, ForeignKey("bookings.id"), nullable=True)  # Optional: link to specific booking
+    parent_message_id = Column(Integer, ForeignKey("messages.id"), nullable=True)  # For threading
+    subject = Column(String(255), nullable=True)
+    content = Column(Text, nullable=False)
+    status = Column(Enum(MessageStatus), default=MessageStatus.UNREAD)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    # Relationships
+    sender = relationship("User", foreign_keys=[sender_id], back_populates="sent_messages")
+    receiver = relationship("User", foreign_keys=[receiver_id], back_populates="received_messages")
+    booking = relationship("Booking", back_populates="messages")
+    parent_message = relationship("Message", remote_side=[id], back_populates="replies")
+    replies = relationship("Message", back_populates="parent_message")
+    
+    def mark_as_read(self):
+        self.status = MessageStatus.READ
+        return self
+
+# Update User model to include messages (add to existing User model)
+# In your existing User model, add:
+# sent_messages = relationship("Message", foreign_keys=[Message.sender_id], back_populates="sender")
+# received_messages = relationship("Message", foreign_keys=[Message.receiver_id], back_populates="receiver")
+
+# Update Booking model to include messages (add to existing Booking model)
+# In your existing Booking model, add:
+# messages = relationship("Message", back_populates="booking")    
+

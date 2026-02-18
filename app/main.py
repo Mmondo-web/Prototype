@@ -18,7 +18,10 @@ from app.routes import (
     create_admin,
     culture_admin,
     superadmin,
-    superadmin_creation
+    superadmin_creation,
+    messaging,
+    messaging_views,
+    users
 )
 
 from app.database import engine
@@ -51,6 +54,9 @@ app.include_router(create_admin.router)
 app.include_router(culture_admin.router)
 app.include_router(superadmin.router)
 app.include_router(superadmin_creation.router)
+app.include_router(messaging.router)
+app.include_router(messaging_views.router)
+app.include_router(users.router)
 
 
-# Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)  # Create tables if they don't exist
