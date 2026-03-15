@@ -84,7 +84,7 @@ MMONDO uses a role-based access system to manage platform permissions.
 ### Admin Creation
 
 Admins can only be created by a Super Admin via:
-####  /register/admin
+####  /admin/register
 
 This endpoint is protected and cannot be accessed by normal users.
 
